@@ -212,8 +212,8 @@ const localDateRecordsToCheckMarksArray = () => {
 
 
     const dateFormat = 'YYYY MM DD'
-    const freq = 1;
-    const checkMarkWeight = 1/freq;
+    const freq = 3/7; // times completed per time interval. ie 3 times per week
+    const checkMarkWeight = +(1 / freq).toFixed(2);
 
     const gapArray = [
         '2020 07 01',
@@ -233,10 +233,27 @@ const localDateRecordsToCheckMarksArray = () => {
     // start on first date of gapArray,
     // push in checkMarkWeight int checkMarkArray
     // see how many days between next date
-    // splice in 0's
+    // push that many zero's to checkMarkArray
     // repeat until end
-
     
+    let daysBetween
+    for (let i = 0; i < gapArray.length-1; i++) {
+        console.log('i', i)
+        checkMarkArray.push(checkMarkWeight)
+        daysBetween = dayjs(gapArray[i+1]).diff(gapArray[i],'days')-1
+        checkMarkArray.push(new Array(daysBetween).fill(0))
+        console.log('daysBetween', daysBetween)
+    }
+    checkMarkArray.push(checkMarkWeight)
+    const checkMarkArrayFlattened  = checkMarkArray.flat()
+    
+    console.log('checkMarkArray', checkMarkArray)
+    console.log('checkMarkArrayFlattened', checkMarkArrayFlattened)
+
+
+
+
+
 
 
 
