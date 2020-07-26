@@ -29,4 +29,10 @@ const habits = [
     }
 ]
 
-module.exports = { habits }
+const habit_records = [
+
+         
+]
+
+module.exports = { habits,
+                habit_records }

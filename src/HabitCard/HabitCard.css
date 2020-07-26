@@ -3,3 +3,8 @@
     padding: 10px;
     margin: 10px;
 }
+
+.checkmarks-container {
+    display: flex;
+    justify-content: space-between;
+}

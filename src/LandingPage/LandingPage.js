@@ -1,4 +1,5 @@
 import React, { useContext } from 'react';
+import MainNav from '../MainNav/MainNav';
 // import MainNav from '../MainNav/MainNav';
 // import RecipesContext from '../RecipesContext';
 // import recipe_repo_logo from './../images/recipe_repo_logo2.png';
@@ -17,6 +18,8 @@ function LandingPage(props) {
 //     };
 
     return (
+        <>
+        <MainNav/>
         <section className='LandingPage-container '>
             <header
                 className='LandingPage-nav
@@ -37,6 +40,7 @@ function LandingPage(props) {
                 </p> */}
             </div>
         </section>
+        </>
     );
 };
 

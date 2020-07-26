@@ -1,11 +1,12 @@
 import React, { useState, useEffect, useContext } from 'react';
-import {Route} from 'react-router-dom'
+import { Route } from 'react-router-dom'
 import dayjs from 'dayjs';
 import { HabitContextProvider, HabitContext } from '../context/HabitContext';
 import dummyData from '../dummyData';
 import HabitCardList from '../HabitCardList/HabitCardList'
 import LandingPage from '../LandingPage/LandingPage';
 import HabitCard from '../HabitCard/HabitCard';
+import HabitProgressPage from '../HabitProgressPage/HabitProgressPage';
 
 const isBetween = require('dayjs/plugin/isBetween')
 dayjs.extend(isBetween)
@@ -25,6 +26,7 @@ const App = () => {
 
   return (
     <main className='App'>
+
       <Route
         exact
         path={'/'}
@@ -32,13 +34,19 @@ const App = () => {
       />
       <Route
         exact
-        path={'/Habits'}
+        path={'/habits'}
         component={HabitCardList}
       />
       <Route
         exact
-        path={'/Habits/:Habit-data'}
+        path={'/habits'}
         component={HabitCard}
+      />
+
+      <Route
+        exact
+        path={'/habits/habit-data'}
+        component={HabitProgressPage}
       />
 
     </main>

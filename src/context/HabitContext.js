@@ -5,16 +5,20 @@ export const HabitContext = createContext();
 
 export const HabitContextProvider = props => {
 
-    const [habits, setHabits] = useState([]);
-    const [habitRecords, setHabitRecords] = useState([]);
+    
 
+    const [habits, setHabits] = useState();
+    const [habitRecords, setHabitRecords] = useState([]);
+    const [habit_id, setHabit_Id] = useState(0)
 
     return (
         <HabitContext.Provider value={{
             habits,
             setHabits,
             habitRecords,
-            setHabitRecords
+            setHabitRecords,
+            habit_id,
+            setHabit_Id
         }}>
             {props.children}
         </HabitContext.Provider>

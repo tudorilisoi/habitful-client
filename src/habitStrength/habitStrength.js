@@ -7,7 +7,7 @@ const habitStrength = () => {
     const timeInterval = 7; // days
     const timesCompleted = 7; // times per interval 
     const freq = timesCompleted / timeInterval;
-    const numDays = 500; // length for dummy array (for testing)
+    const numDays = 30; // length for dummy array (for testing)
     let prevHabitStrength = 0;
     const checkMarkWeight = 1 / freq; 
 

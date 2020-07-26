@@ -1,0 +1,15 @@
+/* .graph-wrapper {
+    height: 10px;
+    width: 5000px;
+} */
+/* 
+.line-chart {
+    z-index: 22;
+} */
+
+
+.card {
+    border:1px solid black;
+    margin:3px;
+    padding:10px;
+}
