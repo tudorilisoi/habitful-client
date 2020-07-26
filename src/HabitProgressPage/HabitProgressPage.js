@@ -8,29 +8,33 @@ const HabitProgressPage = (props) => {
 
     const [chartData, setChartData] = useState({});
     const [chartDoughnutData, setChartDoughnutData] = useState({});
+    const [currHabitStrength, setCurrHabitStrength] = useState(0)
 
     let labels = []
     let data = []
     let dataPoint = 0
-
+    let increment = 5
     for (let i = 0; i < 30; i++) {
         labels.push(dayjs().subtract(i, 'days').format('MMM DD'))
-        // labels.reverse()
         if (Math.random() > 0.2) {
-            dataPoint += 5;
-            data.push(dataPoint)
-
+            increment = 5
         } else {
-            dataPoint -= 5;
-            data.push(dataPoint)
+            increment = -5
         }
-        if (data[i] < 0) data[i] = 0;
-        if (data[i] > 100) data[i] = 100;
+
+        dataPoint += increment
+        if (dataPoint < 0) dataPoint=0
+        if (dataPoint > 100) dataPoint=100
+        console.log('increment', increment)
+        console.log('dataPoint', dataPoint)
+        data.push(dataPoint)
+        console.log('data', data)
+
+
+
     }
 
 
-    console.log('props.name', props.name)
-    console.log('labels', labels)
     const chart = () => {
         setChartData({
             labels: labels.reverse(),
@@ -54,14 +58,13 @@ const HabitProgressPage = (props) => {
 
 
     const doughnutChart = () => {
-        console.log('data[data.length-1]', data[data.length-1])
+        setCurrHabitStrength(dataPoint)
         setChartDoughnutData({
-            labels: ['Habit Strength','minimize this gap to get to 100% Habit Strength'],
-
+            labels: ['Habit Strength'],
             datasets: [
                 {
                     label: ['habit strength'],
-                    data: [data[data.length-1],100-data[data.length-1]],
+                    data: [dataPoint, 100 - dataPoint],
                     options: {
                         responsive: true,
                         maintainAspectRatio: false,
@@ -76,16 +79,14 @@ const HabitProgressPage = (props) => {
     }
 
 
-
-
-
     useEffect(() => {
         chart()
         doughnutChart()
+
     }, [])
-    // const context = useContext(HabitContext);
-    // const { habit_id } = context
-    // console.log('habit_id', habit_id)
+
+
+
 
     // get date_completion records for the given 
     // habit and then display it on a graph. For now 
@@ -101,29 +102,39 @@ const HabitProgressPage = (props) => {
 
     const records = context.habitRecords
 
+
+
     return (
 
-        <>
-            <div className="habit-strength card">
-                <Doughnut className="line-chart" data={chartDoughnutData}
-                    options={{
-                        responsive: true
-                    }} />
-            </div>
+        <section className="habit-data-container">
 
-            <div className='graph-container card'>
-                <h3>{habits}</h3>
-                <div className="graph-wrapper">
-                    {/* <canvas id="chart" height="400" width="15000">
-                    </canvas> */}
-                    {/* <div style={{height:"500px",width:"500px"}}> */}
-                    <Line className="line-chart" data={chartData} options={{
-                        responsive: true
-                    }} />
+            <div className="habit-strength-wrapper">
+                <div className="habit-strength-score card">
+                    <p className="habit-indicator">Your Habit Strength is currently </p>
+                    <p className="habit-percentage">
+                        {currHabitStrength} % </p>
+                </div>
+                <div className="habit-strength card">
+                    <Doughnut className="line-chart" data={chartDoughnutData}
+                        options={{
+                            responsive: true,
+                            // maintainAspectRatio: false,
 
+                        }} />
                 </div>
             </div>
-        </>
+
+
+            <div className='graph-container bottom-card'>
+                <h3>{habits}</h3>
+                <div className="graph-wrapper">
+                    <Line className="line-chart" data={chartData} options={{
+                        responsive: true,
+                        // maintainAspectRatio: false,
+                    }} />
+                </div>
+            </div>
+        </section>
 
 
     )
