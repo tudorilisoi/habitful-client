@@ -7,6 +7,7 @@ import HabitCardList from '../HabitCardList/HabitCardList'
 import LandingPage from '../LandingPage/LandingPage';
 import HabitCard from '../HabitCard/HabitCard';
 import HabitProgressPage from '../HabitProgressPage/HabitProgressPage';
+import MainNav from '../MainNav/MainNav';
 
 const isBetween = require('dayjs/plugin/isBetween')
 dayjs.extend(isBetween)
@@ -26,7 +27,7 @@ const App = () => {
 
   return (
     <main className='App'>
-
+      <MainNav/>
       <Route
         exact
         path={'/'}
@@ -45,7 +46,7 @@ const App = () => {
 
       <Route
         exact
-        path={'/habits/habit-data'}
+        path={'/habits/:habit_id/habit-data'}
         component={HabitProgressPage}
       />
 

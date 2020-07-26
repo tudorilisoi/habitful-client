@@ -7,7 +7,7 @@ import {  HabitContext } from '../context/HabitContext';
 
 const HabitCardList = (props) => {
     const context = useContext(HabitContext)
-    console.log('context', context)
+    // console.log('context', context)
 
     const habits = dummyData.habits;
     // const habitCards = habits.map(habit => {
@@ -21,7 +21,7 @@ const HabitCardList = (props) => {
         <section>
 
             {habits.map(habit => {
-                return <div>
+                return <div key={habit.id}>
                     <HabitCard
                         id={habit.id}
                         name={habit.name}

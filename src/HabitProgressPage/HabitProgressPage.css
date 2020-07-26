@@ -7,6 +7,10 @@
     z-index: 22;
 } */
 
+.habit-name {
+    text-align: center;
+}
+
 .card {
   border: 1px solid black;
   margin: 3px;

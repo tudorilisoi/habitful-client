@@ -3,13 +3,23 @@ import { HabitContext } from '../context/HabitContext';
 import { Line, Doughnut } from 'react-chartjs-2';
 import dayjs from 'dayjs';
 import './HabitProgressPage.css'
+import dummyData from '../dummyData';
 
 const HabitProgressPage = (props) => {
 
     const [chartData, setChartData] = useState({});
     const [chartDoughnutData, setChartDoughnutData] = useState({});
     const [currHabitStrength, setCurrHabitStrength] = useState(0)
+    const habits = dummyData.habits;
+    const id = props.match.params.habit_id
+    habits.id = id
+    const habit = habits.find(habit => {
+        return habit.id === +id
+    })
+    const habitName = habit.name
 
+    // this is just making dummy data for graph
+    // production client will pull from database
     let labels = []
     let data = []
     let dataPoint = 0
@@ -21,24 +31,16 @@ const HabitProgressPage = (props) => {
         } else {
             increment = -5
         }
-
         dataPoint += increment
-        if (dataPoint < 0) dataPoint=0
-        if (dataPoint > 100) dataPoint=100
-        console.log('increment', increment)
-        console.log('dataPoint', dataPoint)
+        if (dataPoint < 0) dataPoint = 0
+        if (dataPoint > 100) dataPoint = 100
         data.push(dataPoint)
-        console.log('data', data)
-
-
-
     }
 
 
     const chart = () => {
         setChartData({
             labels: labels.reverse(),
-
             datasets: [
                 {
                     label: 'habit strength',
@@ -48,7 +50,7 @@ const HabitProgressPage = (props) => {
                         maintainAspectRatio: false,
                     },
                     backgroundColor: [
-                        'rgba(222,12,12,0.4)'
+                        '#FF863188'
                     ],
                     borderWidth: 4
                 }
@@ -70,7 +72,7 @@ const HabitProgressPage = (props) => {
                         maintainAspectRatio: false,
                     },
                     backgroundColor: [
-                        'rgba(222,12,12,0.4)'
+                        '#FF863188'
                     ],
                     borderWidth: 4
                 }
@@ -96,10 +98,10 @@ const HabitProgressPage = (props) => {
 
     const context = useContext(HabitContext)
     console.log('context', context)
-    const { habits } = context
-    console.log('habits', habits)
+    // const { habits } = context
+    // console.log('habits', habits)
 
-
+    console.log('props', props)
     const records = context.habitRecords
 
 
@@ -107,6 +109,9 @@ const HabitProgressPage = (props) => {
     return (
 
         <section className="habit-data-container">
+            <h3 className="habit-name">
+                {habitName}
+            </h3>
 
             <div className="habit-strength-wrapper">
                 <div className="habit-strength-score card">
@@ -126,7 +131,6 @@ const HabitProgressPage = (props) => {
 
 
             <div className='graph-container bottom-card'>
-                <h3>{habits}</h3>
                 <div className="graph-wrapper">
                     <Line className="line-chart" data={chartData} options={{
                         responsive: true,

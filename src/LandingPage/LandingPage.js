@@ -19,7 +19,6 @@ function LandingPage(props) {
 
     return (
         <>
-        <MainNav/>
         <section className='LandingPage-container '>
             <header
                 className='LandingPage-nav

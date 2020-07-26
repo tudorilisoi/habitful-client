@@ -1,0 +1,30 @@
+.MainNav__nav {
+    display:flex;
+    justify-content: flex-end;
+    padding:10px;
+    font-family: 'Fira Sans', sans-serif;
+    font-size: 1.2rem;
+    font-weight: 300;
+    /* background: #455a64; */
+    box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.4);
+    position: relative;
+    z-index: 2;
+}
+
+.MainNav__nav a:hover {
+    color: #CFD8DC;
+}
+
+.nav-link {
+    padding-left: 20px;
+    transition-duration: 0.4s;
+}
+
+.nav-link:hover {
+    padding-left: 20px;
+}
+
+.end-elements {
+    display: flex;
+    /* justify-content: flex-end; */
+}

@@ -12,7 +12,7 @@ const habits = [
         user_id: 1
     },
     {
-        id: 1,
+        id: 2,
         name: 'meditate 15 min',
         num_times: 1,
         time_interval: 'day',
@@ -20,7 +20,7 @@ const habits = [
         user_id: 1
     },
     {
-        id: 1,
+        id: 3,
         name: 'call a friend',
         num_times: 1,
         time_interval: 'day',
@@ -31,7 +31,7 @@ const habits = [
 
 const habit_records = [
 
-         
+
 ]
 
 module.exports = { habits,

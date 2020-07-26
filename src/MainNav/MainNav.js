@@ -1,10 +1,36 @@
 import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
-// import './MainNav.css';
+import './MainNav.css';
 import { HabitContextProvider, HabitContext } from '../context/HabitContext';
 
 function MainNav() {
     const context = useContext(HabitContext);
+
+
+
+    return (
+        <nav className="MainNav__nav ">
+            <div className="end-elements">
+                {/* <p>Back</p> */}
+                {/* {renderLogInOrOut()} */}
+                <Link to={'/habits'}>
+                    <p>Demo</p>
+                </Link>
+            </div>
+
+        </nav>
+    );
+
+
+
+
+
+
+
+
+
+
+
 
     // function renderLogInOrOut() {
     //     // const authToken = localStorage.getItem('authToken');
@@ -34,12 +60,7 @@ function MainNav() {
     //     };
     // };
 
-    return (
-        <nav className="MainNav__nav ">
-            {/* {renderLogInOrOut()} */}
-            login and 
-        </nav>
-    );
+
 };
 
 export default MainNav;
