@@ -7,8 +7,9 @@ export const HabitContextProvider = props => {
 
     const [habits, setHabits] = useState();
     const [habitRecords, setHabitRecords] = useState([]);
-    const [habit_id, setHabit_Id] = useState(0);
+    const [habitId, setHabitId] = useState(0);
     const [test,setTest] = useState([])
+    const [gapArray,setGapArray] = useState([])
 
     return (
         <HabitContext.Provider value={{
@@ -18,8 +19,11 @@ export const HabitContextProvider = props => {
             setHabits,
             habitRecords,
             setHabitRecords,
-            habit_id,
-            setHabit_Id
+            habitId,
+            setHabitId,
+            gapArray,
+            setGapArray
+            
         }}>
             {props.children}
         </HabitContext.Provider>

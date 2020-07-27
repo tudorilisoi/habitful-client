@@ -9,25 +9,17 @@ import { HabitContext } from '../context/HabitContext';
 const HabitCard = props => {
 
     const context = useContext(HabitContext)
-    const { habitRecords, setHabit_Id, setHabitRecords, test, setTest } = context;
-
-    setHabit_Id(props.id)
-    // console.log('context', context)
-
-    const numDaystoDisplay = 7;
+    const { habitRecords, setHabitRecords, habitId, setHabitId, test, setTest, gapArray } = context;
+    setHabitId(props.id)
+    const numDaystoDisplay = 6;
     const todayDayOfWeek = dayjs();
-    // console.log('todayDayOfWeek', todayDayOfWeek)
     const days = []
-    // let deleteDateIdx
-
     for (let i = numDaystoDisplay; i > 0; i--) {
         days.push(todayDayOfWeek.subtract(i, 'days')
             .format('ddd'))
     }
-    // days.push(todayDayOfWeek.format('ddd'))
     days.push('Today')
 
-    // console.log('days', days)
     let temp = []
     const handleSelectDay = (day) => {
 
@@ -37,57 +29,51 @@ const HabitCard = props => {
 
         const id = props.id
 
-        console.log('actualDate', actualDate)
-        console.log('id', id)
-
-        // if id date pair already in array, delete it
-
         const idxToDelete = habitRecords.findIndex(dateObj => {
 
             console.log('dateObj.date_completed', dateObj.date_completed)
-                
+
             return dateObj.id === props.id &&
                 dayjs(dateObj.date_completed).isSame(actualDate, 'day')
 
         })
 
-        console.log('idxToDelete', idxToDelete)
-
         // if there is an index to be deleted, delete it
         if (idxToDelete > -1) {
-            console.log('deletion happened')
-            habitRecords.splice(idxToDelete,1)
+            // console.log('deletion happened')
+            habitRecords.splice(idxToDelete, 1)
         } else {
-        // otherwise, push new id / date pair object
+            // otherwise, push new id / date pair object
 
             // temp = [...temp, {id:id,date_completed:actualDate}]
 
             habitRecords.push({
-                id:id,
-                date_completed:actualDate
+                id: id,
+                date_completed: actualDate
             })
-            
+
         }
-        console.log('habitRecords', habitRecords)
-
-
+        // console.log('habitRecords', habitRecords)
 
     }
 
-
-
-
-
-
-
-    console.log('context', context)
 
 
     const handleClickName = (name) => {
         context.setHabits(props.name)
-        context.setHabit_Id(props.id)
+        context.setHabitId(props.id)
     }
-
+    
+    console.log('gapArray', gapArray)
+    const isChecked = (i) => {
+        // console.log('gapArray[i]', gapArray[i])
+        const gapArr = gapArray.filter(a => a.id === props.id)[0] &&
+            gapArray.filter(a => a.id === props.id)[0]
+                .datesWithGaps[i + 1]
+        if (gapArr && props.id === 1) {
+            return true
+        }
+    }
 
 
     return (
@@ -103,7 +89,7 @@ const HabitCard = props => {
                     <br />
                     <input onClick={() => handleSelectDay(i)} type={"checkbox"}
                         id={i} value={day}
-                    // checked={isChecked[i]}
+                        defaultChecked={isChecked(i)}
                     />
 
                 </div>)}

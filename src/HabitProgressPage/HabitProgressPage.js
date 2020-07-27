@@ -10,8 +10,11 @@ const HabitProgressPage = (props) => {
     const [chartData, setChartData] = useState({});
     const [chartDoughnutData, setChartDoughnutData] = useState({});
     const [currHabitStrength, setCurrHabitStrength] = useState(0)
+    const context = useContext(HabitContext);
+    const { habitRecords, setHabitRecords, setGapArray } = context;
     const habits = dummyData.habits;
     const id = props.match.params.habit_id
+    // console.log('id', id)
     habits.id = id
     const habit = habits.find(habit => {
         return habit.id === +id
@@ -24,9 +27,61 @@ const HabitProgressPage = (props) => {
     let data = []
     let dataPoint = 0
     let increment = 5
-    for (let i = 0; i < 30; i++) {
+
+    const interval = 7
+
+    // make array of dates with null or 0 if no date
+    const endDate = dayjs().format()
+    const startDate = dayjs(endDate).subtract(interval, 'days').format()
+    const arr = habitRecords.map(record => record.date_completed)
+    arr.sort((a, b) => dayjs(a) - dayjs(b))
+
+    console.log('arr', arr)
+    // let day = dayjs(startDate).subtract(1, 'day');
+    let currDay = startDate;
+
+    let gapArr = [{
+        id: id,
+        datesWithGaps: []
+    }];
+
+    let i = 0;
+
+    while (dayjs(currDay).diff(dayjs(endDate), 'day') <= 0) {
+        console.log('dayjs(currDay).diff(dayjs(endDate), \'day\')', dayjs(currDay).diff(dayjs(endDate), 'day'))
+        console.log('dayjs(currDay)', dayjs(currDay))
+        console.log('dayjs(arr[i])', dayjs(arr[i]))
+        console.log('dayjs(currDay).isSame(dayjs(arr[i]),\'day\')', dayjs(currDay).isSame(dayjs(arr[i]), 'day'))
+        console.log('arr[i]', arr[i])
+        if (arr[i] === undefined) {
+            arr[i] = null
+        }
+        if (dayjs(currDay).isSame(dayjs(arr[i]), 'day')) {
+            console.log('currDay', currDay)
+
+            gapArr.filter(a => a.id === id)[0]
+                .datesWithGaps
+                .push(currDay)
+            console.log('gapArr', gapArr)
+            i++;
+        } else {
+            gapArr.filter(a => a.id === id)[0]
+                .datesWithGaps
+                .push(0)
+        }
+        currDay = dayjs(currDay).add(1, 'day')
+
+    }
+
+    console.log('gapArr', gapArr)
+
+
+
+    for (let i = 0; i < interval + 1; i++) {
         labels.push(dayjs().subtract(i, 'days').format('MMM DD'))
-        if (Math.random() > 0.2) {
+        console.log('arr[i]', arr[i])
+        if (gapArr.filter(a => a.id === id)[0]
+        .datesWithGaps[i] !== 0) {
             increment = 5
         } else {
             increment = -5
@@ -35,8 +90,10 @@ const HabitProgressPage = (props) => {
         if (dataPoint < 0) dataPoint = 0
         if (dataPoint > 100) dataPoint = 100
         data.push(dataPoint)
-    }
 
+        console.log('i', i)
+        console.log('dataPoint', dataPoint)
+    }
 
     const chart = () => {
         setChartData({
@@ -57,6 +114,8 @@ const HabitProgressPage = (props) => {
             ]
         })
     }
+
+
 
 
     const doughnutChart = () => {
@@ -84,6 +143,7 @@ const HabitProgressPage = (props) => {
     useEffect(() => {
         chart()
         doughnutChart()
+        setGapArray(gapArr)
 
     }, [])
 
@@ -96,13 +156,11 @@ const HabitProgressPage = (props) => {
 
 
 
-    const context = useContext(HabitContext)
-    console.log('context', context)
     // const { habits } = context
     // console.log('habits', habits)
 
     console.log('props', props)
-    const records = context.habitRecords
+    // const records = context.habitRecords
 
 
 
