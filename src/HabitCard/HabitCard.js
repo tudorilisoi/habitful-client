@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { Link } from 'react-router-dom';
-import dayjs from 'dayjs';
+import dayjs, { isDayjs } from 'dayjs';
 import './HabitCard.css';
 import dummyData from '../dummyData';
 import { HabitContext } from '../context/HabitContext';
@@ -30,82 +30,45 @@ const HabitCard = props => {
     // console.log('days', days)
     let temp = []
     const handleSelectDay = (day) => {
-        
-        console.log('day', day)
-        console.log('days[day]', days[day])
+
         const actualDate = dayjs()
             .subtract(numDaystoDisplay - day, 'days')
             .format()
 
+        const id = props.id
+
         console.log('actualDate', actualDate)
+        console.log('id', id)
 
-        // actual app will send a post fetch 
-        // to add a habit record. 
-        // if the user unselects a date
-        // the database will be searched for 
-        // that date and delete it from the record
+        // if id date pair already in array, delete it
 
+        const idxToDelete = habitRecords.findIndex(dateObj => {
 
-        // before adding a selected date, 
-        // 1. see if selected date is === to any of the dates in the array
+            console.log('dateObj.date_completed', dateObj.date_completed)
+                
+            return dateObj.id === props.id &&
+                dayjs(dateObj.date_completed).isSame(actualDate, 'day')
 
-        let deleteDateIdx = temp.findIndex(date => {
-            
-            console.log('sadfasd')
-            // console.log('date', date)
-            // if (date.id === props.id && dayjs(date.date_completed).isSame(actualDate, 'day')){
-            //     console.log('date.id', date.id)
-              
-
-            // } 
         })
 
-  
+        console.log('idxToDelete', idxToDelete)
 
-
-        if (deleteDateIdx > -1) {
-            console.log('deleteDateIdx', deleteDateIdx)
-            temp.splice(deleteDateIdx, 1)
-
+        // if there is an index to be deleted, delete it
+        if (idxToDelete > -1) {
+            console.log('deletion happened')
+            habitRecords.splice(idxToDelete,1)
         } else {
-            temp.push({
-                id: props.id,
-                date_completed: actualDate
-            });
+        // otherwise, push new id / date pair object
+
+            // temp = [...temp, {id:id,date_completed:actualDate}]
+
+            habitRecords.push({
+                id:id,
+                date_completed:actualDate
+            })
+            
         }
-
-        console.log('temp', temp)
-
-
-        // if (temp.findIndex(date => dayjs(date).isSame(actualDate, 'day')) > -1) {
-        //     console.log('temp', temp)
-
-        //     return 
-        // } else {
-        //     temp.push(actualDate)
-        //     console.log('temp', temp)
-
-        // }
-
-        // 2. if it is, do not add it to array
-        // 3. else, add it to array
-
-
-
-
-
-
-
-
-
-        // setHabitRecords([...habitRecords, {
-        //     habit_id: props.id,
-        //     date_completed: actualDate,
-        //     // id: 
-        // }])
-
-
-
+        console.log('habitRecords', habitRecords)
 
 
 
