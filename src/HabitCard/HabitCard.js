@@ -9,7 +9,7 @@ import { HabitContext } from '../context/HabitContext';
 const HabitCard = props => {
 
     const context = useContext(HabitContext)
-    const { habitRecords, setHabit_Id, setHabitRecords } = context;
+    const { habitRecords, setHabit_Id, setHabitRecords, test, setTest } = context;
 
     setHabit_Id(props.id)
     // console.log('context', context)
@@ -18,6 +18,7 @@ const HabitCard = props => {
     const todayDayOfWeek = dayjs();
     // console.log('todayDayOfWeek', todayDayOfWeek)
     const days = []
+    // let deleteDateIdx
 
     for (let i = numDaystoDisplay; i > 0; i--) {
         days.push(todayDayOfWeek.subtract(i, 'days')
@@ -27,31 +28,94 @@ const HabitCard = props => {
     days.push('Today')
 
     // console.log('days', days)
-
-    const handleClickDay = (day) => {
+    let temp = []
+    const handleSelectDay = (day) => {
+        
         console.log('day', day)
         console.log('days[day]', days[day])
-
-
         const actualDate = dayjs()
             .subtract(numDaystoDisplay - day, 'days')
             .format()
 
-            // actual app will send a post fetch 
-            // to add a habit record. 
-            // if the user unselects a date
-            // the database will be searched for 
-            // that date and delete it from the record
-            
+        console.log('actualDate', actualDate)
 
-        setHabitRecords([...habitRecords, {
-            habit_id: props.id,
-            date_completed: actualDate,
-            // id: 
-        }])
-        // setHabit_Id(1)
+        // actual app will send a post fetch 
+        // to add a habit record. 
+        // if the user unselects a date
+        // the database will be searched for 
+        // that date and delete it from the record
+
+
+        // before adding a selected date, 
+        // 1. see if selected date is === to any of the dates in the array
+
+        let deleteDateIdx = temp.findIndex(date => {
+            
+            console.log('sadfasd')
+            // console.log('date', date)
+            // if (date.id === props.id && dayjs(date.date_completed).isSame(actualDate, 'day')){
+            //     console.log('date.id', date.id)
+              
+
+            // } 
+        })
+
+  
+
+
+        if (deleteDateIdx > -1) {
+            console.log('deleteDateIdx', deleteDateIdx)
+            temp.splice(deleteDateIdx, 1)
+
+        } else {
+            temp.push({
+                id: props.id,
+                date_completed: actualDate
+            });
+        }
+
+        console.log('temp', temp)
+
+
+        // if (temp.findIndex(date => dayjs(date).isSame(actualDate, 'day')) > -1) {
+        //     console.log('temp', temp)
+
+        //     return 
+        // } else {
+        //     temp.push(actualDate)
+        //     console.log('temp', temp)
+
+        // }
+
+        // 2. if it is, do not add it to array
+        // 3. else, add it to array
+
+
+
+
+
+
+
+
+
+        // setHabitRecords([...habitRecords, {
+        //     habit_id: props.id,
+        //     date_completed: actualDate,
+        //     // id: 
+        // }])
+
+
+
+
+
 
     }
+
+
+
+
+
+
 
     console.log('context', context)
 
@@ -60,6 +124,8 @@ const HabitCard = props => {
         context.setHabits(props.name)
         context.setHabit_Id(props.id)
     }
+
+
 
     return (
 
@@ -71,10 +137,12 @@ const HabitCard = props => {
             <div className="checkmarks-container">
                 {days.map((day, i) => <div key={day}>
                     <label htmlFor={i}> {day} </label>
-                    <br/>
-                        <input onClick={() => handleClickDay(i)} type={"checkbox"}
-                            id={i} value={day} />
-                    
+                    <br />
+                    <input onClick={() => handleSelectDay(i)} type={"checkbox"}
+                        id={i} value={day}
+                    // checked={isChecked[i]}
+                    />
+
                 </div>)}
             </div>
             {/* onClick of select box triggers function

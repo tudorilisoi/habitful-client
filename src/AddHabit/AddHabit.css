@@ -1,0 +1,76 @@
+/* .AddRecipe__outermost-wrapper {
+  height: 100%;
+}
+
+.AddRecipe__add-recipe-container {
+  padding:0 10px;
+  margin:0 auto;
+  font-size: 18px;
+  max-width: 640px;
+  color:black;
+}
+
+.AddRecipe__heading {
+  margin:0;
+  padding: 1rem 0;
+  font-weight: 300;
+}
+
+.AddRecipe__add-recipe-container label {
+  font-size: 1.2rem;
+  margin: 1rem 0 0.3rem 0;
+}
+
+.AddRecipe__add-recipe-container input,
+.AddRecipe__add-recipe-container textarea {
+    border:1px solid #fff;
+    border-radius: 0.15rem;
+}
+
+.AddRecipe__add-recipe label,
+.AddRecipe__add-recipe input,
+.AddRecipe__add-recipe textarea {
+  display: block;
+  width: 100%;
+}
+
+.AddRecipe__add-recipe textarea {
+  height: 3rem;
+}
+
+.AddRecipe__buttons-wrapper {
+  margin-top:1rem;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  padding-bottom: 4rem;
+}
+
+.AddRecipe__buttons-wrapper button {
+  padding: 0.4375em 1.5em 0.5em;
+  border: 1px solid gray;
+  border: 0;
+  border-radius: 1.5rem;
+  font-size: 18px;
+  transition-duration: 0.2s;
+}
+
+.AddRecipe__buttons-wrapper  .allowHover {
+  background: #CFD8DC;
+  padding: 0.4375em 1.5em 0.5em;
+  border: 1px solid gray;
+  border: 0;
+  border-radius: 1.5rem;
+  font-size: 18px;
+  transition-duration: 0.2s;
+}
+
+.AddRecipe__buttons-wrapper .allowHover:hover {
+  cursor: pointer;
+  background: #455a64;
+  color: #ffffff;
+}
+
+.select-category {
+  max-width:240px;
+} */
