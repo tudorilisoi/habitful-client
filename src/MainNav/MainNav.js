@@ -22,7 +22,7 @@ function MainNav(props) {
         if (props.location.pathname.endsWith('habit-data')) {
             return (
                 <Link to={'/edit-habit'}>
-                    <p>Edit</p>
+                    <p>| Edit</p>
                 </Link>
             )
         }
@@ -43,7 +43,13 @@ function MainNav(props) {
 
                 {renderAddOrEdit()}
                 <Link className="last-nav-item" to={'/habits'}>
-                    <p>My Habits</p>
+                    <p>| My Habits</p>
+                </Link>
+                <Link className="last-nav-item" to={'/signup'}>
+                    <p>| Signup</p>
+                </Link>
+                <Link className="last-nav-item" to={'/login'}>
+                    <p>| Login</p>
                 </Link>
 
             </div>

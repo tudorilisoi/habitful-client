@@ -1,9 +1,9 @@
 .MainNav__nav {
     display:flex;
     justify-content: space-between;
-    padding:10px;
+    padding:5px;
     font-family: 'Fira Sans', sans-serif;
-    font-size: 1.2rem;
+    font-size: 1rem;
     font-weight: 300;
     /* background: #455a64; */
     box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.4);
@@ -30,5 +30,5 @@
 }
 
 .last-nav-item {
-    margin-left: 20px;
+    margin-left: 6px;
 }

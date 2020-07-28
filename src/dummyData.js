@@ -5,7 +5,7 @@ const habits = [
 
     {
         id: 1,
-        name: 'walk for 1 hour',
+        name: 'Walk for 1 hour each day',
         num_times: 1,
         time_interval: 'day',
         date_created: '2020-06-28T11:00:00Z',
@@ -13,7 +13,7 @@ const habits = [
     },
     {
         id: 2,
-        name: 'meditate 15 min',
+        name: 'Meditate 15 min each day',
         num_times: 1,
         time_interval: 'day',
         date_created: '2020-06-29T11:00:00Z',
@@ -21,7 +21,7 @@ const habits = [
     },
     {
         id: 3,
-        name: 'call a friend',
+        name: 'Drink 2L water each day',
         num_times: 1,
         time_interval: 'day',
         date_created: '2020-06-30T11:00:00Z',

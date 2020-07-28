@@ -10,6 +10,8 @@ import HabitProgressPage from '../HabitProgressPage/HabitProgressPage';
 import MainNav from '../MainNav/MainNav';
 import AddHabit from '../AddHabit/AddHabit';
 import EditHabit from '../EditHabit/EditHabit';
+import Login from '../Login/Login';
+import SignUp from '../SignUp/SignUp';
 
 const isBetween = require('dayjs/plugin/isBetween')
 dayjs.extend(isBetween)
@@ -57,6 +59,16 @@ const App = () => {
         exact
         path={'/edit-habit'}
         component={EditHabit}
+      />
+      <Route
+        exact
+        path={'/login'}
+        component={Login}
+      />
+      <Route
+        exact
+        path={'/signup'}
+        component={SignUp}
       />
 
     </main>

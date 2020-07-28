@@ -1,0 +1,102 @@
+.Login__login-title {
+    text-align: center;
+    font-weight: 300;
+    padding:20px;
+    margin:0;
+}
+
+.Login__login-form-container {
+  margin: 0 auto;
+  width: 90%;
+  max-width: 400px;
+  border: 1px solid #b6b6b6;
+  border-radius: 1.5rem;
+  padding: 30px;
+  box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.4);
+}
+
+.Login__login-form-container label,
+.Login__login-form-container input {
+  display: block;
+}
+
+.Login__login-form-container input {
+  width: 100%;
+}
+
+.Login__label-input-wrapper {
+    margin-bottom: 20px;
+    font-size: 18px;
+}
+
+.Login__label-input-wrapper input {
+    border: 1px solid rgb(209, 209, 209);
+    height:30px;
+    padding-left: 5px;
+    border-radius: 0.3rem;
+}
+
+
+.login-form-buttons-wrapper {
+  margin-top: 10px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.login-form-buttons-wrapper button {
+    background: #CFD8DC;
+    padding: 0.4375em 1.5em 0.5em;
+    border: 1px solid gray;
+    border: 0;
+    border-radius: 1.5rem;
+    font-size: 18px;
+    transition-duration: 0.2s;
+}
+
+.login-form-buttons-wrapper button:hover {
+    cursor: pointer;
+    background: #455a64;
+    color: #ffffff;
+}
+
+.demo-credentials {
+  margin-top: 10px;
+}
+
+.credential-wrapper {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 4px;
+  align-items: center;
+
+}
+
+.credential-wrapper p {
+  margin: 0;
+
+}
+
+.credential-bold {
+    font-weight: bold;
+    white-space: pre-wrap;
+}
+
+.copy-to-clipboard {
+    background: white;
+    border:1px solid rgb(218, 218, 218);
+    border-radius: 0.2rem;
+    transition-duration: 0.2s;
+}
+
+.copy-to-clipboard:hover {
+    background: black;
+    color: white;
+    border:1px solid rgb(218, 218, 218);
+    cursor: pointer;
+}
+
+@media only screen and (min-width: 640px) {
+    .Login__login-title {
+        font-size: 3rem;
+    }
+}
