@@ -4,7 +4,7 @@ import './MainNav.css';
 import { HabitContextProvider, HabitContext } from '../context/HabitContext';
 
 function MainNav(props) {
-    console.log('props', props)
+    // console.log('props', props)
     const context = useContext(HabitContext);
 
 

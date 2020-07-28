@@ -4,8 +4,13 @@
     margin: 10px;
 }
 
+.day-labels p {
+    margin:0;
+}
+
 .checkmarks-container {
     display: flex;
     justify-content: space-between;
     text-align: center;
 }
+

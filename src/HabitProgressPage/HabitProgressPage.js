@@ -36,7 +36,7 @@ const HabitProgressPage = (props) => {
     const arr = habitRecords.map(record => record.date_completed)
     arr.sort((a, b) => dayjs(a) - dayjs(b))
 
-    console.log('arr', arr)
+    // console.log('arr', arr)
     // let day = dayjs(startDate).subtract(1, 'day');
     let currDay = startDate;
 
@@ -48,21 +48,21 @@ const HabitProgressPage = (props) => {
     let i = 0;
 
     while (dayjs(currDay).diff(dayjs(endDate), 'day') <= 0) {
-        console.log('dayjs(currDay).diff(dayjs(endDate), \'day\')', dayjs(currDay).diff(dayjs(endDate), 'day'))
-        console.log('dayjs(currDay)', dayjs(currDay))
-        console.log('dayjs(arr[i])', dayjs(arr[i]))
-        console.log('dayjs(currDay).isSame(dayjs(arr[i]),\'day\')', dayjs(currDay).isSame(dayjs(arr[i]), 'day'))
-        console.log('arr[i]', arr[i])
+        // console.log('dayjs(currDay).diff(dayjs(endDate), \'day\')', dayjs(currDay).diff(dayjs(endDate), 'day'))
+        // console.log('dayjs(currDay)', dayjs(currDay))
+        // console.log('dayjs(arr[i])', dayjs(arr[i]))
+        // console.log('dayjs(currDay).isSame(dayjs(arr[i]),\'day\')', dayjs(currDay).isSame(dayjs(arr[i]), 'day'))
+        // console.log('arr[i]', arr[i])
         if (arr[i] === undefined) {
             arr[i] = null
         }
         if (dayjs(currDay).isSame(dayjs(arr[i]), 'day')) {
-            console.log('currDay', currDay)
+            // console.log('currDay', currDay)
 
             gapArr.filter(a => a.id === id)[0]
                 .datesWithGaps
                 .push(currDay)
-            console.log('gapArr', gapArr)
+            // console.log('gapArr', gapArr)
             i++;
         } else {
             gapArr.filter(a => a.id === id)[0]
@@ -73,13 +73,13 @@ const HabitProgressPage = (props) => {
 
     }
 
-    console.log('gapArr', gapArr)
+    // console.log('gapArr', gapArr)
 
 
 
     for (let i = 0; i < interval + 1; i++) {
         labels.push(dayjs().subtract(i, 'days').format('MMM DD'))
-        console.log('arr[i]', arr[i])
+        // console.log('arr[i]', arr[i])
         if (gapArr.filter(a => a.id === id)[0]
         .datesWithGaps[i] !== 0) {
             increment = 5
@@ -91,8 +91,8 @@ const HabitProgressPage = (props) => {
         if (dataPoint > 100) dataPoint = 100
         data.push(dataPoint)
 
-        console.log('i', i)
-        console.log('dataPoint', dataPoint)
+        // console.log('i', i)
+        // console.log('dataPoint', dataPoint)
     }
 
     const chart = () => {
@@ -159,7 +159,7 @@ const HabitProgressPage = (props) => {
     // const { habits } = context
     // console.log('habits', habits)
 
-    console.log('props', props)
+    // console.log('props', props)
     // const records = context.habitRecords
 
 

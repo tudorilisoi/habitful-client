@@ -21,7 +21,7 @@ const App = () => {
   const dayjsUTC = dayjs().utc().format()
 
   useEffect(() => {
-    console.log('useEffect ran')
+    // console.log('useEffect ran')
 
 
   }, [])
