@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext } from 'react';
 import { Route } from 'react-router-dom'
 import dayjs from 'dayjs';
 import { HabitContextProvider, HabitContext } from '../context/HabitContext';
-import dummyData from '../dummyData';
+import dummyData, { habit_records } from '../dummyData';
 import HabitCardList from '../HabitCardList/HabitCardList'
 import LandingPage from '../LandingPage/LandingPage';
 import HabitCard from '../HabitCard/HabitCard';
@@ -20,13 +20,50 @@ dayjs.extend(utc);
 
 const App = () => {
 
-  const dayjsUTC = dayjs().utc().format()
+
+
+  const context = useContext(HabitContext);
+  const { habitRecords, setHabitRecords } = context;
+
 
   useEffect(() => {
-    // console.log('useEffect ran')
+
+    const test = async () => {
+      await setHabitRecords(dummyData.habit_records)
+
+      let temp = habitRecords;
+      const tempObjs = []
+      const len = temp[0] && temp[0].length
+      console.log('len', len)
+      for (let i = 0; i < len; i++) {
+        tempObjs.push(
+          {
+            id: 1,
+            date_completed: temp[0][i]
+          }
+        )
+      }
+      console.log('temp', temp)
+      console.log('tempObjs', tempObjs)
+      // cant do because infinite loop
+      // how to make habitRecords = tempObjs
+      // setHabitRecords(tempObjs)
+    }
+
+    test()
+
+    
 
 
-  }, [])
+  }, [habitRecords])
+
+  // make array of objects from dates but with added id's
+  
+
+  // then set habit records
+
+  const dayjsUTC = dayjs().utc().format()
+
 
 
   return (

@@ -1,4 +1,8 @@
-// for habit data and habit records data
+// import dayjs from 'dayjs';
+
+
+
+const dayjs = require("dayjs")
 
 
 const habits = [
@@ -29,12 +33,22 @@ const habits = [
     }
 ]
 
+
+const makeDummyRecords = (num) => {
+    let currDate = []
+    for (let i = num; i >= 0; i--) {
+        currDate.push(dayjs().subtract(i, 'days').format());
+    }
+    return currDate
+}
+
 const habit_records = [
-
-    
-
-
+    makeDummyRecords(30)
 ]
 
-module.exports = { habits,
-                habit_records }
+module.exports = {
+    habits,
+    habit_records,
+    makeDummyRecords
+}
+
