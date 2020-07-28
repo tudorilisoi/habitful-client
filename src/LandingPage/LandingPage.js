@@ -3,7 +3,7 @@ import MainNav from '../MainNav/MainNav';
 // import MainNav from '../MainNav/MainNav';
 // import RecipesContext from '../RecipesContext';
 // import recipe_repo_logo from './../images/recipe_repo_logo2.png';
-// import './LandingPage.css';
+import './LandingPage.css';
 
 function LandingPage(props) {
 //     const context = useContext(RecipesContext);
@@ -19,7 +19,7 @@ function LandingPage(props) {
 
     return (
         <>
-        <section className='LandingPage-container '>
+        <section className='LandingPage-container'>
             <header
                 className='LandingPage-nav
              default-primary-color'>
@@ -34,6 +34,12 @@ function LandingPage(props) {
                     Use Habitful to track your progress on your habit goals!
                 </p>
                 <h2>Get Started</h2>
+                <p>
+                    Try it out by going to 'My Habits' and select whether you completed a given habit.
+                    If you forget to use the app for a few days, that's totally fine!
+                    You can retroactively check off the habits you completed during the last week.
+                    The more consistently you complete your habits, the higher your habit strength score gets! 
+                </p>
                 {/* <p className='get-started-content primary-text-color'>
                     Sign up <span onClick={handleClickSignUp}>here</span> or try out the demo <span onClick={handleClickLogin}>here</span> to get started!
                 </p> */}
