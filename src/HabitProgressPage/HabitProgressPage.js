@@ -13,7 +13,7 @@ const HabitProgressPage = (props) => {
     const context = useContext(HabitContext);
     const { habitRecords, setHabitRecords, setGapArray } = context;
     const habits = dummyData.habits;
-    const id = props.match.params.habit_id
+    const id = +props.match.params.habit_id
     // console.log('id', id)
     habits.id = id
     const habit = habits.find(habit => {
@@ -33,7 +33,9 @@ const HabitProgressPage = (props) => {
     // make array of dates with null or 0 if no date
     const endDate = dayjs().format()
     const startDate = dayjs(endDate).subtract(interval, 'days').format()
-    const arr = habitRecords.map(record => record.date_completed)
+    let correctIdArr = habitRecords.filter(record => record.id === id)
+    console.log('correctIdArr', correctIdArr)
+    let arr = correctIdArr.map(record => record.date_completed)
     arr.sort((a, b) => dayjs(a) - dayjs(b))
 
     // console.log('arr', arr)
@@ -81,7 +83,7 @@ const HabitProgressPage = (props) => {
         labels.push(dayjs().subtract(i, 'days').format('MMM DD'))
         // console.log('arr[i]', arr[i])
         if (gapArr.filter(a => a.id === id)[0]
-        .datesWithGaps[i] !== 0) {
+            .datesWithGaps[i] !== 0) {
             increment = 5
         } else {
             increment = -5
