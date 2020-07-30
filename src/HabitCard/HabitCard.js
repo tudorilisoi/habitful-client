@@ -2,7 +2,6 @@ import React, { useState, useEffect, useContext } from 'react';
 import { Link } from 'react-router-dom';
 import dayjs, { isDayjs } from 'dayjs';
 import './HabitCard.css';
-import dummyData from '../dummyData';
 import { HabitContext } from '../context/HabitContext';
 
 
@@ -62,35 +61,34 @@ const HabitCard = props => {
     }
 
     const handleClickName = (name) => {
-        context.setHabits(props.name)
         context.setHabitId(props.id)
     }
 
     const isChecked = (props_id, i) => {
 
-        
+
         // const gapArr = gapArray.filter(a => a.id === props.id)[0] &&
         //     gapArray.filter(a => a.id === props.id)[0]
         //         .datesWithGaps[i + 1]
         // if (gapArr && props.id === 1) {
-            //     return true
-            // }
-            
-    const recordExists = (props_id) => {
-        // console.log('recordExists ran')
-        // search thru habitRecords to see if the record exists
-        for (let j = 0; j < habitRecords.length; j++) {
+        //     return true
+        // }
 
-            if (habitRecords[j].id === props_id
-                && dayjs(actualDays[i])
-                    .isSame(dayjs(habitRecords[j].date_completed), 'day')
-            ) {
-                console.log(`found ${dayjs(habitRecords[j].date_completed).format()}`)
-                return true
+        const recordExists = (props_id) => {
+            // console.log('recordExists ran')
+            // search thru habitRecords to see if the record exists
+            for (let j = 0; j < habitRecords.length; j++) {
+
+                if (habitRecords[j].id === props_id
+                    && dayjs(actualDays[i])
+                        .isSame(dayjs(habitRecords[j].date_completed), 'day')
+                ) {
+                    console.log(`found ${dayjs(habitRecords[j].date_completed).format()}`)
+                    return true
+                }
             }
         }
-    }
-            if (recordExists(props_id)) {
+        if (recordExists(props_id)) {
             return true
         }
     }

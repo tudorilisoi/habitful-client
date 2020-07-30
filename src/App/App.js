@@ -2,7 +2,6 @@ import React, { useState, useEffect, useContext } from 'react';
 import { Route } from 'react-router-dom'
 import dayjs from 'dayjs';
 import { HabitContextProvider, HabitContext } from '../context/HabitContext';
-import dummyData from '../dummyData';
 import HabitCardList from '../HabitCardList/HabitCardList'
 import LandingPage from '../LandingPage/LandingPage';
 import HabitCard from '../HabitCard/HabitCard';

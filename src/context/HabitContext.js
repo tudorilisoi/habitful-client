@@ -1,5 +1,4 @@
 import React, { useState, createContext } from 'react';
-import dummyData from '../dummyData';
 
 export const HabitContext = createContext();
 
