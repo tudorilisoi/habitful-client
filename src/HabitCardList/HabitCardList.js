@@ -18,26 +18,35 @@ const HabitCardList = (props) => {
                 const url = `${config.API_ENDPOINT}/habits`
                 const res = await axios.get(url)
                 const resHabits = res.data;
-                console.log('resHabits', resHabits)
+                // console.log('resHabits', resHabits)
                 setHabits(resHabits);
             } catch (err) {
                 console.log('err', err)
             }
         }
-         getHabits();
+        getHabits();
 
-        //  const getHabitRecords = async () => {
-        //     try {
-        //         const url = `${config.API_ENDPOINT}/habit-records`
-        //         const res = await axios.get(url)
-        //         const resHabitRecords = res.data;
-        //         console.log('resHabitRecords', resHabitRecords)
-        //         setHabitRecords(resHabitRecords);
-        //     } catch (err) {
-        //         console.log('err', err)
-        //     }
-        // }
-        //  getHabitRecords();
+        const getHabitRecords = async () => {
+            console.log('getHabitRecords ran')
+
+            try {
+                const url = `${config.API_ENDPOINT}/habit-records`
+                const res = await axios.get(url)
+                const resHabitRecords = res.data;
+                console.log('resHabitRecords', resHabitRecords)
+
+                console.log('habitRecords', habitRecords)
+                // this causing findIndex is not a func err,
+                // sort out this issue.
+                await setHabitRecords(...[...habitRecords, resHabitRecords]);
+                console.log('habitRecords', habitRecords)
+
+                // setHabitRecords(resHabitRecords);
+            } catch (err) {
+                console.log('err', err)
+            }
+        }
+        getHabitRecords();
 
 
 
@@ -50,7 +59,7 @@ const HabitCardList = (props) => {
     console.log('habits', habits)
 
 
-    
+
     const habitCards = habits && habits.map(habit => {
         return (
             <div className="habit-card-list"

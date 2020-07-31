@@ -28,19 +28,22 @@ const HabitProgressPage = (props) => {
 
 
 
-    // const interval = 7
-    const interval = 7
 
-    // make array of dates with null or 0 if no date
-    const endDate = dayjs().format()
-    const startDate = dayjs(endDate).subtract(interval, 'days').format()
     let correctIdArr = habitRecords.filter(record => record.id === id)
     console.log('correctIdArr', correctIdArr)
     let arr = correctIdArr.map(record => record.date_completed)
     arr.sort((a, b) => dayjs(a) - dayjs(b))
 
-
     console.log('arr', arr)
+
+
+    // const interval = 7
+    const interval = dayjs().diff(dayjs(arr[0]), 'days') + 2;
+    console.log('interval', interval)
+
+    // make array of dates with null or 0 if no date
+    const endDate = dayjs().format()
+    const startDate = dayjs(endDate).subtract(interval, 'days').format()
     // let day = dayjs(startDate).subtract(1, 'day');
     let currDay = startDate;
     console.log('currDay', currDay)

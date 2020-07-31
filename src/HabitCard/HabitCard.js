@@ -35,7 +35,7 @@ const HabitCard = props => {
         // if a user selects a date, then clicks again to unselect
         // we need to delete that date from the record
         const idxToDelete = habitRecords.findIndex(record => {
-            return record.id === props.id &&
+            return record.habit_id === props.id &&
                 dayjs(record.date_completed).isSame(dateSelected, 'day')
         })
         // if there is an index to be deleted, delete it
@@ -43,16 +43,12 @@ const HabitCard = props => {
             console.log('deletion happened')
             habitRecords.splice(idxToDelete, 1)
         } else {
-            // otherwise, push new id / date pair object
-            // habitRecords.push({
-            //     id: id,
-            //     date_completed: dateSelected
-            // })
-
-            setHabitRecords([...habitRecords, { id: props.id, date_completed: dateSelected }])
+            const newHabitRecord = {
+                habit_id: props.id,
+                date_completed: dateSelected
+            }
+            setHabitRecords([...habitRecords,newHabitRecord])
         }
-
-
     }
 
     const handleClickName = (name) => {
