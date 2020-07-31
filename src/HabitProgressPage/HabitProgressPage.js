@@ -3,7 +3,6 @@ import { HabitContext } from '../context/HabitContext';
 import { Line, Doughnut } from 'react-chartjs-2';
 import dayjs from 'dayjs';
 import './HabitProgressPage.css'
-import dummyData from '../dummyData';
 
 const HabitProgressPage = (props) => {
 
@@ -11,15 +10,14 @@ const HabitProgressPage = (props) => {
     const [chartDoughnutData, setChartDoughnutData] = useState({});
     const [currHabitStrength, setCurrHabitStrength] = useState(0)
     const context = useContext(HabitContext);
-    const { habitRecords, setHabitRecords, setGapArray } = context;
-    const habits = dummyData.habits;
+    const { habits, habitRecords, setHabitRecords, setGapArray } = context;
     const id = +props.match.params.habit_id
-    // console.log('id', id)
     habits.id = id
     const habit = habits.find(habit => {
         return habit.id === +id
     })
-    const habitName = habit.name
+    const habitName = habit.name;
+
 
     // this is just making dummy data for graph
     // production client will pull from database
@@ -28,6 +26,9 @@ const HabitProgressPage = (props) => {
     let dataPoint = 0
     let increment = 5
 
+
+
+    // const interval = 7
     const interval = 7
 
     // make array of dates with null or 0 if no date
@@ -38,9 +39,11 @@ const HabitProgressPage = (props) => {
     let arr = correctIdArr.map(record => record.date_completed)
     arr.sort((a, b) => dayjs(a) - dayjs(b))
 
-    // console.log('arr', arr)
+
+    console.log('arr', arr)
     // let day = dayjs(startDate).subtract(1, 'day');
     let currDay = startDate;
+    console.log('currDay', currDay)
 
     let gapArr = [{
         id: id,
@@ -54,7 +57,7 @@ const HabitProgressPage = (props) => {
         // console.log('dayjs(currDay)', dayjs(currDay))
         // console.log('dayjs(arr[i])', dayjs(arr[i]))
         // console.log('dayjs(currDay).isSame(dayjs(arr[i]),\'day\')', dayjs(currDay).isSame(dayjs(arr[i]), 'day'))
-        // console.log('arr[i]', arr[i])
+        console.log('arr[i]', arr[i])
         if (arr[i] === undefined) {
             arr[i] = null
         }
@@ -65,17 +68,17 @@ const HabitProgressPage = (props) => {
                 .datesWithGaps
                 .push(currDay)
             // console.log('gapArr', gapArr)
-            i++;
+            i++
         } else {
             gapArr.filter(a => a.id === id)[0]
                 .datesWithGaps
                 .push(0)
         }
         currDay = dayjs(currDay).add(1, 'day')
-
+        // i++;
     }
 
-    // console.log('gapArr', gapArr)
+    console.log('gapArr', gapArr)
 
 
 
@@ -188,7 +191,6 @@ const HabitProgressPage = (props) => {
                         }} />
                 </div>
             </div>
-
 
             <div className='graph-container bottom-card'>
                 <div className="graph-wrapper">

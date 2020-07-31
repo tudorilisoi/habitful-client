@@ -22,21 +22,16 @@ const HabitCard = props => {
         daysNums.push(todayDayOfWeek.subtract(i, 'days')
             .format('DD'))
         actualDays.push(todayDayOfWeek.subtract(i, 'days'))
-
-
     }
     daysNames.push('Today')
     daysNums.push(todayDayOfWeek.format('DD'))
     actualDays.push(todayDayOfWeek)
-    console.log('actualDays', actualDays)
-
+    // console.log('actualDays', actualDays)
 
     const handleSelectDay = (day) => {
         const dateSelected = dayjs()
             .subtract(numDaystoDisplay - 1 - day, 'days')
             .format()
-
-
         // if a user selects a date, then clicks again to unselect
         // we need to delete that date from the record
         const idxToDelete = habitRecords.findIndex(record => {

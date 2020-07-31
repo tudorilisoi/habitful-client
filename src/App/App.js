@@ -1,10 +1,10 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { Route } from 'react-router-dom'
 import dayjs from 'dayjs';
-import { HabitContextProvider, HabitContext } from '../context/HabitContext';
+// import { HabitContextProvider, HabitContext } from '../context/HabitContext';
 import HabitCardList from '../HabitCardList/HabitCardList'
 import LandingPage from '../LandingPage/LandingPage';
-import HabitCard from '../HabitCard/HabitCard';
+// import HabitCard from '../HabitCard/HabitCard';
 import HabitProgressPage from '../HabitProgressPage/HabitProgressPage';
 import MainNav from '../MainNav/MainNav';
 import AddHabit from '../AddHabit/AddHabit';
@@ -19,7 +19,7 @@ dayjs.extend(utc);
 
 const App = () => {
 
-  const dayjsUTC = dayjs().utc().format()
+  // const dayjsUTC = dayjs().utc().format()
 
   useEffect(() => {
     // console.log('useEffect ran')
