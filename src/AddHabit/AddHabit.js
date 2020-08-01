@@ -99,7 +99,7 @@ function AddHabit(props) {
                         onChange={e => setName(e.target.value)}
                         autoFocus
                     />
-                    <br/>
+                    <br />
                     <label
                         htmlFor='habit-num-times'>
                         I plan to repeat this habit </label>
@@ -111,9 +111,11 @@ function AddHabit(props) {
                         onChange={e => setName(e.target.value)}
                         autoFocus
                     />
-                     times  
-                     <br/>
-                     <label
+                     times
+                     <br />
+                    {/* todo: consider change timeInterval to day week month 
+                     options so can be consistent with postgres options  */}
+                    <label
                         htmlFor='habit-time-interval'>
                         per </label>
                     <input type='text'

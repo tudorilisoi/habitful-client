@@ -32,14 +32,16 @@ const HabitCardList = (props) => {
             try {
                 const url = `${config.API_ENDPOINT}/habit-records`
                 const res = await axios.get(url)
+                console.log('res', res)
                 const resHabitRecords = res.data;
                 console.log('resHabitRecords', resHabitRecords)
 
                 console.log('habitRecords', habitRecords)
                 // this causing findIndex is not a func err,
                 // sort out this issue.
-                await setHabitRecords(...[...habitRecords, resHabitRecords]);
+                setHabitRecords(...[...habitRecords, resHabitRecords]);
                 console.log('habitRecords', habitRecords)
+
 
                 // setHabitRecords(resHabitRecords);
             } catch (err) {
@@ -52,10 +54,12 @@ const HabitCardList = (props) => {
 
 
 
-    }, [
+    }
+    , [
         // habits, setHabits
         // , habitRecords , setHabitRecords
-    ])
+    ]
+    )
     console.log('habits', habits)
 
 

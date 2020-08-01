@@ -28,7 +28,7 @@ const HabitCard = props => {
     actualDays.push(todayDayOfWeek)
     // console.log('actualDays', actualDays)
 
-    const handleSelectDay = (day) => {
+    const handleSelectDay = async (day) => {
         const dateSelected = dayjs()
             .subtract(numDaystoDisplay - 1 - day, 'days')
             .format()
@@ -43,11 +43,14 @@ const HabitCard = props => {
             console.log('deletion happened')
             habitRecords.splice(idxToDelete, 1)
         } else {
+            // todo: lets do POST fetch here then set records and see
+            // where things are at
             const newHabitRecord = {
+                // id: **postgres will decide id
                 habit_id: props.id,
                 date_completed: dateSelected
             }
-            setHabitRecords([...habitRecords,newHabitRecord])
+            setHabitRecords(...[...habitRecords,newHabitRecord]);
         }
     }
 
@@ -70,7 +73,7 @@ const HabitCard = props => {
             // search thru habitRecords to see if the record exists
             for (let j = 0; j < habitRecords.length; j++) {
 
-                if (habitRecords[j].id === props_id
+                if (habitRecords[j].habit_id === props_id
                     && dayjs(actualDays[i])
                         .isSame(dayjs(habitRecords[j].date_completed), 'day')
                 ) {

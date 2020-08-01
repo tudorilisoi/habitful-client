@@ -152,10 +152,12 @@ function EditHabit(props) {
                     aria-label='habit-num-times'
                     value={numTimes}
                     onChange={e => setName(e.target.value)}
-                    
+
                 />
                      times
                      <br />
+                {/* todo: consider change timeInterval to day week month 
+                     options so can be consistent with postgres options  */}
                 <label
                     htmlFor='habit-time-interval'>
                     per </label>
@@ -165,7 +167,7 @@ function EditHabit(props) {
                     aria-label='habit-time-interval'
                     value={timeInterval}
                     onChange={e => setName(e.target.value)}
-                    
+
                 />
                     days
                 <div className='EditHabit__buttons-wrapper'>

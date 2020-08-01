@@ -29,8 +29,9 @@ const HabitProgressPage = (props) => {
 
 
 
-    let correctIdArr = habitRecords.filter(record => record.id === id)
+    let correctIdArr = habitRecords.filter(record => record.habit_id === id)
     console.log('correctIdArr', correctIdArr)
+    console.log('habitRecords', habitRecords)
     let arr = correctIdArr.map(record => record.date_completed)
     arr.sort((a, b) => dayjs(a) - dayjs(b))
 
