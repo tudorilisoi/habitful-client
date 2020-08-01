@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import dayjs, { isDayjs } from 'dayjs';
 import './HabitCard.css';
 import { HabitContext } from '../context/HabitContext';
+import HabitRecordsService from '../Service/Service';
 
 
 const HabitCard = props => {
@@ -35,13 +36,26 @@ const HabitCard = props => {
         // if a user selects a date, then clicks again to unselect
         // we need to delete that date from the record
         const idxToDelete = habitRecords.findIndex(record => {
+            console.log('dayjs(record.date_completed).isSame(dateSelected, \'day\')', dayjs(record.date_completed).isSame(dateSelected, 'day'))
             return record.habit_id === props.id &&
                 dayjs(record.date_completed).isSame(dateSelected, 'day')
         })
         // if there is an index to be deleted, delete it
         if (idxToDelete > -1) {
             console.log('deletion happened')
-            habitRecords.splice(idxToDelete, 1)
+            await HabitRecordsService
+                .deleteHabitRecord(habitRecords[idxToDelete].id)
+
+
+            const getRecords = async () => {
+                const resHabitRecords = await HabitRecordsService
+                    .getHabitRecords()
+                console.log('resHabitRecords', resHabitRecords)
+                setHabitRecords(resHabitRecords);
+            }
+
+            getRecords();
+
         } else {
             // todo: lets do POST fetch here then set records and see
             // where things are at
@@ -50,7 +64,26 @@ const HabitCard = props => {
                 habit_id: props.id,
                 date_completed: dateSelected
             }
-            setHabitRecords(...[...habitRecords,newHabitRecord]);
+
+            const postRecord = async () => {
+                const resHabitRecords = await HabitRecordsService
+                    .postHabitRecord(newHabitRecord)
+                console.log('resHabitRecords', resHabitRecords)
+                // setHabitRecords([resHabitRecords]);
+            }
+
+            await postRecord();
+
+            const getRecords = async () => {
+                const resHabitRecords = await HabitRecordsService
+                    .getHabitRecords()
+                console.log('resHabitRecords', resHabitRecords)
+                setHabitRecords(resHabitRecords);
+            }
+
+            getRecords();
+
+
         }
     }
 

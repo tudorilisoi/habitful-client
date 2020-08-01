@@ -4,6 +4,7 @@ import dayjs from 'dayjs';
 import config from '../config';
 import HabitCard from '../HabitCard/HabitCard';
 import { HabitContext } from '../context/HabitContext';
+import HabitRecordsService from '../Service/Service';
 // import { getNodeText } from '@testing-library/react';
 
 const HabitCardList = (props) => {
@@ -26,39 +27,20 @@ const HabitCardList = (props) => {
         }
         getHabits();
 
-        const getHabitRecords = async () => {
-            console.log('getHabitRecords ran')
-
-            try {
-                const url = `${config.API_ENDPOINT}/habit-records`
-                const res = await axios.get(url)
-                console.log('res', res)
-                const resHabitRecords = res.data;
-                console.log('resHabitRecords', resHabitRecords)
-
-                console.log('habitRecords', habitRecords)
-                // this causing findIndex is not a func err,
-                // sort out this issue.
-                setHabitRecords(...[...habitRecords, resHabitRecords]);
-                console.log('habitRecords', habitRecords)
-
-
-                // setHabitRecords(resHabitRecords);
-            } catch (err) {
-                console.log('err', err)
-            }
+        const getRecords = async () => {
+            const resHabitRecords = await HabitRecordsService
+                .getHabitRecords()
+            setHabitRecords(resHabitRecords);
         }
-        getHabitRecords();
 
-
-
+        getRecords()
 
 
     }
-    , [
-        // habits, setHabits
-        // , habitRecords , setHabitRecords
-    ]
+        , [
+            // habits, setHabits
+            // , habitRecords , setHabitRecords
+        ]
     )
     console.log('habits', habits)
 
