@@ -24,6 +24,16 @@
   border: 1px solid black;
   margin: 3px;
   padding: 10px;
+  overflow-x: scroll;
+
+  width:100vw;
+}
+
+
+.graph-wrapper {
+  /* overflow-x: scroll; */
+  width: 200vw;
+  height:50vh;
 }
 
 .habit-data-container {
@@ -49,6 +59,11 @@
     text-align: center;
     margin:0;
 }
+
+/* .line-chart {
+  height:60vh;
+} */
+
 
 
 

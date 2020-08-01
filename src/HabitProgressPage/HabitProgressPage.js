@@ -200,7 +200,7 @@ const HabitProgressPage = (props) => {
                 <div className="graph-wrapper">
                     <Line className="line-chart" data={chartData} options={{
                         responsive: true,
-                        // maintainAspectRatio: false,
+                        maintainAspectRatio: false,
                     }} />
                 </div>
             </div>
