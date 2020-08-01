@@ -5,17 +5,19 @@ import React, { useContext, useState } from 'react';
 // import TextareaAutosize from 'react-textarea-autosize';
 // import ValidationError from '../ValidationError/ValidationError';
 import { HabitContext } from '../../context/HabitContext';
+import HabitsService from '../../service/habits-service';
 
 
 function AddHabit(props) {
     const [name, setName] = useState('');
-    const [timeInterval, setTimeInterval] = useState('');
     const [numTimes, setNumTimes] = useState('');
+    const [timeInterval, setTimeInterval] = useState('day');
 
     const context = useContext(HabitContext);
     // const {  } = context;
 
     function handleCancel() {
+        console.log('handleCancel ran')
         props.history.goBack();
     }
 
@@ -26,17 +28,6 @@ function AddHabit(props) {
     //     };
     // };
 
-    function handleSubmit(e) {
-        e.preventDefault();
-        // const { select_category } = e.target;
-        // postHabit({
-        //     category_id: select_category.value,
-        //     title: name,
-        //     description,
-        //     ingredients,
-        //     directions,
-        // });
-    };
 
     // async function postHabit(fields) {
     //     try {
@@ -62,17 +53,28 @@ function AddHabit(props) {
     //     };
     // };
 
-    // function renderOptions() {
-    //     return categories.map(category => (
-    //         <option
-    //             key={category.id}
-    //             id={category.id}
-    //             value={category.id}
-    //         >
-    //             {category.category_name}
-    //         </option>
-    //     ))
-    // };
+    function renderOptions() {
+        return ['day', 'week', 'month'].map(interval => (
+            <option
+                key={interval}
+                id={interval}
+                value={interval}
+            >
+                {interval}
+            </option>
+        ))
+    };
+
+
+    function handleSubmit(e) {
+        e.preventDefault();
+        const newHabit = {
+            name:name,
+            num_times:numTimes,
+            time_interval:timeInterval
+        }
+        HabitsService.postHabit(newHabit)
+    };
 
     // function toggleHoverClass() {
     //     if (name.length !== 0) {
@@ -82,12 +84,30 @@ function AddHabit(props) {
 
     //     };
     // };
+    const handleChangeName = (e) => {
+        setName(e.target.value)
+        return e.target.value
+    }
 
+    const handleChangeNumTimes = (e) => {
+        setNumTimes(e.target.value)
+        return e.target.value
+    }
+
+    const handleChangeTimeInterval = (e) => {
+        setTimeInterval(e.target.value)
+        return e.target.value
+    }
+
+
+    // todo: add description field
     return (
         <section className="add-habit-outer-wrapper">
             <h2>Add Habit</h2>
             <fieldset>
-                <form>
+                <form
+                    onSubmit={handleSubmit}
+                >
                     <label
                         htmlFor='habit_name'>
                         Habit Name</label>
@@ -96,10 +116,13 @@ function AddHabit(props) {
                         id='habit_name'
                         aria-label='habit_name'
                         value={name}
-                        onChange={e => setName(e.target.value)}
+                        onChange={handleChangeName}
                         autoFocus
                     />
                     <br />
+                    {/* maybe this should be a select options and 
+                    have it only allow select 1 for day,
+                    up to 7 for week etc */}
                     <label
                         htmlFor='habit-num-times'>
                         I plan to repeat this habit </label>
@@ -108,28 +131,22 @@ function AddHabit(props) {
                         id='habit-num-times'
                         aria-label='habit-num-times'
                         value={numTimes}
-                        onChange={e => setName(e.target.value)}
-                        autoFocus
+                        onChange={handleChangeNumTimes}
                     />
                      times
                      <br />
-                    {/* todo: consider change timeInterval to day week month 
-                     options so can be consistent with postgres options  */}
                     <label
                         htmlFor='habit-time-interval'>
                         per </label>
-                    <input type='text'
+                    <select
                         name='habit-time-interval'
                         id='habit-time-interval'
                         aria-label='habit-time-interval'
                         value={timeInterval}
-                        onChange={e => setName(e.target.value)}
-                        autoFocus
-                    />
-                    days
-
-
-
+                        onChange={handleChangeTimeInterval}
+                    >
+                        {renderOptions()}
+                    </select>
 
 
                     {/* <label
@@ -146,10 +163,10 @@ function AddHabit(props) {
                     </select> */}
 
 
-
+                    <button onClick={handleCancel}>Cancel</button>
+                    <button type="submit">Add</button>
                 </form>
-                <button onClick={handleCancel}>Cancel</button>
-                <button>Add</button>
+
             </fieldset>
         </section>
     )
