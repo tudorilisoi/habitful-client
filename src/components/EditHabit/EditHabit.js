@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect } from 'react';
-import { HabitContext } from '../context/HabitContext';
+import { HabitContext } from '../../context/HabitContext';
 // import config from '../config';
 // import './EditHabit.css';
 // import TextareaAutosize from 'react-textarea-autosize';

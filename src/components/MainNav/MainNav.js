@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
 import './MainNav.css';
-import { HabitContextProvider, HabitContext } from '../context/HabitContext';
+import { HabitContextProvider, HabitContext } from '../../context/HabitContext';
 
 function MainNav(props) {
     // console.log('props', props)

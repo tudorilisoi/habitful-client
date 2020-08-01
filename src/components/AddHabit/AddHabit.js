@@ -4,7 +4,7 @@ import React, { useContext, useState } from 'react';
 // import './AddHabit.css';
 // import TextareaAutosize from 'react-textarea-autosize';
 // import ValidationError from '../ValidationError/ValidationError';
-import { HabitContext } from '../context/HabitContext';
+import { HabitContext } from '../../context/HabitContext';
 
 
 function AddHabit(props) {

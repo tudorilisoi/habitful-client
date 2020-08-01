@@ -2,9 +2,8 @@ import React, { useState, useEffect, useContext } from 'react';
 import { Link } from 'react-router-dom';
 import dayjs, { isDayjs } from 'dayjs';
 import './HabitCard.css';
-import { HabitContext } from '../context/HabitContext';
-import HabitRecordsService from '../Service/Service';
-
+import { HabitContext } from '../../context/HabitContext';
+import HabitRecordsService from '../../service/habit-record-service';
 
 const HabitCard = props => {
 

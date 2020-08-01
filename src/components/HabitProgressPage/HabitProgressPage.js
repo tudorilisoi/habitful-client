@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { HabitContext } from '../context/HabitContext';
+import { HabitContext } from '../../context/HabitContext';
 import { Line, Doughnut } from 'react-chartjs-2';
 import dayjs from 'dayjs';
 import './HabitProgressPage.css'
