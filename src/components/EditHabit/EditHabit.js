@@ -1,193 +1,197 @@
 import React, { useContext, useState, useEffect } from 'react';
-import { HabitContext } from '../../context/HabitContext';
-// import config from '../config';
+import dayjs from 'dayjs';
 // import './EditHabit.css';
 // import TextareaAutosize from 'react-textarea-autosize';
 // import ValidationError from '../ValidationError/ValidationError';
+import HabitsService from '../../service/habits-service';
+import { HabitContext } from '../../context/HabitContext';
 
 function EditHabit(props) {
+    // todo: make sure validation error if no name
     const context = useContext(HabitContext);
-    // const { habits } = context;
-    // const habit_id = props.match.params.habitId;
-    // const habit = habits.filter(habit => habit.id == habit_id)
-    //     && habits.filter(habit => habit.id == habit_id)[0];
-    // const category_id = habit && habit.category_id;
-    // const titleInitialValue = habit && habit.title;
-    // const descriptionInitialValue = habit && habit.description;
-    // const ingredientsInitialValue = habit && habit.ingredients;
-    // const directionsInitialValue = habit && habit.directions;
+    const { habits } = context;
+    const habitId = +props.match.params.habit_id;
+
+    console.log('props', props)
+    console.log('habitId', habitId)
+
+    const nameInitValue = habits && habits.name;
+    console.log('habits', habits)
+    console.log('nameInitValue', nameInitValue)
 
     const [name, setName] = useState('');
-    const [timeInterval, setTimeInterval] = useState('');
-    const [numTimes, setNumTimes] = useState('');
+    const [description, setDescription] = useState('');
+    const [numTimes, setNumTimes] = useState(1);
+    const [timeInterval, setTimeInterval] = useState('week');
 
-    // useEffect(() => { setTitle(titleInitialValue) }, [titleInitialValue]);
-    // useEffect(() => { setDescription(descriptionInitialValue) }, [descriptionInitialValue]);
-    // useEffect(() => { setIngredients(ingredientsInitialValue) }, [ingredientsInitialValue]);
-    // useEffect(() => { setDirections(directionsInitialValue) }, [directionsInitialValue]);
+    useEffect(() => {
+
+        const getHabit = async () => {
+            const resHabit = await HabitsService
+                .getHabitById(habitId)
+            console.log('resHabit', resHabit)
+            setName(resHabit.name);
+            setDescription(resHabit.description);
+            setNumTimes(resHabit.num_times);
+            setTimeInterval(resHabit.time_interval);
+            console.log('name', name)
+        }
+
+        getHabit()
+
+    }, []);
+
 
     function handleCancel() {
+        console.log('handleCancel ran')
         props.history.goBack();
-    };
-
-    // function handleSubmit(e) {
-    //     e.preventDefault();
-    //     patchHabit({
-    //         category_id,
-    //         title,
-    //         description,
-    //         ingredients,
-    //         directions,
-    //     });
-    // };
+    }
 
     // function validateName() {
-    //     const habitName = title && title.trim();
-    //     if (title !== undefined) {
-    //         if (habitName.length === 0) {
-    //             return ` *name is required `
-    //         };
+    //     const habitName = name.trim();
+    //     if (habitName.length === 0) {
+    //         return ` *name is required `
     //     };
     // };
 
-    // async function patchHabit(fields) {
-    //     try {
-    //         const authToken = localStorage.getItem('authToken');
-    //         await fetch(`${config.API_ENDPOINT}/habits/${habit_id}`, {
-    //             method: "PATCH",
-    //             headers: {
-    //                 "content-type": "application/json",
-    //                 "authorization": `bearer ${authToken}`
-    //             },
-    //             body: JSON.stringify(fields)
-    //         });
-    //         context.handleGetHabits();
-    //         props.history.goBack();
-    //     } catch (err) {
+    function renderIntervalOptions() {
+        return ['week', 'month'].map(interval => (
+            <option
+                key={interval}
+                id={interval}
+                value={interval}
+            >
+                {interval}
+            </option>
+        ))
+    };
 
-    //     };
-    // };
+    function renderNumTimesOptions() {
+        let nums;
+        if (timeInterval === 'week') {
+            nums = Array.from(new Array(7), (x, i) => i + 1);
+        } else if (timeInterval === 'month') {
+            nums = Array.from(new Array(30), (x, i) => i + 1);
+        }
+        return nums.map(numTimes => (
+            <option
+                key={numTimes}
+                id={numTimes}
+                value={numTimes}
+            >
+                {numTimes}
+            </option>
+        ))
+    };
+
+    async function handleSubmit(e) {
+        e.preventDefault();
+        const date_created = dayjs().format();
+        console.log('date_created', date_created)
+        const newHabit = {
+            name: name,
+            description: description,
+            num_times: numTimes,
+            time_interval: timeInterval,
+            date_created: date_created
+        };
+        await HabitsService.updateHabit(newHabit, habitId);
+        await HabitsService.getHabits();
+        // todo: do link to habit progress page instead
+        // props.history.goBack();
+        props.history.push(`/habits/${habitId}/habit-data`)
+    };
 
     // function toggleHoverClass() {
-    //     if (title && title.length !== 0) {
-    //         return ['EditHabit__edit-habit', 'allowHover'].join(' ')
+    //     if (name.length !== 0) {
+    //         return ['EditHabit__submit', 'allowHover'].join(' ')
     //     } else {
-    //         return 'EditHabit__edit-habit'
+    //         return 'EditHabit__submit'
+
     //     };
     // };
 
-    // function isDisabled() {
-    //     if (typeof title === 'string') {
-    //         if (title.length === 0) {
-    //             return true
-    //         } else {
-    //             return false
-    //         };
-    //     };
-    // };
+    const handleChangeName = (e) => {
+        setName(e.target.value)
+        return e.target.value
+    }
+
+    const handleChangeDescription = (e) => {
+        setDescription(e.target.value)
+        return e.target.value
+    }
+
+    const handleChangeNumTimes = (e) => {
+        setNumTimes(e.target.value)
+        return e.target.value
+    }
+
+    const handleChangeTimeInterval = (e) => {
+        setTimeInterval(e.target.value)
+        return e.target.value
+    }
 
     return (
-        <>
-            <h2 >Edit Habit</h2>
-            <form
-                // onSubmit={handleSubmit}
-                id='EditHabit__edit-habit'>
-                <label
-                    className='text-primary-color'
-                    htmlFor='habit_name'>
-                    Habit Name</label>
-                <input
-                    type='text'
-                    name='name'
-                    id='habit_name'
-                    value={name}
-                // onChange={e => setTitle(e.target.value)}
-                />
-                {/* <ValidationError
-                                className='accent-color'
-                                message={validateName()}
-                                errorPosition={'relative'}
-                            /> */}
-                {/* <label
-                    className='text-primary-color'
-                    htmlFor='description'>
-                    Description</label>
-                <textarea
-                    name='description'
-                    id='description'
-                    value={description}
-                    onChange={e => setDescription(e.target.value)}
-                /> */}
-                {/* <label
-                                className='text-primary-color'
-                                htmlFor='ingredients'>
-                                Ingredients</label>
-                            <TextareaAutosize
-                                minRows={10}
-                                maxRows={100}
-                                name='ingredients'
-                                id='ingredients'
-                                value={ingredients}
-                                onChange={e => setIngredients(e.target.value)}
-                            /> */}
-                {/* <label
-                                className='text-primary-color'
-                                htmlFor='directions'>
-                                Instructions</label>
-                            <TextareaAutosize
-                                minRows={10}
-                                maxRows={100}
-                                name='directions'
-                                id='directions'
-                                value={directions}
-                                onChange={e => setDirections(e.target.value)}
-                            /> */}
-                <br />
-                <label
-                    htmlFor='habit-num-times'>
-                    I plan to repeat this habit </label>
-                <input type='text'
-                    name='habit-num-times'
-                    id='habit-num-times'
-                    aria-label='habit-num-times'
-                    value={numTimes}
-                    onChange={e => setName(e.target.value)}
-                />
+        <section className="edit-habit-outer-wrapper">
+            <h2>Edit Habit</h2>
+            <fieldset>
+                <form
+                    onSubmit={handleSubmit}
+                >
+                    <label
+                        htmlFor='habit_name'>
+                        Habit Name</label>
+                    <input type='text'
+                        name='habit_name'
+                        id='habit_name'
+                        aria-label='habit_name'
+                        value={name}
+                        onChange={handleChangeName}
+                        autoFocus
+                    />
+                    <br />
+                    <label
+                        htmlFor='habit_description'>
+                        Description</label>
+                    <input type='text'
+                        name='habit_description'
+                        id='habit_description'
+                        aria-label='habit_description'
+                        value={description}
+                        onChange={handleChangeDescription}
+                    />
+                    <br />
+                    <label
+                        htmlFor='habit-num-times'>
+                        I plan to repeat this habit </label>
+                    <select
+                        name='habit-num-times'
+                        id='habit-num-times'
+                        aria-label='habit-num-times'
+                        value={numTimes}
+                        onChange={handleChangeNumTimes}
+                    >
+                        {renderNumTimesOptions()}
+                    </select>
                      times
                      <br />
-                {/* todo: consider change timeInterval to day week month 
-                     options so can be consistent with postgres options  */}
-                <label
-                    htmlFor='habit-time-interval'>
-                    per </label>
-                <input type='text'
-                    name='habit-time-interval'
-                    id='habit-time-interval'
-                    aria-label='habit-time-interval'
-                    value={timeInterval}
-                    onChange={e => setName(e.target.value)}
-
-                />
-                    days
-                <div className='EditHabit__buttons-wrapper'>
-                    <button
-                        // className='edit-button allowHover'
-                        type="button"
-                        aria-label='Cancel'
-                        onClick={handleCancel}>Cancel</button>
-                    <button
-                        // className={toggleHoverClass()}
-                        type="submit"
-                        aria-label='submit'
-                    // disabled={isDisabled()}
-                    >Save</button>
-                </div>
-            </form>
-
-            <div className='bottom-color-area 
-                       default-primary-color'>
-            </div>
-        </>
+                    <label
+                        htmlFor='habit-time-interval'>
+                        per </label>
+                    <select
+                        name='habit-time-interval'
+                        id='habit-time-interval'
+                        aria-label='habit-time-interval'
+                        value={timeInterval}
+                        onChange={handleChangeTimeInterval}
+                    >
+                        {renderIntervalOptions()}
+                    </select>
+                    <button onClick={handleCancel}>Cancel</button>
+                    <button type="submit">Save</button>
+                </form>
+            </fieldset>
+        </section>
     )
 };
 

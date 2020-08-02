@@ -1,23 +1,16 @@
-import React, { useContext, useState } from 'react';
+import React, { useState } from 'react';
 import dayjs from 'dayjs';
-// import config from '../config';
-
 // import './AddHabit.css';
 // import TextareaAutosize from 'react-textarea-autosize';
 // import ValidationError from '../ValidationError/ValidationError';
-import { HabitContext } from '../../context/HabitContext';
 import HabitsService from '../../service/habits-service';
 
-
 function AddHabit(props) {
-    const [name, setName] = useState('');
+    // todo: make sure validation error if no name
+    const [name, setName] = useState();
     const [description, setDescription] = useState('');
-    const [numTimes, setNumTimes] = useState('');
-    const [timeInterval, setTimeInterval] = useState('day');
-    const [dateCreated, setDateCreated] = useState(dayjs().format())
-
-    // const context = useContext(HabitContext);
-    // const {  } = context;
+    const [numTimes, setNumTimes] = useState(1);
+    const [timeInterval, setTimeInterval] = useState('week');
 
     function handleCancel() {
         console.log('handleCancel ran')
@@ -31,33 +24,8 @@ function AddHabit(props) {
     //     };
     // };
 
-
-    // async function postHabit(fields) {
-    //     try {
-    //         const authToken = localStorage.getItem('authToken');
-    //         const res = await fetch(`${config.API_ENDPOINT}/habits`, {
-    //             method: "POST",
-    //             headers: {
-    //                 "content-type": "application/json",
-    //                 "authorization": `bearer ${authToken}`
-    //             },
-    //             body: JSON.stringify(fields)
-    //         })
-    //         const postedHabit = await res.json();
-    //         // switch current category id to the one the user
-    //         // selected so that when they get to the habit page, 
-    //         // they can click back to go to the correct category
-    //         // ie the category which the new habit belongs to
-    //         sessionStorage.setItem('currentCategoryId', `${postedHabit.category_id}`);
-    //         context.handleGetHabits();
-    //         props.history.push(`/habits/${postedHabit.id}`);
-    //     } catch (err) {
-
-    //     };
-    // };
-
-    function renderOptions() {
-        return ['day', 'week', 'month'].map(interval => (
+    function renderIntervalOptions() {
+        return ['week', 'month'].map(interval => (
             <option
                 key={interval}
                 id={interval}
@@ -68,16 +36,36 @@ function AddHabit(props) {
         ))
     };
 
-
-    function handleSubmit(e) {
-        e.preventDefault();
-        const newHabit = {
-            name:name,
-            description:description,
-            num_times:numTimes,
-            time_interval:timeInterval
+    function renderNumTimesOptions() {
+        let nums;
+        if (timeInterval === 'week') {
+            nums = Array.from(new Array(7), (x, i) => i + 1);
+        } else if (timeInterval === 'month') {
+            nums = Array.from(new Array(30), (x, i) => i + 1);
         }
-        HabitsService.postHabit(newHabit);
+        return nums.map(numTimes => (
+            <option
+                key={numTimes}
+                id={numTimes}
+                value={numTimes}
+            >
+                {numTimes}
+            </option>
+        ))
+    };
+
+    async function handleSubmit(e) {
+        e.preventDefault();
+        const date_created = dayjs().format();
+        console.log('date_created', date_created)
+        const newHabit = {
+            name: name,
+            description: description,
+            num_times: numTimes,
+            time_interval: timeInterval,
+            date_created: date_created
+        };
+        await HabitsService.postHabit(newHabit);
         props.history.goBack();
     };
 
@@ -89,6 +77,7 @@ function AddHabit(props) {
 
     //     };
     // };
+
     const handleChangeName = (e) => {
         setName(e.target.value)
         return e.target.value
@@ -109,8 +98,6 @@ function AddHabit(props) {
         return e.target.value
     }
 
-
-    // todo: add description field
     return (
         <section className="add-habit-outer-wrapper">
             <h2>Add Habit</h2>
@@ -141,19 +128,18 @@ function AddHabit(props) {
                         onChange={handleChangeDescription}
                     />
                     <br />
-                    {/* maybe this should be a select options and 
-                    have it only allow select 1 for day,
-                    up to 7 for week etc */}
                     <label
                         htmlFor='habit-num-times'>
                         I plan to repeat this habit </label>
-                    <input type='text'
+                    <select
                         name='habit-num-times'
                         id='habit-num-times'
                         aria-label='habit-num-times'
                         value={numTimes}
                         onChange={handleChangeNumTimes}
-                    />
+                    >
+                        {renderNumTimesOptions()}
+                    </select>
                      times
                      <br />
                     <label
@@ -166,28 +152,11 @@ function AddHabit(props) {
                         value={timeInterval}
                         onChange={handleChangeTimeInterval}
                     >
-                        {renderOptions()}
+                        {renderIntervalOptions()}
                     </select>
-
-
-                    {/* <label
-                        htmlFor='select_frequency'>
-                        Frequency</label>
-                    <select
-                        className='select-frequency'
-                        name='select_frequency'
-                        id='select_frequency'
-                        aria-label='select_frequency'>
-                        {renderOptions()}
-
-                        
-                    </select> */}
-
-
                     <button onClick={handleCancel}>Cancel</button>
                     <button type="submit">Add</button>
                 </form>
-
             </fieldset>
         </section>
     )

@@ -2,22 +2,28 @@ import React, { useState, useEffect, useContext } from 'react';
 import { HabitContext } from '../../context/HabitContext';
 import { Line, Doughnut } from 'react-chartjs-2';
 import dayjs from 'dayjs';
-import './HabitProgressPage.css'
+import './HabitProgressPage.css';
+import HabitsService from '../../service/habits-service';
 
 const HabitProgressPage = (props) => {
-
     const [chartData, setChartData] = useState({});
     const [chartDoughnutData, setChartDoughnutData] = useState({});
-    const [currHabitStrength, setCurrHabitStrength] = useState(0)
+    const [currHabitStrength, setCurrHabitStrength] = useState(0);
+    const [name, setName] = useState('');
+    const [description, setDescription] = useState('');
     const context = useContext(HabitContext);
-    const { habits, habitRecords, setHabitRecords, setGapArray } = context;
-    const id = +props.match.params.habit_id
-    habits.id = id
-    const habit = habits.find(habit => {
+    const { habits, habitRecords, habitId, setHabitId,
+        setHabitRecords, setGapArray } = context;
+    const id = +props.match.params.habit_id;
+    console.log('id', id)
+    // sort out redundancy
+    setHabitId(+props.match.params.habit_id);
+    // habits.id = id
+    const habit = habits && habits.find(habit => {
         return habit.id === +id
-    })
-    const habitName = habit.name;
-
+    });
+    // const habitName = habit && habit.name;
+    // const habitDescription = habit && habit.description;
 
     // this is just making dummy data for graph
     // production client will pull from database
@@ -26,7 +32,22 @@ const HabitProgressPage = (props) => {
     let dataPoint = 0
     let increment = 5
 
+    useEffect(() => {
+        const getHabit = async () => {
+            const resHabit = await HabitsService
+                .getHabitById(id)
 
+            console.log('resHabit', resHabit)
+
+            await setName(resHabit.name);
+            await setDescription(resHabit.description);
+            // todo: ***finish other needed stuff here
+            // like num_times and time_interval
+        }
+
+        getHabit()
+
+    }, [])
 
 
     let correctIdArr = habitRecords.filter(record => record.habit_id === id)
@@ -177,8 +198,11 @@ const HabitProgressPage = (props) => {
 
         <section className="habit-data-container">
             <h3 className="habit-name">
-                {habitName}
+                {name}
             </h3>
+            <p className="habit-description">
+                {description}
+            </p>
 
             <div className="habit-strength-wrapper">
                 <div className="habit-strength-score card">

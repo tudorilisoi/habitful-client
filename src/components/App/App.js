@@ -56,7 +56,8 @@ const App = () => {
       />
       <Route
         exact
-        path={'/edit-habit'}
+        // path={'/edit-habit'}
+        path={'/:habit_id/edit-habit'}
         component={EditHabit}
       />
       <Route

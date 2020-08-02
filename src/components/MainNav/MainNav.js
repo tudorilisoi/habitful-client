@@ -6,7 +6,7 @@ import { HabitContextProvider, HabitContext } from '../../context/HabitContext';
 function MainNav(props) {
     // console.log('props', props)
     const context = useContext(HabitContext);
-
+    const { habitId } = context;
 
     const renderAddOrEdit = () => {
 
@@ -21,7 +21,7 @@ function MainNav(props) {
 
         if (props.location.pathname.endsWith('habit-data')) {
             return (
-                <Link to={'/edit-habit'}>
+                <Link to={`/${habitId}/edit-habit`}>
                     <p>| Edit</p>
                 </Link>
             )

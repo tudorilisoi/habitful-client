@@ -35,13 +35,13 @@ const HabitCard = props => {
         // if a user selects a date, then clicks again to unselect
         // we need to delete that date from the record
         const idxToDelete = habitRecords.findIndex(record => {
-            console.log('dayjs(record.date_completed).isSame(dateSelected, \'day\')', dayjs(record.date_completed).isSame(dateSelected, 'day'))
+            // console.log('dayjs(record.date_completed).isSame(dateSelected, \'day\')', dayjs(record.date_completed).isSame(dateSelected, 'day'))
             return record.habit_id === props.id &&
                 dayjs(record.date_completed).isSame(dateSelected, 'day')
         })
         // if there is an index to be deleted, delete it
         if (idxToDelete > -1) {
-            console.log('deletion happened')
+            // console.log('deletion happened')
             await HabitRecordsService
                 .deleteHabitRecord(habitRecords[idxToDelete].id)
 
@@ -49,7 +49,7 @@ const HabitCard = props => {
             const getRecords = async () => {
                 const resHabitRecords = await HabitRecordsService
                     .getHabitRecords()
-                console.log('resHabitRecords', resHabitRecords)
+                // console.log('resHabitRecords', resHabitRecords)
                 setHabitRecords(resHabitRecords);
             }
 
@@ -67,7 +67,7 @@ const HabitCard = props => {
             const postRecord = async () => {
                 const resHabitRecords = await HabitRecordsService
                     .postHabitRecord(newHabitRecord)
-                console.log('resHabitRecords', resHabitRecords)
+                // console.log('resHabitRecords', resHabitRecords)
                 // setHabitRecords([resHabitRecords]);
             }
 
@@ -76,7 +76,7 @@ const HabitCard = props => {
             const getRecords = async () => {
                 const resHabitRecords = await HabitRecordsService
                     .getHabitRecords()
-                console.log('resHabitRecords', resHabitRecords)
+                // console.log('resHabitRecords', resHabitRecords)
                 setHabitRecords(resHabitRecords);
             }
 
@@ -109,7 +109,7 @@ const HabitCard = props => {
                     && dayjs(actualDays[i])
                         .isSame(dayjs(habitRecords[j].date_completed), 'day')
                 ) {
-                    console.log(`found ${dayjs(habitRecords[j].date_completed).format()}`)
+                    // console.log(`found ${dayjs(habitRecords[j].date_completed).format()}`)
                     return true
                 }
             }
@@ -121,7 +121,7 @@ const HabitCard = props => {
 
 
 
-    console.log('habitRecords', habitRecords)
+    // console.log('habitRecords', habitRecords)
     return (
 
         < div className="habit-card-wrapper" >
