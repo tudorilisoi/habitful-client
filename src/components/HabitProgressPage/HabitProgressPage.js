@@ -11,6 +11,8 @@ const HabitProgressPage = (props) => {
     const [currHabitStrength, setCurrHabitStrength] = useState(0);
     const [name, setName] = useState('');
     const [description, setDescription] = useState('');
+    const [numTimes, setNumTimes] = useState(1);
+    const [timeInterval, setTimeInterval] = useState('week');
     const context = useContext(HabitContext);
     const { habits, habitRecords, habitId, setHabitId,
         setHabitRecords, setGapArray } = context;
@@ -41,8 +43,8 @@ const HabitProgressPage = (props) => {
 
             await setName(resHabit.name);
             await setDescription(resHabit.description);
-            // todo: ***finish other needed stuff here
-            // like num_times and time_interval
+            await setNumTimes(resHabit.num_times);
+            await setTimeInterval(resHabit.time_interval);
         }
 
         getHabit()

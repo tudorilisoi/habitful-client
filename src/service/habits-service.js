@@ -66,7 +66,7 @@ const HabitsService = {
             console.log('res', res)
             const deletedHabit = res.data;
             console.log('deletedHabit', deletedHabit)
-            return deletedHabit;
+            // return deletedHabit;
         } catch (err) {
             console.log('err', err)
         }

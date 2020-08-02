@@ -6,14 +6,13 @@ import dayjs from 'dayjs';
 import HabitsService from '../../service/habits-service';
 import { HabitContext } from '../../context/HabitContext';
 
+
+// todo: do a delete habit link in red like in recipe repo
 function EditHabit(props) {
     // todo: make sure validation error if no name
     const context = useContext(HabitContext);
     const { habits } = context;
     const habitId = +props.match.params.habit_id;
-
-    console.log('props', props)
-    console.log('habitId', habitId)
 
     const nameInitValue = habits && habits.name;
     console.log('habits', habits)
@@ -43,8 +42,13 @@ function EditHabit(props) {
 
 
     function handleCancel() {
-        console.log('handleCancel ran')
         props.history.goBack();
+    }
+
+    async function handleDelete() {
+        console.log('handleDelete ran')
+        await HabitsService.deleteHabit(habitId);
+        props.history.push(`/habits`);
     }
 
     // function validateName() {
@@ -85,7 +89,9 @@ function EditHabit(props) {
     };
 
     async function handleSubmit(e) {
+        console.log('handleSubmit ran')
         e.preventDefault();
+
         const date_created = dayjs().format();
         console.log('date_created', date_created)
         const newHabit = {
@@ -189,7 +195,14 @@ function EditHabit(props) {
                     </select>
                     <button onClick={handleCancel}>Cancel</button>
                     <button type="submit">Save</button>
+                    <br /> 
                 </form>
+                    {/* will style this button as a red link  */}
+                    {/* todo: if i put this button in form, it triggers 
+                    submit which screws things up. make sure it's okay
+                    to not put in form. should be since it's not part of 
+                    form */}
+                    <button onClick={handleDelete}>Delete</button>
             </fieldset>
         </section>
     )
