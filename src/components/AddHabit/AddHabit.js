@@ -1,4 +1,5 @@
 import React, { useContext, useState } from 'react';
+import dayjs from 'dayjs';
 // import config from '../config';
 
 // import './AddHabit.css';
@@ -10,10 +11,12 @@ import HabitsService from '../../service/habits-service';
 
 function AddHabit(props) {
     const [name, setName] = useState('');
+    const [description, setDescription] = useState('');
     const [numTimes, setNumTimes] = useState('');
     const [timeInterval, setTimeInterval] = useState('day');
+    const [dateCreated, setDateCreated] = useState(dayjs().format())
 
-    const context = useContext(HabitContext);
+    // const context = useContext(HabitContext);
     // const {  } = context;
 
     function handleCancel() {
@@ -70,10 +73,12 @@ function AddHabit(props) {
         e.preventDefault();
         const newHabit = {
             name:name,
+            description:description,
             num_times:numTimes,
             time_interval:timeInterval
         }
-        HabitsService.postHabit(newHabit)
+        HabitsService.postHabit(newHabit);
+        props.history.goBack();
     };
 
     // function toggleHoverClass() {
@@ -86,6 +91,11 @@ function AddHabit(props) {
     // };
     const handleChangeName = (e) => {
         setName(e.target.value)
+        return e.target.value
+    }
+
+    const handleChangeDescription = (e) => {
+        setDescription(e.target.value)
         return e.target.value
     }
 
@@ -118,6 +128,17 @@ function AddHabit(props) {
                         value={name}
                         onChange={handleChangeName}
                         autoFocus
+                    />
+                    <br />
+                    <label
+                        htmlFor='habit_description'>
+                        Description</label>
+                    <input type='text'
+                        name='habit_description'
+                        id='habit_description'
+                        aria-label='habit_description'
+                        value={description}
+                        onChange={handleChangeDescription}
                     />
                     <br />
                     {/* maybe this should be a select options and 

@@ -152,7 +152,6 @@ function EditHabit(props) {
                     aria-label='habit-num-times'
                     value={numTimes}
                     onChange={e => setName(e.target.value)}
-
                 />
                      times
                      <br />
