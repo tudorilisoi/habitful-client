@@ -2,8 +2,11 @@ import React, { useState, useEffect, useContext } from 'react';
 import { HabitContext } from '../../context/HabitContext';
 import { Line, Doughnut } from 'react-chartjs-2';
 import dayjs from 'dayjs';
-import './HabitProgressPage.css';
 import HabitsService from '../../service/habits-service';
+import './HabitProgressPage.css';
+import HabitRecordsService from '../../service/habit-record-service';
+
+// todo: upon refresh, data gone
 
 const HabitProgressPage = (props) => {
     const [chartData, setChartData] = useState({});
@@ -14,16 +17,14 @@ const HabitProgressPage = (props) => {
     const [numTimes, setNumTimes] = useState(1);
     const [timeInterval, setTimeInterval] = useState('week');
     const context = useContext(HabitContext);
-    const { habits, habitRecords, habitId, setHabitId,
-        setHabitRecords, setGapArray } = context;
+    const { habits, habitRecords, setHabitRecords,
+        habitId, setHabitId, setGapArray } = context;
     const id = +props.match.params.habit_id;
     console.log('id', id)
-    // sort out redundancy
     setHabitId(+props.match.params.habit_id);
-    // habits.id = id
-    const habit = habits && habits.find(habit => {
-        return habit.id === +id
-    });
+    // const habit = habits && habits.find(habit => {
+    //     return habit.id === +id
+    // });
     // const habitName = habit && habit.name;
     // const habitDescription = habit && habit.description;
 
@@ -49,7 +50,26 @@ const HabitProgressPage = (props) => {
 
         getHabit()
 
-    }, [])
+        const getRecords = async () => {
+            const resHabitRecords = await HabitRecordsService
+            .getHabitRecords();
+            console.log('resHabitRecords', resHabitRecords)
+
+            await setHabitRecords(resHabitRecords)
+        }
+        
+        // if habit records empty, fetch them
+        if (habitRecords.length === 0) {
+            console.log('habitRecords.length', habitRecords.length)
+
+            getRecords()
+        }
+
+        chart()
+        doughnutChart()
+        setGapArray(gapArr)
+
+    }, [habitRecords])
 
 
     let correctIdArr = habitRecords.filter(record => record.habit_id === id)
@@ -172,12 +192,12 @@ const HabitProgressPage = (props) => {
     }
 
 
-    useEffect(() => {
-        chart()
-        doughnutChart()
-        setGapArray(gapArr)
+    // useEffect(() => {
+    //     chart()
+    //     doughnutChart()
+    //     setGapArray(gapArr)
 
-    }, [])
+    // }, [])
 
 
 
@@ -224,6 +244,10 @@ const HabitProgressPage = (props) => {
 
             <div className='graph-container bottom-card'>
                 <div className="graph-wrapper">
+                    {/* todo: want width of graph-wrapper
+                    to be dynamic and proportional to data length
+                    ie, 2x as long for 2x data.
+                    should i do inline style? will that work */}
                     <Line className="line-chart" data={chartData} options={{
                         responsive: true,
                         maintainAspectRatio: false,
