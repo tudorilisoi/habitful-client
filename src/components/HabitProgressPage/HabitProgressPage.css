@@ -26,19 +26,22 @@
   padding: 10px;
   overflow-x: scroll;
 
-  width:100vw;
+  /* width:100vw; */
 }
 
 
 .graph-wrapper {
   /* overflow-x: scroll; */
-  width: 200vw;
-  height:50vh;
+  /* width: 200%; */
+  /* width: 2000px; */
+  /* this one use */
+  /* width: 200vh; */
+  height:35%;
 }
 
 .habit-data-container {
   position: relative;
-  max-width: 900px;
+  max-width: 1200px;
 }
 
 .habit-strength-wrapper {

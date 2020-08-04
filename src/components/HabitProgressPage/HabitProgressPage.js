@@ -3,12 +3,11 @@ import { HabitContext } from '../../context/HabitContext';
 import { Line, Doughnut } from 'react-chartjs-2';
 import dayjs from 'dayjs';
 import HabitsService from '../../service/habits-service';
-import './HabitProgressPage.css';
 import HabitRecordsService from '../../service/habit-record-service';
-
-// todo: upon refresh, data gone
+import './HabitProgressPage.css';
 
 const HabitProgressPage = (props) => {
+
     const [chartData, setChartData] = useState({});
     const [chartDoughnutData, setChartDoughnutData] = useState({});
     const [currHabitStrength, setCurrHabitStrength] = useState(0);
@@ -16,12 +15,15 @@ const HabitProgressPage = (props) => {
     const [description, setDescription] = useState('');
     const [numTimes, setNumTimes] = useState(1);
     const [timeInterval, setTimeInterval] = useState('week');
+
     const context = useContext(HabitContext);
     const { habits, habitRecords, setHabitRecords,
         habitId, setHabitId, setGapArray } = context;
-    const id = +props.match.params.habit_id;
-    console.log('id', id)
+
+    const habit_id = +props.match.params.habit_id;
+    // console.log('id', habit_id)
     setHabitId(+props.match.params.habit_id);
+
     // const habit = habits && habits.find(habit => {
     //     return habit.id === +id
     // });
@@ -29,18 +31,17 @@ const HabitProgressPage = (props) => {
     // const habitDescription = habit && habit.description;
 
     // this is just making dummy data for graph
-    // production client will pull from database
-    let labels = []
-    let data = []
-    let dataPoint = 0
-    let increment = 5
+    let labels = [];
+    let data = [];
+    let dataPoint = 0;
+    let increment = 5;
 
     useEffect(() => {
         const getHabit = async () => {
             const resHabit = await HabitsService
-                .getHabitById(id)
+                .getHabitById(habit_id)
 
-            console.log('resHabit', resHabit)
+            // console.log('resHabit', resHabit)
 
             await setName(resHabit.name);
             await setDescription(resHabit.description);
@@ -51,75 +52,68 @@ const HabitProgressPage = (props) => {
         getHabit()
 
         const getRecords = async () => {
+
             const resHabitRecords = await HabitRecordsService
-            .getHabitRecords();
+                .getHabitRecords();
             console.log('resHabitRecords', resHabitRecords)
 
             await setHabitRecords(resHabitRecords)
         }
-        
+
         // if habit records empty, fetch them
         if (habitRecords.length === 0) {
-            console.log('habitRecords.length', habitRecords.length)
+            // console.log('habitRecords.length', habitRecords.length)
 
             getRecords()
         }
-
         chart()
         doughnutChart()
         setGapArray(gapArr)
 
-    }, [habitRecords])
 
 
-    let correctIdArr = habitRecords.filter(record => record.habit_id === id)
-    console.log('correctIdArr', correctIdArr)
-    console.log('habitRecords', habitRecords)
-    let arr = correctIdArr.map(record => record.date_completed)
+    }, [habitRecords]);
+
+
+    let arr = habitRecords.filter(record => record.habit_id === habit_id)
+        .map(record => record.date_completed)
     arr.sort((a, b) => dayjs(a) - dayjs(b))
-
     console.log('arr', arr)
 
-
-    // const interval = 7
     const interval = dayjs().diff(dayjs(arr[0]), 'days') + 2;
-    console.log('interval', interval)
 
     // make array of dates with null or 0 if no date
     const endDate = dayjs().format()
     const startDate = dayjs(endDate).subtract(interval, 'days').format()
-    // let day = dayjs(startDate).subtract(1, 'day');
     let currDay = startDate;
-    console.log('currDay', currDay)
 
     let gapArr = [{
-        id: id,
+        id: habit_id,
         datesWithGaps: []
     }];
+    console.log('gapArr', gapArr)
 
     let i = 0;
 
     while (dayjs(currDay).diff(dayjs(endDate), 'day') <= 0) {
-        // console.log('dayjs(currDay).diff(dayjs(endDate), \'day\')', dayjs(currDay).diff(dayjs(endDate), 'day'))
-        // console.log('dayjs(currDay)', dayjs(currDay))
-        // console.log('dayjs(arr[i])', dayjs(arr[i]))
-        // console.log('dayjs(currDay).isSame(dayjs(arr[i]),\'day\')', dayjs(currDay).isSame(dayjs(arr[i]), 'day'))
-        console.log('arr[i]', arr[i])
         if (arr[i] === undefined) {
             arr[i] = null
         }
+
+        console.log('arr[i]', arr[i])
         if (dayjs(currDay).isSame(dayjs(arr[i]), 'day')) {
             // console.log('currDay', currDay)
 
-            gapArr.filter(a => a.id === id)[0]
+            gapArr[0]
                 .datesWithGaps
                 .push(currDay)
             // console.log('gapArr', gapArr)
             i++
         } else {
-            gapArr.filter(a => a.id === id)[0]
+            gapArr[0]
                 .datesWithGaps
                 .push(0)
+            // i++;
         }
         currDay = dayjs(currDay).add(1, 'day')
         // i++;
@@ -131,14 +125,14 @@ const HabitProgressPage = (props) => {
 
     for (let i = 0; i < interval + 1; i++) {
         labels.push(dayjs().subtract(i, 'days').format('MMM DD'))
-        // console.log('arr[i]', arr[i])
-        if (gapArr.filter(a => a.id === id)[0]
-            .datesWithGaps[i] !== 0) {
+        // console.log('gapArr[0].datesWithGaps', gapArr[0].datesWithGaps)
+        if (gapArr[0].datesWithGaps[i] !== 0) {
             increment = 5
         } else {
             increment = -5
         }
         dataPoint += increment
+        // console.log('dataPoint', dataPoint)
         if (dataPoint < 0) dataPoint = 0
         if (dataPoint > 100) dataPoint = 100
         data.push(dataPoint)
@@ -191,31 +185,6 @@ const HabitProgressPage = (props) => {
         })
     }
 
-
-    // useEffect(() => {
-    //     chart()
-    //     doughnutChart()
-    //     setGapArray(gapArr)
-
-    // }, [])
-
-
-
-
-    // get date_completion records for the given 
-    // habit and then display it on a graph. For now 
-    // I'll just get the data. 
-
-
-
-    // const { habits } = context
-    // console.log('habits', habits)
-
-    // console.log('props', props)
-    // const records = context.habitRecords
-
-
-
     return (
 
         <section className="habit-data-container">
@@ -243,11 +212,22 @@ const HabitProgressPage = (props) => {
             </div>
 
             <div className='graph-container bottom-card'>
-                <div className="graph-wrapper">
-                    {/* todo: want width of graph-wrapper
-                    to be dynamic and proportional to data length
-                    ie, 2x as long for 2x data.
-                    should i do inline style? will that work */}
+                {/* todo: can i only do pixels for width? */}
+                {/* lets try putting something in a useEffect and only render
+                when gets proper value */}
+                {/* const mystyle = {
+      color: "white",
+      backgroundColor: "DodgerBlue",
+      padding: "10px",
+      fontFamily: "Arial"
+    }; */}
+                <div className="graph-wrapper" style={{ width: 2000 }} >
+                    {/* something along these lines, but interval starts off small 
+                    before getting correct value.
+                    maybe should re render when have correct val for interval */}
+                    {/* <div className="graph-wrapper" style={{width:interval*3}} > */}
+                    {/* {console.log('interval*3', interval*3)} */}
+
                     <Line className="line-chart" data={chartData} options={{
                         responsive: true,
                         maintainAspectRatio: false,

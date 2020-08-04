@@ -9,16 +9,17 @@ const habitStrength = () => {
     const freq = timesCompleted / timeInterval;
     const numDays = 30; // length for dummy array (for testing)
     let prevHabitStrength = 0;
-    const checkMarkWeight = 1 / freq; 
+    const checkMarkWeight = 1 / freq;
 
-    const dummyCheckMarkArr = Array(numDays).fill(0).map((checkMarkVal, i, arr) => {
+    const dummyCheckMarkArr = Array(numDays).fill(0)
+        .map((checkMarkVal, i, arr) => {
 
-        const userCompletionRate = 1; // 1 = 100%
-        checkMarkVal = Math.random() < freq * userCompletionRate
-            ? checkMarkWeight
-            : 0;
-        return checkMarkVal;
-    });
+            const userCompletionRate = 1; // 1 = 100%
+            checkMarkVal = Math.random() < freq * userCompletionRate
+                ? checkMarkWeight
+                : 0;
+            return checkMarkVal;
+        });
 
     let habitStrength = prevHabitStrength;
     let multiplier = Math.pow(0.5, freq / 13); // 

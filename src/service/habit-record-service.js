@@ -32,6 +32,20 @@ const HabitRecordsService = {
             console.log('err', err)
         }
     },
+    async getHabitRecordsById(id) {
+        console.log('getHabitRecordsById ran')
+
+        try {
+            const url = `${config.API_ENDPOINT}/habit-records/record/${id}`
+            const res = await axios.get(url)
+            // console.log('res', res)
+            const resHabitRecords = res.data;
+            console.log('resHabitRecords', resHabitRecords)
+            return resHabitRecords;
+        } catch (err) {
+            console.log('err', err)
+        }
+    },
     async deleteHabitRecord(id) {
         console.log('id', id)
         console.log('getHabitRecords ran')
