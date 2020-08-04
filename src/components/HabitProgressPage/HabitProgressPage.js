@@ -17,36 +17,22 @@ const HabitProgressPage = (props) => {
     const [timeInterval, setTimeInterval] = useState('week');
 
     const context = useContext(HabitContext);
-    const { habits, habitRecords, setHabitRecords,
-        habitId, setHabitId, setGapArray } = context;
+    const {  habitRecords, setHabitRecords,
+         setHabitId } = context;
 
     const habit_id = +props.match.params.habit_id;
-    // console.log('id', habit_id)
     setHabitId(+props.match.params.habit_id);
 
-    // const habit = habits && habits.find(habit => {
-    //     return habit.id === +id
-    // });
-    // const habitName = habit && habit.name;
-    // const habitDescription = habit && habit.description;
-
-    // this is just making dummy data for graph
-    let labels = [];
-    let data = [];
-    let dataPoint = 0;
-    let increment = 5;
-
     useEffect(() => {
+
         const getHabit = async () => {
             const resHabit = await HabitsService
                 .getHabitById(habit_id)
 
-            // console.log('resHabit', resHabit)
-
-            await setName(resHabit.name);
-            await setDescription(resHabit.description);
-            await setNumTimes(resHabit.num_times);
-            await setTimeInterval(resHabit.time_interval);
+            setName(resHabit.name);
+            setDescription(resHabit.description);
+            setNumTimes(resHabit.num_times);
+            setTimeInterval(resHabit.time_interval);
         }
 
         getHabit()
@@ -55,93 +41,96 @@ const HabitProgressPage = (props) => {
 
             const resHabitRecords = await HabitRecordsService
                 .getHabitRecords();
-            console.log('resHabitRecords', resHabitRecords)
 
-            await setHabitRecords(resHabitRecords)
+            setHabitRecords(resHabitRecords)
         }
 
         // if habit records empty, fetch them
         if (habitRecords.length === 0) {
-            // console.log('habitRecords.length', habitRecords.length)
-
             getRecords()
         }
+
         chart()
         doughnutChart()
-        setGapArray(gapArr)
+        // setfilledRecordsay(filledRecords)
 
+    },
+        [
+            habitRecords
+        ]
+    );
 
+    const dataForChart = () => {
 
-    }, [habitRecords]);
+        let labels = [];
+        let data = [];
+        let currDataPoint = 0;
+        let increment = 5;
 
+        // sorted array of correct habit records
+        let arr = habitRecords.filter(record =>
+            record.habit_id === habit_id)
+            .map(record => record.date_completed);
+        arr.sort((a, b) => dayjs(a) - dayjs(b));
 
-    let arr = habitRecords.filter(record => record.habit_id === habit_id)
-        .map(record => record.date_completed)
-    arr.sort((a, b) => dayjs(a) - dayjs(b))
-    console.log('arr', arr)
+        // length of graph x axis
+        const interval = Math.max(dayjs().diff(dayjs(arr[0]), 'days') + 2, 30)
 
-    const interval = dayjs().diff(dayjs(arr[0]), 'days') + 2;
+        // make array of dates with null or 0 if no date
+        const endDate = dayjs().format();
+        const startDate = dayjs(endDate).subtract(interval, 'days').format();
+        let currDay = startDate;
 
-    // make array of dates with null or 0 if no date
-    const endDate = dayjs().format()
-    const startDate = dayjs(endDate).subtract(interval, 'days').format()
-    let currDay = startDate;
+        let filledRecords = [{
+            id: habit_id,
+            datesWithGaps: []
+        }];
 
-    let gapArr = [{
-        id: habit_id,
-        datesWithGaps: []
-    }];
-    console.log('gapArr', gapArr)
+        let i = 0;
 
-    let i = 0;
+        // make array of dates where 0 represents
+        // a non-completion day ie [7/1/20, 0, 0, 7/4/20]
+        while (dayjs(currDay).diff(dayjs(endDate), 'day') <= 0) {
+            if (arr[i] === undefined) {
+                arr[i] = null
+            }
 
-    while (dayjs(currDay).diff(dayjs(endDate), 'day') <= 0) {
-        if (arr[i] === undefined) {
-            arr[i] = null
+            if (dayjs(currDay).isSame(dayjs(arr[i]), 'day')) {
+                filledRecords[0].datesWithGaps
+                    .push(currDay)
+                i++;
+            } else {
+                filledRecords[0].datesWithGaps
+                    .push(0)
+            }
+            currDay = dayjs(currDay).add(1, 'day')
         }
 
-        console.log('arr[i]', arr[i])
-        if (dayjs(currDay).isSame(dayjs(arr[i]), 'day')) {
-            // console.log('currDay', currDay)
-
-            gapArr[0]
-                .datesWithGaps
-                .push(currDay)
-            // console.log('gapArr', gapArr)
-            i++
-        } else {
-            gapArr[0]
-                .datesWithGaps
-                .push(0)
-            // i++;
+        // creates labels and data arrays
+        for (let i = 0; i < interval + 1; i++) {
+            labels.push(dayjs().subtract(i, 'days')
+                .format('MMM DD'))
+            if (filledRecords[0].datesWithGaps[i] !== 0) {
+                increment = 5
+            } else {
+                increment = -5
+            }
+            currDataPoint += increment;
+            if (currDataPoint < 0) currDataPoint = 0;
+            if (currDataPoint > 100) currDataPoint = 100;
+            data.push(currDataPoint);
         }
-        currDay = dayjs(currDay).add(1, 'day')
-        // i++;
-    }
 
-    console.log('gapArr', gapArr)
-
-
-
-    for (let i = 0; i < interval + 1; i++) {
-        labels.push(dayjs().subtract(i, 'days').format('MMM DD'))
-        // console.log('gapArr[0].datesWithGaps', gapArr[0].datesWithGaps)
-        if (gapArr[0].datesWithGaps[i] !== 0) {
-            increment = 5
-        } else {
-            increment = -5
+        return {
+            labels,
+            data,
+            currDataPoint,
+            interval
         }
-        dataPoint += increment
-        // console.log('dataPoint', dataPoint)
-        if (dataPoint < 0) dataPoint = 0
-        if (dataPoint > 100) dataPoint = 100
-        data.push(dataPoint)
-
-        // console.log('i', i)
-        // console.log('dataPoint', dataPoint)
     }
 
     const chart = () => {
+        const { data, labels } = dataForChart();
         setChartData({
             labels: labels.reverse(),
             datasets: [
@@ -161,17 +150,16 @@ const HabitProgressPage = (props) => {
         })
     }
 
-
-
-
     const doughnutChart = () => {
-        setCurrHabitStrength(dataPoint)
+        const { currDataPoint } = dataForChart();
+
+        setCurrHabitStrength(currDataPoint);
         setChartDoughnutData({
             labels: ['Habit Strength'],
             datasets: [
                 {
                     label: ['habit strength'],
-                    data: [dataPoint, 100 - dataPoint],
+                    data: [currDataPoint, 100 - currDataPoint],
                     options: {
                         responsive: true,
                         maintainAspectRatio: false,
@@ -184,6 +172,18 @@ const HabitProgressPage = (props) => {
             ]
         })
     }
+
+    const graphLength = () => {
+        const { interval } = dataForChart();
+
+        const graphLen = interval * 25;
+        return graphLen;
+    }
+
+    const graphWrapperStyle = {
+        width: graphLength(),
+        height: "35vh"
+    };
 
     return (
 
@@ -212,22 +212,10 @@ const HabitProgressPage = (props) => {
             </div>
 
             <div className='graph-container bottom-card'>
-                {/* todo: can i only do pixels for width? */}
-                {/* lets try putting something in a useEffect and only render
-                when gets proper value */}
-                {/* const mystyle = {
-      color: "white",
-      backgroundColor: "DodgerBlue",
-      padding: "10px",
-      fontFamily: "Arial"
-    }; */}
-                <div className="graph-wrapper" style={{ width: 2000 }} >
-                    {/* something along these lines, but interval starts off small 
-                    before getting correct value.
-                    maybe should re render when have correct val for interval */}
-                    {/* <div className="graph-wrapper" style={{width:interval*3}} > */}
-                    {/* {console.log('interval*3', interval*3)} */}
-
+                {/* need graph to default to being scrolled all the way right */}
+                {/* need y axis to be fixed to left side */}
+                {/* need to implement select options for week and month view */}
+                <div className="graph-wrapper" style={graphWrapperStyle} >
                     <Line className="line-chart" data={chartData} options={{
                         responsive: true,
                         maintainAspectRatio: false,
@@ -235,8 +223,6 @@ const HabitProgressPage = (props) => {
                 </div>
             </div>
         </section>
-
-
     )
 }
 
