@@ -2,14 +2,15 @@
     height: 10px;
     width: 5000px;
 } */
+
 /* 
 .line-chart {
     z-index: 22;
 } */
 
 .habit-name {
-    text-align: center;
-    font-size: 1.3rem;
+  text-align: center;
+  font-size: 1.3rem;
 }
 
 .card {
@@ -25,10 +26,12 @@
   margin: 3px;
   padding: 10px;
   overflow-x: scroll;
-
   /* width:100vw; */
 }
 
+.graph-container {
+  scroll-behavior: smooth;
+}
 
 .graph-wrapper {
   /* overflow-x: scroll; */
@@ -51,24 +54,20 @@
 }
 
 .habit-indicator {
-    font-size: 1.3rem;
-    text-align: center;
-    margin-bottom:2vw;
-
+  font-size: 1.3rem;
+  text-align: center;
+  margin-bottom: 2vw;
 }
 
 .habit-percentage {
-    font-size: 3rem;
-    text-align: center;
-    margin:0;
+  font-size: 3rem;
+  text-align: center;
+  margin: 0;
 }
 
 /* .line-chart {
   height:60vh;
 } */
-
-
-
 
 @media only screen and (max-width: 480px) {
   .habit-strength-wrapper {
@@ -76,7 +75,6 @@
     /* justify-content: space-between; */
     /* height:20%; */
   }
-
   .card {
     border: 1px solid black;
     margin: 3px;
