@@ -61,27 +61,6 @@ const HabitProgressPage = (props) => {
         chart()
         doughnutChart()
 
-        // setfilledRecordsay(filledRecords)
-
-        // const graphLength = () => {
-        //     const { interval } = dataForChart();
-
-        //     const graphLen =
-        //         interval * 25 / graphResolutionIncrement();
-        //     console.log('graphLen', graphLen)
-        //     return graphLen;
-        // }
-
-        // const setGraphWrapStyle = async () => {
-
-        //     setGraphWrapperStyle({
-        //         width: graphLength(),
-        //         height: "35vh"
-        //     })
-        // }
-
-        // setGraphWrapStyle()
-
     },
         [
             habitRecords,
@@ -101,8 +80,6 @@ const HabitProgressPage = (props) => {
             console.log('domElement.clientWidth', domElement.clientWidth)
 
             const graphLength = () => {
-                // const { interval } = dataForChart();
-                // console.log('interval', interval)
                 // todo: get this function to fill width of parent div
                 // if user only has little data ( ie when they first start out)
 
