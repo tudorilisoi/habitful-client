@@ -13,6 +13,7 @@ function EditHabit(props) {
     const context = useContext(HabitContext);
     const { habits } = context;
     const habitId = +props.match.params.habit_id;
+    console.log('habitId', habitId)
 
     const nameInitValue = habits && habits.name;
     console.log('habits', habits)

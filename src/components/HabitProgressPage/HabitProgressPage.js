@@ -29,19 +29,22 @@ const HabitProgressPage = (props) => {
 
 
     const context = useContext(HabitContext);
-    const { habitRecords, setHabitRecords } = context;
+    const { habitId, setHabitId,
+        habitRecords, setHabitRecords } = context;
 
     const habit_id = +props.match.params.habit_id;
 
     useEffect(() => {
+
+
         const getHabit = async () => {
             const resHabit = await HabitsService
                 .getHabitById(habit_id)
-
             setName(resHabit.name);
             setDescription(resHabit.description);
             setNumTimes(resHabit.num_times);
             setTimeInterval(resHabit.time_interval);
+            setHabitId(+props.match.params.habit_id)
         }
 
         getHabit()
