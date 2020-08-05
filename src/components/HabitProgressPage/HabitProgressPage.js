@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect, useContext, useRef, useLayoutEffect } from 'react';
 import { HabitContext } from '../../context/HabitContext';
 import { Line, Doughnut } from 'react-chartjs-2';
 import dayjs from 'dayjs';
@@ -15,10 +15,20 @@ const HabitProgressPage = (props) => {
     const [description, setDescription] = useState('');
     const [numTimes, setNumTimes] = useState(1);
     const [timeInterval, setTimeInterval] = useState('week');
+    const graphContainerRef = useRef(null);
+
+    // scroll to the rightmost edge of the graph once it has rendered
+    useLayoutEffect(() => {
+        console.log(`HabitProgressPage -> graphContainerRef`, graphContainerRef)
+        if(graphContainerRef && graphContainerRef.current){
+            const domElement = graphContainerRef.current
+            domElement.scrollLeft= domElement.scrollWidth;
+        }
+    })
 
     const context = useContext(HabitContext);
-    const {  habitRecords, setHabitRecords,
-         setHabitId } = context;
+    const { habitRecords, setHabitRecords,
+        setHabitId } = context;
 
     const habit_id = +props.match.params.habit_id;
     // setHabitId(+props.match.params.habit_id);
@@ -211,7 +221,7 @@ const HabitProgressPage = (props) => {
                 </div>
             </div>
 
-            <div className='graph-container bottom-card'>
+            <div ref={graphContainerRef} className='graph-container bottom-card'>
                 {/* need graph to default to being scrolled all the way right */}
                 {/* need y axis to be fixed to left side */}
                 {/* need to implement select options for week and month view */}
