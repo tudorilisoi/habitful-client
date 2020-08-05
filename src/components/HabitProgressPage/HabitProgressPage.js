@@ -76,13 +76,9 @@ const HabitProgressPage = (props) => {
     useLayoutEffect(() => {
         // console.log(`HabitProgressPage -> graphContainerRef`, graphContainerRef)
         if (graphContainerRef && graphContainerRef.current) {
-            const domElement = graphContainerRef.current;
-            domElement.scrollLeft = domElement.scrollWidth;
-            console.log('domElement.scrollWidth', domElement.scrollWidth)
-            console.log('domElement', domElement)
-            console.log('domElement.clientWidth', domElement.clientWidth)
 
-            const graphLength = () => {
+            const getGraphLength = () => {
+                console.log('getGraphLength ran')
                 // todo: get this function to fill width of parent div
                 // if user only has little data ( ie when they first start out)
 
@@ -97,17 +93,27 @@ const HabitProgressPage = (props) => {
                 // if graphLen is small, 
                 // set canvas width to window width 
                 // so, Math.max(graphLen, window width)
+                const domElement = graphContainerRef.current;
+
 
                 // may need to track resize event
                 const graphWrapperWidth = domElement.clientWidth;
                 const graphLen = Math.max(graphLength, graphWrapperWidth);
+
+                // domElement.scrollLeft = domElement.scrollWidth;
+                domElement.scrollLeft = 100000;
+                console.log('domElement.scrollLeft', domElement.scrollLeft)
+                console.log('domElement.scrollWidth', domElement.scrollWidth)
+                console.log('domElement', domElement)
+                console.log('domElement.clientWidth', domElement.clientWidth)
+
 
                 console.log('graphLen', graphLen)
                 return graphLen;
             }
 
             setGraphWrapperStyle({
-                width: graphLength(),
+                width: getGraphLength(),
                 height: "35vh",
                 position: "relative",
             })
