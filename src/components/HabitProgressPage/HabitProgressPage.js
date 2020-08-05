@@ -15,25 +15,24 @@ const HabitProgressPage = (props) => {
     const [description, setDescription] = useState('');
     const [numTimes, setNumTimes] = useState(1);
     const [timeInterval, setTimeInterval] = useState('week');
+    const [graphResolution, setGraphResolution] = useState('day');
+    // const [graphWrapperStyle, setGraphWrapperStyle] = useState({
+    //     width: 7000,
+    //     height: "35vh"
+    // });
     const graphContainerRef = useRef(null);
-    
-    // scroll to the rightmost edge of the graph once it has rendered
-    useLayoutEffect(() => {
-        console.log(`HabitProgressPage -> graphContainerRef`, graphContainerRef)
-        if(graphContainerRef && graphContainerRef.current){
-            const domElement = graphContainerRef.current
-            domElement.scrollLeft= domElement.scrollWidth;
-        }
-    })
+
+
+    const endDate = dayjs().format();
+
 
     const context = useContext(HabitContext);
-    const { habitRecords, setHabitRecords,
-        setHabitId } = context;
+    const { habitRecords, setHabitRecords } = context;
 
     const habit_id = +props.match.params.habit_id;
-    // setHabitId(+props.match.params.habit_id);
 
     useEffect(() => {
+        // console.log('useEffect ran')
 
         const getHabit = async () => {
             const resHabit = await HabitsService
@@ -47,11 +46,10 @@ const HabitProgressPage = (props) => {
 
         getHabit()
 
+        // split into get and set functions
         const getRecords = async () => {
-
             const resHabitRecords = await HabitRecordsService
                 .getHabitRecords();
-
             setHabitRecords(resHabitRecords)
         }
 
@@ -64,18 +62,48 @@ const HabitProgressPage = (props) => {
         doughnutChart()
         // setfilledRecordsay(filledRecords)
 
+        // const graphLength = () => {
+        //     const { interval } = dataForChart();
+
+        //     const graphLen =
+        //         interval * 25 / graphResolutionIncrement();
+        //     console.log('graphLen', graphLen)
+        //     return graphLen;
+        // }
+
+        // const setGraphWrapStyle = async () => {
+
+        //     setGraphWrapperStyle({
+        //         width: graphLength(),
+        //         height: "35vh"
+        //     })
+        // }
+
+        // setGraphWrapStyle()
+        
     },
         [
-            habitRecords
+            habitRecords,
+            graphResolution
         ]
     );
 
-    const dataForChart = () => {
 
-        let labels = [];
-        let data = [];
-        let currDataPoint = 0;
-        let increment = 5;
+    // scroll to the rightmost edge of the graph once it has rendered
+    useLayoutEffect(() => {
+        // console.log(`HabitProgressPage -> graphContainerRef`, graphContainerRef)
+        if (graphContainerRef && graphContainerRef.current) {
+            const domElement = graphContainerRef.current;
+            domElement.scrollLeft = domElement.scrollWidth;
+        }
+
+
+
+
+    })
+
+
+    const dataForChart = () => {
 
         // sorted array of correct habit records
         let arr = habitRecords.filter(record =>
@@ -84,11 +112,12 @@ const HabitProgressPage = (props) => {
         arr.sort((a, b) => dayjs(a) - dayjs(b));
 
         // length of graph x axis
-        const interval = Math.max(dayjs().diff(dayjs(arr[0]), 'days') + 2, 30)
+        const interval = Math.max(dayjs()
+            .diff(dayjs(arr[0]), 'days') + 2, 30);
 
         // make array of dates with null or 0 if no date
-        const endDate = dayjs().format();
-        const startDate = dayjs(endDate).subtract(interval, 'days').format();
+        const startDate = dayjs(endDate)
+            .subtract(interval, 'days').format();
         let currDay = startDate;
 
         let filledRecords = [{
@@ -102,7 +131,7 @@ const HabitProgressPage = (props) => {
         // a non-completion day ie [7/1/20, 0, 0, 7/4/20]
         while (dayjs(currDay).diff(dayjs(endDate), 'day') <= 0) {
             if (arr[i] === undefined) {
-                arr[i] = null
+                arr[i] = null;
             }
 
             if (dayjs(currDay).isSame(dayjs(arr[i]), 'day')) {
@@ -111,25 +140,35 @@ const HabitProgressPage = (props) => {
                 i++;
             } else {
                 filledRecords[0].datesWithGaps
-                    .push(0)
+                    .push(0);
             }
-            currDay = dayjs(currDay).add(1, 'day')
+            currDay = dayjs(currDay).add(1, 'day');
         }
 
-        // creates labels and data arrays
-        for (let i = 0; i < interval + 1; i++) {
-            labels.push(dayjs().subtract(i, 'days')
-                .format('MMM DD'))
-            if (filledRecords[0].datesWithGaps[i] !== 0) {
-                increment = 5
-            } else {
-                increment = -5
-            }
-            currDataPoint += increment;
-            if (currDataPoint < 0) currDataPoint = 0;
-            if (currDataPoint > 100) currDataPoint = 100;
-            data.push(currDataPoint);
+        const graphResInc = graphResolutionIncrement();
+        console.log('graphResInc', graphResInc)
+
+        const { dailyData, currDataPoint }
+            = makeDailyGraphData(filledRecords, interval);
+
+        let labels = [];
+        let data = [];
+
+        // creates labels array
+        console.log('interval', interval)
+        for (let i = interval; i >= 0; i -= graphResInc) {
+            // for (let i = 0; i < interval + 1; i += graphResInc) {
+            // console.log('i', i)
+            labels.push(dayjs().subtract(interval - i, 'days')
+                .format('MMM DD'));
+            // console.log('dailyData[i]', dailyData[i])
+            data.push(dailyData[i])
         }
+        labels.reverse();
+        data = data.reverse();
+        // console.log('dailyData', dailyData)
+        // console.log('labels', labels)
+        // console.log('data', data)
 
         return {
             labels,
@@ -139,10 +178,47 @@ const HabitProgressPage = (props) => {
         }
     }
 
+    const graphResolutionIncrement = () => {
+
+        console.log('graphResolution', graphResolution)
+        if (graphResolution === 'day') {
+            return 1;
+        } else if (graphResolution === 'week') {
+            return 7;
+        } else if (graphResolution === 'month') {
+            // todo: we'll treat month differently than week.
+            // maybe do averaging or something else
+            return 30;
+        }
+    }
+
+
+    const makeDailyGraphData = (filledRecords, interval) => {
+        let dailyData = [];
+        let currDataPoint = 0;
+        let increment = 5;
+
+        // creates dailyData array
+        for (let i = 0; i < interval + 1; i++) {
+            if (filledRecords[0].datesWithGaps[i] !== 0) {
+                increment = 5
+            } else {
+                increment = -5
+            }
+            currDataPoint += increment;
+            if (currDataPoint < 0) currDataPoint = 0;
+            if (currDataPoint > 100) currDataPoint = 100;
+            dailyData.push(currDataPoint);
+        }
+
+
+        return { dailyData, currDataPoint }
+    }
+
     const chart = () => {
         const { data, labels } = dataForChart();
         setChartData({
-            labels: labels.reverse(),
+            labels: labels,
             datasets: [
                 {
                     label: 'habit strength',
@@ -183,10 +259,31 @@ const HabitProgressPage = (props) => {
         })
     }
 
+    const handleGraphResolution = (e) => {
+        setGraphResolution(e.target.value)
+        return e.target.value
+    }
+
+    const renderGraphResolutionOptions = () => {
+
+        return ['day', 'week', 'month'].map(timeResolution => (
+            <option
+                key={timeResolution}
+                id={timeResolution}
+                value={timeResolution}
+            >
+                {timeResolution}
+            </option>
+        ))
+    }
+
+
     const graphLength = () => {
         const { interval } = dataForChart();
 
-        const graphLen = interval * 25;
+        const graphLen =
+            interval * 25 / graphResolutionIncrement();
+        console.log('graphLen', graphLen)
         return graphLen;
     }
 
@@ -198,12 +295,16 @@ const HabitProgressPage = (props) => {
     return (
 
         <section className="habit-data-container">
-            <h3 className="habit-name">
-                {name}
-            </h3>
-            <p className="habit-description">
-                {description}
-            </p>
+            <div className="habit-name-description">
+                <h3 className="habit-name">
+                    {/* {' '} */}
+                    {name}
+                </h3>
+                <p className="habit-description">
+                    {description}
+                </p>
+            </div>
+
 
             <div className="habit-strength-wrapper">
                 <div className="habit-strength-score card">
@@ -219,6 +320,21 @@ const HabitProgressPage = (props) => {
 
                         }} />
                 </div>
+            </div>
+
+            <div>
+                <label
+                    htmlFor='view-type'>
+                    Time Interval </label>
+                <select
+                    name='view-type'
+                    id='view-type'
+                    aria-label='view-type'
+                    value={graphResolution}
+                    onChange={handleGraphResolution}
+                >
+                    {renderGraphResolutionOptions()}
+                </select>
             </div>
 
             <div ref={graphContainerRef} className='graph-container bottom-card'>

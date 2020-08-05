@@ -7,9 +7,9 @@ const HabitsService = {
         try {
             const url = `${config.API_ENDPOINT}/habits`
             const res = await axios.get(url)
-            console.log('res', res)
+            // console.log('res', res)
             const resHabits = res.data;
-            console.log('resHabits', resHabits)
+            // console.log('resHabits', resHabits)
             return resHabits;
         } catch (err) {
             console.log('err', err)
@@ -21,9 +21,9 @@ const HabitsService = {
             const res = await axios.post(url,
                 newHabit
             )
-            console.log('res', res)
+            // console.log('res', res)
             const resHabits = res.data;
-            console.log('resHabits', resHabits)
+            // console.log('resHabits', resHabits)
             return resHabits;
         } catch (err) {
             console.log('err', err)
@@ -35,9 +35,9 @@ const HabitsService = {
             const res = await axios.get(url,
                 id
             )
-            console.log('res', res)
+            // console.log('res', res)
             const resHabit = res.data;
-            console.log('resHabit', resHabit)
+            // console.log('resHabit', resHabit)
             return resHabit;
         } catch (err) {
             console.log('err', err)
@@ -49,9 +49,9 @@ const HabitsService = {
             const res = await axios.patch(url,
                 newHabitFields
             )
-            console.log('res', res)
+            // console.log('res', res)
             const updatedHabit = res.data;
-            console.log('updatedHabit', updatedHabit)
+            // console.log('updatedHabit', updatedHabit)
             return updatedHabit;
         } catch (err) {
             console.log('err', err)
@@ -63,9 +63,9 @@ const HabitsService = {
             const res = await axios.delete(url,
                 id
             )
-            console.log('res', res)
+            // console.log('res', res)
             const deletedHabit = res.data;
-            console.log('deletedHabit', deletedHabit)
+            // console.log('deletedHabit', deletedHabit)
             // return deletedHabit;
         } catch (err) {
             console.log('err', err)
