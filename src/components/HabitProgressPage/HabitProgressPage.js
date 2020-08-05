@@ -11,12 +11,12 @@ const HabitProgressPage = (props) => {
     const [chartData, setChartData] = useState({});
     const [chartDoughnutData, setChartDoughnutData] = useState({});
     const [currHabitStrength, setCurrHabitStrength] = useState(0);
-    const [name, setName] = useState('');
+    const [name, setName] = useState(' ');
     const [description, setDescription] = useState('');
     const [numTimes, setNumTimes] = useState(1);
     const [timeInterval, setTimeInterval] = useState('week');
     const graphContainerRef = useRef(null);
-
+    
     // scroll to the rightmost edge of the graph once it has rendered
     useLayoutEffect(() => {
         console.log(`HabitProgressPage -> graphContainerRef`, graphContainerRef)

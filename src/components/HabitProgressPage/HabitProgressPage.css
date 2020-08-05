@@ -30,7 +30,7 @@
 }
 
 .graph-container {
-  scroll-behavior: smooth;
+  /* scroll-behavior: auto; */
 }
 
 .graph-wrapper {

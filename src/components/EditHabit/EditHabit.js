@@ -29,10 +29,10 @@ function EditHabit(props) {
             const resHabit = await HabitsService
                 .getHabitById(habitId)
             console.log('resHabit', resHabit)
-            setName(resHabit.name);
-            setDescription(resHabit.description);
-            setNumTimes(resHabit.num_times);
-            setTimeInterval(resHabit.time_interval);
+            setName(resHabit && resHabit.name);
+            setDescription(resHabit && resHabit.description);
+            setNumTimes(resHabit && resHabit.num_times);
+            setTimeInterval(resHabit && resHabit.time_interval);
             console.log('name', name)
         }
 
@@ -77,7 +77,7 @@ function EditHabit(props) {
         } else if (timeInterval === 'month') {
             nums = Array.from(new Array(30), (x, i) => i + 1);
         }
-        return nums.map(numTimes => (
+        return nums && nums.map(numTimes => (
             <option
                 key={numTimes}
                 id={numTimes}
