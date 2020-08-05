@@ -21,7 +21,7 @@ const HabitProgressPage = (props) => {
          setHabitId } = context;
 
     const habit_id = +props.match.params.habit_id;
-    setHabitId(+props.match.params.habit_id);
+    // setHabitId(+props.match.params.habit_id);
 
     useEffect(() => {
 
