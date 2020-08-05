@@ -113,7 +113,8 @@ const HabitProgressPage = (props) => {
             }
 
             setGraphWrapperStyle({
-                width: getGraphLength(),
+                // - 10 prevents unnecessary scroll bar
+                width: getGraphLength() - 10,
                 height: "35vh",
                 position: "relative",
             })
