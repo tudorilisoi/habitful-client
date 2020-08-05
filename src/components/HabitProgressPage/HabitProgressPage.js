@@ -10,6 +10,7 @@ const HabitProgressPage = (props) => {
     console.log('HabitProgressPage rendered')
 
     const [chartData, setChartData] = useState({});
+    const [graphInterval, setGraphInterval] = useState(200);
     const [chartDoughnutData, setChartDoughnutData] = useState({});
     const [currHabitStrength, setCurrHabitStrength] = useState(0);
     const [name, setName] = useState(' ');
@@ -17,10 +18,10 @@ const HabitProgressPage = (props) => {
     const [numTimes, setNumTimes] = useState(1);
     const [timeInterval, setTimeInterval] = useState('week');
     const [graphResolution, setGraphResolution] = useState('day');
-    // const [graphWrapperStyle, setGraphWrapperStyle] = useState({
-    //     width: 7000,
-    //     height: "35vh"
-    // });
+    const [graphWrapperStyle, setGraphWrapperStyle] = useState({
+        width: 7000,
+        height: "35vh"
+    });
     const graphContainerRef = useRef(null);
 
 
@@ -98,9 +99,42 @@ const HabitProgressPage = (props) => {
             console.log('domElement.scrollWidth', domElement.scrollWidth)
             console.log('domElement', domElement)
             console.log('domElement.clientWidth', domElement.clientWidth)
+
+            const graphLength = () => {
+                // const { interval } = dataForChart();
+                // console.log('interval', interval)
+                // todo: get this function to fill width of parent div
+                // if user only has little data ( ie when they first start out)
+
+
+                console.log('graphInterval', graphInterval)
+                const graphLength =
+                    graphInterval * 10 / graphResolutionIncrement();
+                console.log('graphLength', graphLength)
+
+                // let graphLen = "100vw"
+
+                // if graphLen is small, 
+                // set canvas width to window width 
+                // so, Math.max(graphLen, window width)
+
+                // may need to track resize event
+                const graphWrapperWidth = domElement.clientWidth;
+                const graphLen = Math.max(graphLength, graphWrapperWidth);
+
+                console.log('graphLen', graphLen)
+                return graphLen;
+            }
+
+            setGraphWrapperStyle({
+                width: graphLength(),
+                height: "35vh",
+                position: "relative",
+            })
+
         }
 
-    })
+    }, [graphInterval, graphResolution])
 
 
     const dataForChart = () => {
@@ -114,6 +148,8 @@ const HabitProgressPage = (props) => {
         // length of graph x axis
         const interval = Math.max(dayjs()
             .diff(dayjs(arr[0]), 'days') + 2, 30);
+
+        setGraphInterval(interval)
 
         // make array of dates with null or 0 if no date
         const startDate = dayjs(endDate)
@@ -282,32 +318,32 @@ const HabitProgressPage = (props) => {
     }
 
 
-    const graphLength = () => {
-        const { interval } = dataForChart();
-        // todo: get this function to fill width of parent div
-        // if user only has little data ( ie when they first start out)
+    // const graphLength = () => {
+    //     const { interval } = dataForChart();
+    //     // todo: get this function to fill width of parent div
+    //     // if user only has little data ( ie when they first start out)
 
 
-        let graphLen =
-            interval * 1 / graphResolutionIncrement();
+    //     let graphLen =
+    //         interval * 1 / graphResolutionIncrement();
 
-        // let graphLen = "100vw"
+    //     // let graphLen = "100vw"
 
-        // if graphLen is small, 
-        // set canvas width to window width 
-        // so, Math.max(graphLen, window width)
-        let graphWrapperWidth = 900;
-        graphLen = Math.max(graphLen, graphWrapperWidth)
+    //     // if graphLen is small, 
+    //     // set canvas width to window width 
+    //     // so, Math.max(graphLen, window width)
+    //     let graphWrapperWidth = 900;
+    //     graphLen = Math.max(graphLen, graphWrapperWidth)
 
-        console.log('graphLen', graphLen)
-        return graphLen;
-    }
+    //     console.log('graphLen', graphLen)
+    //     return graphLen;
+    // }
 
-    const graphWrapperStyle = {
-        width: graphLength(),
-        height: "35vh",
-        position: "relative",
-    };
+    // const graphWrapperStyle = {
+    //     width: graphLength(),
+    //     height: "35vh",
+    //     position: "relative",
+    // };
 
     return (
 
