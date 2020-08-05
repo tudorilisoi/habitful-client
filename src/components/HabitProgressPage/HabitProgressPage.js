@@ -78,15 +78,15 @@ const HabitProgressPage = (props) => {
         if (graphContainerRef && graphContainerRef.current) {
 
             const getGraphLength = () => {
-                console.log('getGraphLength ran')
+                // console.log('getGraphLength ran')
                 // todo: get this function to fill width of parent div
                 // if user only has little data ( ie when they first start out)
 
 
-                console.log('graphInterval', graphInterval)
+                // console.log('graphInterval', graphInterval)
                 const graphLength =
                     graphInterval * 10 / graphResolutionIncrement();
-                console.log('graphLength', graphLength)
+                // console.log('graphLength', graphLength)
 
                 // let graphLen = "100vw"
 
@@ -102,10 +102,10 @@ const HabitProgressPage = (props) => {
 
                 // domElement.scrollLeft = domElement.scrollWidth;
                 domElement.scrollLeft = 100000;
-                console.log('domElement.scrollLeft', domElement.scrollLeft)
-                console.log('domElement.scrollWidth', domElement.scrollWidth)
-                console.log('domElement', domElement)
-                console.log('domElement.clientWidth', domElement.clientWidth)
+                // console.log('domElement.scrollLeft', domElement.scrollLeft)
+                // console.log('domElement.scrollWidth', domElement.scrollWidth)
+                // console.log('domElement', domElement)
+                // console.log('domElement.clientWidth', domElement.clientWidth)
 
 
                 console.log('graphLen', graphLen)
@@ -169,7 +169,7 @@ const HabitProgressPage = (props) => {
         }
 
         const graphResInc = graphResolutionIncrement();
-        console.log('graphResInc', graphResInc)
+        // console.log('graphResInc', graphResInc)
 
         const { dailyData, currDataPoint }
             = makeDailyGraphData(filledRecords, interval);
@@ -178,7 +178,7 @@ const HabitProgressPage = (props) => {
         let data = [];
 
         // creates labels array
-        console.log('interval', interval)
+        // console.log('interval', interval)
         for (let i = interval; i >= 0; i -= graphResInc) {
             // for (let i = 0; i < interval + 1; i += graphResInc) {
             // console.log('i', i)
@@ -203,7 +203,7 @@ const HabitProgressPage = (props) => {
 
     const graphResolutionIncrement = () => {
 
-        console.log('graphResolution', graphResolution)
+        // console.log('graphResolution', graphResolution)
         if (graphResolution === 'day') {
             return 1;
         } else if (graphResolution === 'week') {
