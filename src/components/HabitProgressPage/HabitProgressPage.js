@@ -15,7 +15,8 @@ const HabitProgressPage = (props) => {
     const [currHabitStrength, setCurrHabitStrength] = useState(0);
     const [name, setName] = useState(' ');
     const [description, setDescription] = useState('');
-    const [numTimes, setNumTimes] = useState(1);
+    // big number so forces to 0 instead of random number
+    const [numTimes, setNumTimes] = useState(10000000000);
     const [timeInterval, setTimeInterval] = useState('week');
     const [graphResolution, setGraphResolution] = useState('day');
     const [graphWrapperStyle, setGraphWrapperStyle] = useState({
@@ -67,7 +68,8 @@ const HabitProgressPage = (props) => {
     },
         [
             habitRecords,
-            graphResolution
+            graphResolution,
+            numTimes
         ]
     );
 
@@ -219,21 +221,46 @@ const HabitProgressPage = (props) => {
 
     const makeDailyGraphData = (filledRecords, interval) => {
         let dailyData = [];
-        let currDataPoint = 0;
-        let increment = 5;
+        let timeIntervalNum;
+        if (timeInterval === 'day') {
+            timeIntervalNum = 1;
+        } else if (timeInterval === 'week') {
+            timeIntervalNum = 7;
+        } else if (timeInterval === 'month') {
+            timeIntervalNum = 30;
+        }
 
         // creates dailyData array
+
+        const freq = numTimes / timeIntervalNum;
+        // const freq = 1;
+        // console.log('timeIntervalNum', timeIntervalNum)
+        console.log('numTimes', numTimes)
+        // console.log('freq', freq)
+        const checkMarkWeight = 1 / freq;
+        let prevDataPoint = 0;
+        let currDataPoint = prevDataPoint;
+        let multiplier = Math.pow(0.5, freq / 13);
+
+        let didCompleteHabit;
+
+        // console.log('filledRecords', filledRecords)
         for (let i = 0; i < interval + 1; i++) {
-            if (filledRecords[0].datesWithGaps[i] !== 0) {
-                increment = 5
-            } else {
-                increment = -5
-            }
-            currDataPoint += increment;
+
+            didCompleteHabit = filledRecords[0].datesWithGaps[i] !== 0
+                ? checkMarkWeight
+                : 0;
+            // console.log('didCompleteHabit', didCompleteHabit)
+            // console.log('filledRecords[0].datesWithGaps[i]', filledRecords[0].datesWithGaps[i])
+            currDataPoint = currDataPoint * multiplier + didCompleteHabit * (1 - multiplier);
+            // console.log('currDataPoint', currDataPoint)
+
+            
             if (currDataPoint < 0) currDataPoint = 0;
-            if (currDataPoint > 100) currDataPoint = 100;
-            dailyData.push(currDataPoint);
+            if (currDataPoint > 1) currDataPoint = 1;
+            dailyData.push(100 * currDataPoint);
         }
+        currDataPoint = 100* currDataPoint;
 
 
         return { dailyData, currDataPoint }
@@ -350,7 +377,7 @@ const HabitProgressPage = (props) => {
                 <div className="habit-strength-score card">
                     <p className="habit-indicator">Your Habit Strength is currently </p>
                     <p className="habit-percentage">
-                        {currHabitStrength} % </p>
+                        {currHabitStrength.toFixed(2)} % </p>
                 </div>
                 <div className="habit-strength card">
                     <Doughnut className="line-chart" data={chartDoughnutData}
