@@ -7,6 +7,7 @@ import HabitRecordsService from '../../service/habit-record-service';
 import './HabitProgressPage.css';
 
 const HabitProgressPage = (props) => {
+    console.log('HabitProgressPage rendered')
 
     const [chartData, setChartData] = useState({});
     const [chartDoughnutData, setChartDoughnutData] = useState({});
@@ -32,8 +33,6 @@ const HabitProgressPage = (props) => {
     const habit_id = +props.match.params.habit_id;
 
     useEffect(() => {
-        // console.log('useEffect ran')
-
         const getHabit = async () => {
             const resHabit = await HabitsService
                 .getHabitById(habit_id)
@@ -60,6 +59,7 @@ const HabitProgressPage = (props) => {
 
         chart()
         doughnutChart()
+
         // setfilledRecordsay(filledRecords)
 
         // const graphLength = () => {
@@ -80,7 +80,7 @@ const HabitProgressPage = (props) => {
         // }
 
         // setGraphWrapStyle()
-        
+
     },
         [
             habitRecords,
@@ -95,10 +95,10 @@ const HabitProgressPage = (props) => {
         if (graphContainerRef && graphContainerRef.current) {
             const domElement = graphContainerRef.current;
             domElement.scrollLeft = domElement.scrollWidth;
+            console.log('domElement.scrollWidth', domElement.scrollWidth)
+            console.log('domElement', domElement)
+            console.log('domElement.clientWidth', domElement.clientWidth)
         }
-
-
-
 
     })
 
@@ -185,11 +185,12 @@ const HabitProgressPage = (props) => {
             return 1;
         } else if (graphResolution === 'week') {
             return 7;
-        } else if (graphResolution === 'month') {
-            // todo: we'll treat month differently than week.
-            // maybe do averaging or something else
-            return 30;
         }
+        // else if (graphResolution === 'month') {
+        //     // todo: we'll treat month differently than week.
+        //     // maybe do averaging or something else
+        //     return 30;
+        // }
     }
 
 
@@ -261,12 +262,15 @@ const HabitProgressPage = (props) => {
 
     const handleGraphResolution = (e) => {
         setGraphResolution(e.target.value)
+
         return e.target.value
     }
 
     const renderGraphResolutionOptions = () => {
 
-        return ['day', 'week', 'month'].map(timeResolution => (
+        return ['day', 'week'
+            // , 'month'
+        ].map(timeResolution => (
             <option
                 key={timeResolution}
                 id={timeResolution}
@@ -280,16 +284,29 @@ const HabitProgressPage = (props) => {
 
     const graphLength = () => {
         const { interval } = dataForChart();
+        // todo: get this function to fill width of parent div
+        // if user only has little data ( ie when they first start out)
 
-        const graphLen =
-            interval * 25 / graphResolutionIncrement();
+
+        let graphLen =
+            interval * 1 / graphResolutionIncrement();
+
+        // let graphLen = "100vw"
+
+        // if graphLen is small, 
+        // set canvas width to window width 
+        // so, Math.max(graphLen, window width)
+        let graphWrapperWidth = 900;
+        graphLen = Math.max(graphLen, graphWrapperWidth)
+
         console.log('graphLen', graphLen)
         return graphLen;
     }
 
     const graphWrapperStyle = {
         width: graphLength(),
-        height: "35vh"
+        height: "35vh",
+        position: "relative",
     };
 
     return (
@@ -338,9 +355,7 @@ const HabitProgressPage = (props) => {
             </div>
 
             <div ref={graphContainerRef} className='graph-container bottom-card'>
-                {/* need graph to default to being scrolled all the way right */}
-                {/* need y axis to be fixed to left side */}
-                {/* need to implement select options for week and month view */}
+                {/* todo: need y axis to be fixed to left side */}
                 <div className="graph-wrapper" style={graphWrapperStyle} >
                     <Line className="line-chart" data={chartData} options={{
                         responsive: true,
