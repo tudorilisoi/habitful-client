@@ -4,10 +4,11 @@ import './AddHabit.css';
 // import TextareaAutosize from 'react-textarea-autosize';
 // import ValidationError from '../ValidationError/ValidationError';
 import HabitsService from '../../service/habits-service';
+import ValidationError from '../ValidationError/ValidationError';
 
 function AddHabit(props) {
     // todo: make sure validation error if no name
-    const [name, setName] = useState();
+    const [name, setName] = useState('');
     const [description, setDescription] = useState('');
     const [numTimes, setNumTimes] = useState(7);
     const [timeInterval, setTimeInterval] = useState('week');
@@ -17,12 +18,12 @@ function AddHabit(props) {
         props.history.goBack();
     }
 
-    // function validateName() {
-    //     const habitName = name.trim();
-    //     if (habitName.length === 0) {
-    //         return ` *name is required `
-    //     };
-    // };
+    function validateName() {
+        const habitName = name.trim();
+        if (habitName.length === 0) {
+            return ` *name is required `
+        };
+    };
 
     function renderIntervalOptions() {
         return ['week', 'month'].map(interval => (
@@ -69,14 +70,7 @@ function AddHabit(props) {
         props.history.goBack();
     };
 
-    // function toggleHoverClass() {
-    //     if (name.length !== 0) {
-    //         return ['AddHabit__submit', 'allowHover'].join(' ')
-    //     } else {
-    //         return 'AddHabit__submit'
 
-    //     };
-    // };
 
     const handleChangeName = (e) => {
         setName(e.target.value)
@@ -98,6 +92,14 @@ function AddHabit(props) {
         return e.target.value
     }
 
+    function toggleHoverClass() {
+        if (name.length !== 0) {
+            return ['add-habit-submit', 'allowHover'].join(' ')
+        } else {
+            return 'add-habit-submit'
+        };
+    };
+
     return (
         <section className="add-habit-outer-wrapper">
             <h2>Add Habit</h2>
@@ -115,6 +117,11 @@ function AddHabit(props) {
                         value={name}
                         onChange={handleChangeName}
                         autoFocus
+                    />
+                    <ValidationError
+                        // className='accent-color'
+                        message={validateName()}
+                        errorPosition={'relative'}
                     />
                     <br />
                     <label
@@ -155,7 +162,11 @@ function AddHabit(props) {
                         {renderIntervalOptions()}
                     </select>
                     <button onClick={handleCancel}>Cancel</button>
-                    <button type="submit">Add</button>
+                    <button
+                        // className={toggleHoverClass()}
+                        type="submit"
+                        disabled={name.length === 0}
+                        >Add</button>
                 </form>
             </fieldset>
         </section>

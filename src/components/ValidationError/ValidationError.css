@@ -1,0 +1,20 @@
+.error-absolute {
+  position: absolute;
+}
+
+.error-relative {
+  position: relative;
+}
+
+.error-absolute,
+.error-relative {
+    background: rgb(252, 252, 252);
+    color: #cb2431;
+    white-space: pre-wrap;
+    border-radius: 0.2rem;
+    padding:0 3px;
+}
+
+.ValidationError-wrapper {
+  margin-top: 5px;
+}
