@@ -20,11 +20,11 @@ const HabitCard = props => {
         daysNames.push(todayDayOfWeek.subtract(i, 'days')
             .format('ddd'))
         daysNums.push(todayDayOfWeek.subtract(i, 'days')
-            .format('DD'))
+            .format('D'))
         actualDays.push(todayDayOfWeek.subtract(i, 'days'))
     }
     daysNames.push('Today')
-    daysNums.push(todayDayOfWeek.format('DD'))
+    daysNums.push(todayDayOfWeek.format('D'))
     actualDays.push(todayDayOfWeek)
     // console.log('actualDays', actualDays)
 
