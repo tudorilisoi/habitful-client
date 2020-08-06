@@ -1,11 +1,15 @@
 import React, { useContext, useState, useEffect } from 'react';
-// import config from '../config';
+import config from '../../config';
 // import RecipesContext from '../RecipesContext';
-// import ValidationError from '../ValidationError/ValidationError';
+import ValidationError from '../ValidationError/ValidationError';
 // import BackButton from '../BackButton/BackButton';
 import './SignUp.css';
+import dayjs from 'dayjs';
+const utc = require('dayjs/plugin/utc')
+dayjs.extend(utc);
 
 export default function SignUp(props) {
+    console.log('SignUp rendered')
     // const context = useContext(RecipesContext);
     const [name, setName] = useState('');
     const [password, setPassword] = useState('');
@@ -17,13 +21,14 @@ export default function SignUp(props) {
         props.history.push(`/`);
     };
 
-    // const handleSubmit = e => {
-    //     e.preventDefault();
-    //     postSignUpUser({
-    //         user_name: name,
-    //         password,
-    //     });
-    // };
+    const handleSubmit = e => {
+        e.preventDefault();
+        postSignUpUser({
+            email: name,
+            password,
+            date_created: dayjs().utc().format()
+        });
+    };
 
 
 
@@ -41,20 +46,20 @@ export default function SignUp(props) {
     //                 : res.json();
     //         })
     //         .then(async (res) => {
-    //             const { authToken } = res
-    //             await storeToken(authToken)
-    //             await context.handleGetCategories()
-    //             await context.handleGetRecipes()
-    //             sessionStorage.setItem('currentCategoryId', '0')
-    //             props.history.push('/categories')
+    //             // const { authToken } = res
+    //             // await storeToken(authToken)
+    //             // await context.handleGetCategories()
+    //             // await context.handleGetRecipes()
+    //             // sessionStorage.setItem('currentCategoryId', '0')
+    //             // props.history.push('/categories')
     //         })
     //         .catch(err => {
     //         });
     // };
 
     // async function storeToken(authToken) {
-    //     await localStorage.setItem('authToken', authToken);
-    //     context.handleChangeIsLoggedIn(true);
+    //     // await localStorage.setItem('authToken', authToken);
+    //     // context.handleChangeIsLoggedIn(true);
     // };
 
     const PASSWORD_REGEX = /(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!_@#$%^&])[\S]+/;
@@ -125,10 +130,6 @@ export default function SignUp(props) {
         return false;
     };
 
-    function handleClickBack() {
-        props.history.push('/');
-    };
-
     function toggleHoverClass() {
         if (!checkIfValid()) {
             return ['SignUp__submit', 'allowHover'].join(' ')
@@ -138,31 +139,33 @@ export default function SignUp(props) {
     };
 
 
-    // function postSignUpUser(signUpFields) {
-    //     return fetch(`${config.API_ENDPOINT}/users`, {
-    //         method: "POST",
-    //         headers: {
-    //             "content-type": "application/json",
-    //         },
-    //         body: JSON.stringify(signUpFields),
-    //     })
-    //         .then((res) => {
-    //             return !res.ok
-    //                 ? res.json().then((e) => Promise.reject(e))
-    //                 : res.json();
-    //         })
-    //         .then((res) => {
-    //             postLoginUser({
-    //                 user_name: name,
-    //                 password,
-    //             });
-    //         })
-    //         .catch(async (err) => {
-    //             if (err.error.message === '*Email already in use') {
-    //                 setNameTaken(true);
-    //             };
-    //         });
-    // };
+    function postSignUpUser(signUpFields) {
+        console.log('postSignUpUser ran')
+        return fetch(`${config.API_ENDPOINT}/users`, {
+            method: "POST",
+            headers: {
+                "content-type": "application/json",
+            },
+            body: JSON.stringify(signUpFields),
+        })
+            .then((res) => {
+                console.log('res', res)
+                return !res.ok
+                    ? res.json().then((e) => Promise.reject(e))
+                    : res.json();
+            })
+            .then((res) => {
+                // postLoginUser({
+                //     email: name,
+                //     password,
+                // });
+            })
+            .catch(async (err) => {
+                if (err.error.message === '*Email already in use') {
+                    setNameTaken(true);
+                };
+            });
+    };
 
     function errorMessage() {
         if (nameTaken) {
@@ -175,13 +178,13 @@ export default function SignUp(props) {
             {/* <BackButton handleClickBack={handleClickBack} /> */}
             <h1 className='SignUp__signup-title'>Sign up</h1>
             <div className='SignUp__signup-form-container'>
-                <form 
-                // onSubmit={handleSubmit}
+                <form
+                    onSubmit={handleSubmit}
                     className='SignUp__signup-form'>
                     <div className='SignUp__label-input-wrapper'>
-                        <label htmlFor="SignUp__user_name">Email </label>
+                        <label htmlFor="SignUp__email">Email </label>
                         <input placeholder='Email' type="text"
-                            name='user_name' id='SignUp__user_name'
+                            name='email' id='SignUp__email'
                             value={name}
                             onChange={updateName}
                             required
@@ -203,7 +206,7 @@ export default function SignUp(props) {
                                 onChange={e => setConfirmPassword(e.target.value)}
                                 required />
                         </div>
-                        {/* <ValidationError
+                        <ValidationError
                             message={validateUsername()}
                             errorPosition={'relative'} />
                         <ValidationError
@@ -214,7 +217,7 @@ export default function SignUp(props) {
                             errorPosition={'relative'} />
                         <ValidationError
                             message={errorMessage()}
-                            errorPosition={'relative'} /> */}
+                            errorPosition={'relative'} />
                     </div>
                     <div className='signup-form-buttons-wrapper'>
                         <button

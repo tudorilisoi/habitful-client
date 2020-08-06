@@ -1,10 +1,8 @@
 import React, { useContext, useState } from 'react';
-// import RecipesContext from '../RecipesContext';
 import './Login.css';
-// import config from '../config';
-// import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-// import { faClipboardList } from "@fortawesome/free-solid-svg-icons";
-// import BackButton from '../BackButton/BackButton';
+import config from '../../config';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faClipboardList } from "@fortawesome/free-solid-svg-icons";
 
 export default function Login(props) {
     const [error, setError] = useState(null);
@@ -16,52 +14,48 @@ export default function Login(props) {
         props.history.push(`/`);
     };
 
-    // const handleSubmit = e => {
-    //     e.preventDefault();
-    //     postLoginUser({
-    //         user_name: username,
-    //         password,
-    //     });
-    // };
+    const handleSubmit = e => {
+        e.preventDefault();
+        postLoginUser({
+            email: username,
+            password,
+        });
+    };
 
-    // function postLoginUser(credentials) {
-    //     return fetch(`${config.API_ENDPOINT}/auth/login`, {
-    //         method: "POST",
-    //         headers: {
-    //             "content-type": "application/json",
-    //         },
-    //         body: JSON.stringify(credentials),
-    //     })
-    //         .then((res) => {
-    //             return !res.ok
-    //                 ? res.json().then((e) => Promise.reject(e))
-    //                 : res.json();
-    //         })
-    //         .then(async (res) => {
-    //             const { authToken } = res
-    //             await storeToken(authToken)
-    //             await context.handleGetCategories()
-    //             await context.handleGetRecipes()
-    //             sessionStorage.setItem('currentCategoryId', '0')
-    //             props.history.push('/categories')
-    //         })
-    //         .catch(err => {
-    //             setError(
-    //                 <div className="login-error">
-    //                     Incorrect username or password</div>
-    //             )
-    //             // console.log('err', err);'err', err)
-    //         });
-    // };
+    function postLoginUser(credentials) {
+        return fetch(`${config.API_ENDPOINT}/auth/login`, {
+            method: "POST",
+            headers: {
+                "content-type": "application/json",
+            },
+            body: JSON.stringify(credentials),
+        })
+            .then((res) => {
+                return !res.ok
+                    ? res.json().then((e) => Promise.reject(e))
+                    : res.json();
+            })
+            .then(async (res) => {
+                const { authToken } = res
+                await storeToken(authToken)
+                // await context.handleGetCategories()
+                // await context.handleGetRecipes()
+                // sessionStorage.setItem('currentCategoryId', '0')
+                props.history.push('/habits')
+            })
+            .catch(err => {
+                setError(
+                    <div className="login-error">
+                        Incorrect username or password</div>
+                )
+                // console.log('err', err);'err', err)
+            });
+    };
 
-    // async function storeToken(authToken) {
-    //     await localStorage.setItem('authToken', authToken);
-    //     context.handleChangeIsLoggedIn(true);
-    // };
-
-    // function handleClickBack() {
-    //     props.history.push('/');
-    // };
+    async function storeToken(authToken) {
+        await localStorage.setItem('authToken', authToken);
+        // context.handleChangeIsLoggedIn(true);
+    };
 
     return (
         <div className='Login__login-form-container-wrapper'>
@@ -69,12 +63,12 @@ export default function Login(props) {
             <h1 className='Login__login-title'>Login</h1>
             <div className='Login__login-form-container'>
                 <form id='login-form' 
-                // onSubmit={handleSubmit}
+                onSubmit={handleSubmit}
                 >
                     <div className='Login__label-input-wrapper'>
-                        <label htmlFor="user_name">Email </label>
+                        <label htmlFor="email">Email </label>
                         <input placeholder='Email' type="text"
-                            name='user_name' id='user_name'
+                            name='email' id='email'
                             value={username}
                             onChange={e => setUsername(e.target.value)}
                             required
@@ -105,7 +99,7 @@ export default function Login(props) {
                             aria-label='copy-to-clipboard'
                             onClick={() => navigator.clipboard.writeText(`user1@gmail.com`)}
                         >
-                            {/* <FontAwesomeIcon icon={faClipboardList} size="2x" /> */}
+                            <FontAwesomeIcon icon={faClipboardList} size="2x" />
                         </button>
                     </div>
                     <div className='credential-wrapper'>
@@ -117,7 +111,7 @@ export default function Login(props) {
                             aria-label='copy-to-clipboard'
                             onClick={() => navigator.clipboard.writeText(`Password1!`)}
                         >
-                            {/* <FontAwesomeIcon icon={faClipboardList} size="2x" /> */}
+                            <FontAwesomeIcon icon={faClipboardList} size="2x" />
                         </button>
                     </div>
                 </div>
