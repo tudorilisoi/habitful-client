@@ -3,8 +3,8 @@
 
 const habitStrength = () => {
 
-    const timeInterval = 7; // days
-    const timesCompleted = 7; // times per interval 
+    const timeInterval = 30; // days
+    const timesCompleted = 1; // times per interval 
     const freq = timesCompleted / timeInterval;
     const numDays = 30; // length for dummy array (for testing)
     let prevHabitStrength = 0;
@@ -24,7 +24,7 @@ const habitStrength = () => {
 
     for (let i = 0; i < numDays; i++) {
 
-        // habitStrength formula
+        // habitStrength formula    
         habitStrength = habitStrength * multiplier + dummyCheckMarkArr[i] * (1 - multiplier)
 
         habitStrength = habitStrength < 0 ? 0 : habitStrength;

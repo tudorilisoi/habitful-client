@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import dayjs from 'dayjs';
-// import './AddHabit.css';
+import './AddHabit.css';
 // import TextareaAutosize from 'react-textarea-autosize';
 // import ValidationError from '../ValidationError/ValidationError';
 import HabitsService from '../../service/habits-service';
@@ -9,7 +9,7 @@ function AddHabit(props) {
     // todo: make sure validation error if no name
     const [name, setName] = useState();
     const [description, setDescription] = useState('');
-    const [numTimes, setNumTimes] = useState(1);
+    const [numTimes, setNumTimes] = useState(7);
     const [timeInterval, setTimeInterval] = useState('week');
 
     function handleCancel() {

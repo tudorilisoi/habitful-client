@@ -48,6 +48,7 @@ const HabitProgressPage = (props) => {
             setHabitId(+props.match.params.habit_id)
         }
 
+        
         getHabit()
 
         // split into get and set functions
@@ -69,7 +70,9 @@ const HabitProgressPage = (props) => {
         [
             habitRecords,
             graphResolution,
-            numTimes
+            numTimes,
+            timeInterval,
+            
         ]
     );
 
@@ -127,6 +130,7 @@ const HabitProgressPage = (props) => {
 
 
     const dataForChart = () => {
+        console.log('dataForChart ran')
 
         // sorted array of correct habit records
         let arr = habitRecords.filter(record =>
@@ -174,7 +178,7 @@ const HabitProgressPage = (props) => {
         // console.log('graphResInc', graphResInc)
 
         const { dailyData, currDataPoint }
-            = makeDailyGraphData(filledRecords, interval);
+            = makeDailyHabitStrengthData(filledRecords, interval);
 
         let labels = [];
         let data = [];
@@ -187,14 +191,15 @@ const HabitProgressPage = (props) => {
             labels.push(dayjs().subtract(interval - i, 'days')
                 .format('MMM DD'));
             // console.log('dailyData[i]', dailyData[i])
-            data.push(dailyData[i])
+            data.push(+dailyData[i].toFixed(2))
         }
         labels.reverse();
         data = data.reverse();
         // console.log('dailyData', dailyData)
         // console.log('labels', labels)
         // console.log('data', data)
-
+        
+        // console.log('currDataPoint', currDataPoint)
         return {
             labels,
             data,
@@ -219,7 +224,7 @@ const HabitProgressPage = (props) => {
     }
 
 
-    const makeDailyGraphData = (filledRecords, interval) => {
+    const makeDailyHabitStrengthData = (filledRecords, interval) => {
         let dailyData = [];
         let timeIntervalNum;
         if (timeInterval === 'day') {
@@ -229,27 +234,30 @@ const HabitProgressPage = (props) => {
         } else if (timeInterval === 'month') {
             timeIntervalNum = 30;
         }
-
+        
         // creates dailyData array
-
+        
         const freq = numTimes / timeIntervalNum;
+        // console.log('timeInterval', timeInterval)
         // const freq = 1;
-        // console.log('timeIntervalNum', timeIntervalNum)
+        console.log('timeIntervalNum', timeIntervalNum)
         console.log('numTimes', numTimes)
-        // console.log('freq', freq)
+        console.log('freq', freq)
         const checkMarkWeight = 1 / freq;
         let prevDataPoint = 0;
         let currDataPoint = prevDataPoint;
-        let multiplier = Math.pow(0.5, freq / 13);
-
+        let multiplier = Math.pow(0.5, freq / 10);
+        
         let didCompleteHabit;
-
+        
+        console.log('checkMarkWeight', checkMarkWeight)
         // console.log('filledRecords', filledRecords)
         for (let i = 0; i < interval + 1; i++) {
 
             didCompleteHabit = filledRecords[0].datesWithGaps[i] !== 0
-                ? checkMarkWeight
-                : 0;
+            ? checkMarkWeight
+            : 0;
+            
             // console.log('didCompleteHabit', didCompleteHabit)
             // console.log('filledRecords[0].datesWithGaps[i]', filledRecords[0].datesWithGaps[i])
             currDataPoint = currDataPoint * multiplier + didCompleteHabit * (1 - multiplier);
@@ -288,7 +296,8 @@ const HabitProgressPage = (props) => {
     }
 
     const doughnutChart = () => {
-        const { currDataPoint } = dataForChart();
+        let { currDataPoint } = dataForChart();
+        currDataPoint = +currDataPoint.toFixed(2)
 
         setCurrHabitStrength(currDataPoint);
         setChartDoughnutData({
@@ -377,7 +386,7 @@ const HabitProgressPage = (props) => {
                 <div className="habit-strength-score card">
                     <p className="habit-indicator">Your Habit Strength is currently </p>
                     <p className="habit-percentage">
-                        {currHabitStrength.toFixed(2)} % </p>
+                        {currHabitStrength.toFixed(0)} % </p>
                 </div>
                 <div className="habit-strength card">
                     <Doughnut className="line-chart" data={chartDoughnutData}
