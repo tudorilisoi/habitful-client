@@ -1,10 +1,10 @@
 import React, { useContext, useState, useEffect } from 'react';
 import dayjs from 'dayjs';
-// import './EditHabit.css';
+import './EditHabit.css';
 // import TextareaAutosize from 'react-textarea-autosize';
-// import ValidationError from '../ValidationError/ValidationError';
 import HabitsService from '../../service/habits-service';
 import { HabitContext } from '../../context/HabitContext';
+import ValidationError from '../ValidationError/ValidationError';
 
 
 // todo: do a delete habit link in red like in recipe repo
@@ -52,12 +52,12 @@ function EditHabit(props) {
         props.history.push(`/habits`);
     }
 
-    // function validateName() {
-    //     const habitName = name.trim();
-    //     if (habitName.length === 0) {
-    //         return ` *name is required `
-    //     };
-    // };
+    function validateName() {
+        const habitName = name.trim();
+        if (habitName.length === 0) {
+            return ` *name is required `
+        };
+    };
 
     function renderIntervalOptions() {
         return ['week', 'month'].map(interval => (
@@ -104,8 +104,6 @@ function EditHabit(props) {
         };
         await HabitsService.updateHabit(newHabit, habitId);
         await HabitsService.getHabits();
-        // todo: do link to habit progress page instead
-        // props.history.goBack();
         props.history.push(`/habits/${habitId}/habit-data`)
     };
 
@@ -156,6 +154,11 @@ function EditHabit(props) {
                         onChange={handleChangeName}
                         autoFocus
                     />
+                    <ValidationError
+                        // className='accent-color'
+                        message={validateName()}
+                        errorPosition={'relative'}
+                    />
                     <br />
                     <label
                         htmlFor='habit_description'>
@@ -195,15 +198,19 @@ function EditHabit(props) {
                         {renderIntervalOptions()}
                     </select>
                     <button onClick={handleCancel}>Cancel</button>
-                    <button type="submit">Save</button>
-                    <br /> 
+                    <button
+                        // className={toggleHoverClass()}
+                        type="submit"
+                        disabled={name.length === 0}
+                    >Save</button>
+                    <br />
                 </form>
-                    {/* will style this button as a red link  */}
-                    {/* todo: if i put this button in form, it triggers 
+                {/* will style this button as a red link  */}
+                {/* todo: if i put this button in form, it triggers 
                     submit which screws things up. make sure it's okay
                     to not put in form. should be since it's not part of 
                     form */}
-                    <button onClick={handleDelete}>Delete</button>
+                <button onClick={handleDelete}>Delete</button>
             </fieldset>
         </section>
     )

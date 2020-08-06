@@ -92,13 +92,13 @@ function AddHabit(props) {
         return e.target.value
     }
 
-    function toggleHoverClass() {
-        if (name.length !== 0) {
-            return ['add-habit-submit', 'allowHover'].join(' ')
-        } else {
-            return 'add-habit-submit'
-        };
-    };
+    // function toggleHoverClass() {
+    //     if (name.length !== 0) {
+    //         return ['add-habit-submit', 'allowHover'].join(' ')
+    //     } else {
+    //         return 'add-habit-submit'
+    //     };
+    // };
 
     return (
         <section className="add-habit-outer-wrapper">
