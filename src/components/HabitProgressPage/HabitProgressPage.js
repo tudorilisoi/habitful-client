@@ -26,7 +26,7 @@ const HabitProgressPage = (props) => {
     const graphContainerRef = useRef(null);
     const graphWrapperRef = useRef(null);
     const canvasRefMaybe = useRef(null);
-    
+
 
 
     const endDate = dayjs().format();
@@ -51,7 +51,7 @@ const HabitProgressPage = (props) => {
             setHabitId(+props.match.params.habit_id)
         }
 
-        
+
         getHabit()
 
         // split into get and set functions
@@ -75,7 +75,7 @@ const HabitProgressPage = (props) => {
             graphResolution,
             numTimes,
             timeInterval,
-            
+
         ]
     );
 
@@ -109,13 +109,15 @@ const HabitProgressPage = (props) => {
 
 
                 // may need to track resize event
-                const graphContainerWidth = domElement.scrollWidth;
-                const graphWrapperWidth = domElementGraphWrap.scrollWidth;
+                // const graphContainerWidth = domElement.scrollWidth;
+                // const graphWrapperWidth = domElementGraphWrap.scrollWidth;
+                const graphContainerWidth = domElement.clientWidth;
+                const graphWrapperWidth = domElementGraphWrap.clientWidth;
                 // const graphCanvasWidth = domElementCanvas.clientWidth;
                 const graphCanvasWidth = domElementCanvas.chartInstance.width;
                 console.log('graphCanvasWidth', graphCanvasWidth)
-                
-                
+
+
                 const graphLen = Math.max(graphLength, graphContainerWidth);
                 console.log('graphWrapperWidth', graphWrapperWidth)
                 console.log('graphContainerWidth', graphContainerWidth)
@@ -216,7 +218,7 @@ const HabitProgressPage = (props) => {
         // console.log('dailyData', dailyData)
         // console.log('labels', labels)
         // console.log('data', data)
-        
+
         // console.log('currDataPoint', currDataPoint)
         return {
             labels,
@@ -252,9 +254,9 @@ const HabitProgressPage = (props) => {
         } else if (timeInterval === 'month') {
             timeIntervalNum = 30;
         }
-        
+
         // creates dailyData array
-        
+
         const freq = numTimes / timeIntervalNum;
         // console.log('timeInterval', timeInterval)
         // const freq = 1;
@@ -265,28 +267,28 @@ const HabitProgressPage = (props) => {
         let prevDataPoint = 0;
         let currDataPoint = prevDataPoint;
         let multiplier = Math.pow(0.5, freq / 10);
-        
+
         let didCompleteHabit;
-        
+
         // console.log('checkMarkWeight', checkMarkWeight)
         // console.log('filledRecords', filledRecords)
         for (let i = 0; i < interval + 1; i++) {
 
             didCompleteHabit = filledRecords[0].datesWithGaps[i] !== 0
-            ? checkMarkWeight
-            : 0;
-            
+                ? checkMarkWeight
+                : 0;
+
             // console.log('didCompleteHabit', didCompleteHabit)
             // console.log('filledRecords[0].datesWithGaps[i]', filledRecords[0].datesWithGaps[i])
             currDataPoint = currDataPoint * multiplier + didCompleteHabit * (1 - multiplier);
             // console.log('currDataPoint', currDataPoint)
 
-            
+
             if (currDataPoint < 0) currDataPoint = 0;
             if (currDataPoint > 1) currDataPoint = 1;
             dailyData.push(100 * currDataPoint);
         }
-        currDataPoint = 100* currDataPoint;
+        currDataPoint = 100 * currDataPoint;
 
 
         return { dailyData, currDataPoint }
@@ -433,13 +435,13 @@ const HabitProgressPage = (props) => {
 
             <div ref={graphContainerRef} className='graph-container bottom-card'>
                 {/* todo: need y axis to be fixed to left side */}
-                <div ref={graphWrapperRef}className="graph-wrapper" style={graphWrapperStyle} >
-                    <Line 
-                    ref={canvasRefMaybe}
-                    className="line-chart" data={chartData} options={{
-                        responsive: true,
-                        maintainAspectRatio: false,
-                    }} />
+                <div ref={graphWrapperRef} className="graph-wrapper" style={graphWrapperStyle} >
+                    <Line
+                        ref={canvasRefMaybe}
+                        className="line-chart" data={chartData} options={{
+                            responsive: true,
+                            maintainAspectRatio: false,
+                        }} />
                 </div>
             </div>
         </section>

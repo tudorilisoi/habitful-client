@@ -2,14 +2,20 @@ import axios from 'axios';
 import config from '../config';
 
 const HabitsService = {
-
+    authToken: localStorage.getItem('authToken'),
+    reqHeaders() {
+        return {
+            headers: {
+                "authorization": `bearer ${this.authToken}`
+            }
+        }
+    },
     async getHabits() {
         try {
-            const url = `${config.API_ENDPOINT}/habits`
-            const res = await axios.get(url)
-            // console.log('res', res)
+            const url = `${config.API_ENDPOINT}/habits`;
+            const res = await axios
+                .get(url, this.reqHeaders())
             const resHabits = res.data;
-            // console.log('resHabits', resHabits)
             return resHabits;
         } catch (err) {
             console.log('err', err)
@@ -18,12 +24,9 @@ const HabitsService = {
     async postHabit(newHabit) {
         try {
             const url = `${config.API_ENDPOINT}/habits`
-            const res = await axios.post(url,
-                newHabit
-            )
-            // console.log('res', res)
+            const res = await axios
+                .post(url, newHabit, this.reqHeaders())
             const resHabits = res.data;
-            // console.log('resHabits', resHabits)
             return resHabits;
         } catch (err) {
             console.log('err', err)
@@ -32,12 +35,9 @@ const HabitsService = {
     async getHabitById(id) {
         try {
             const url = `${config.API_ENDPOINT}/habits/${id}`
-            const res = await axios.get(url,
-                id
-            )
-            // console.log('res', res)
+            const res = await axios
+                .get(url, this.reqHeaders())
             const resHabit = res.data;
-            // console.log('resHabit', resHabit)
             return resHabit;
         } catch (err) {
             console.log('err', err)
@@ -46,12 +46,9 @@ const HabitsService = {
     async updateHabit(newHabitFields, id) {
         try {
             const url = `${config.API_ENDPOINT}/habits/${id}`
-            const res = await axios.patch(url,
-                newHabitFields
-            )
-            // console.log('res', res)
+            const res = await axios
+                .patch(url, newHabitFields, this.reqHeaders())
             const updatedHabit = res.data;
-            // console.log('updatedHabit', updatedHabit)
             return updatedHabit;
         } catch (err) {
             console.log('err', err)
@@ -60,13 +57,8 @@ const HabitsService = {
     async deleteHabit(id) {
         try {
             const url = `${config.API_ENDPOINT}/habits/${id}`
-            const res = await axios.delete(url,
-                id
-            )
-            // console.log('res', res)
-            const deletedHabit = res.data;
-            // console.log('deletedHabit', deletedHabit)
-            // return deletedHabit;
+            await axios
+                .delete(url, this.reqHeaders())
         } catch (err) {
             console.log('err', err)
         }

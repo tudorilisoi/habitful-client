@@ -34,13 +34,24 @@ const HabitCard = props => {
             .format()
         // if a user selects a date, then clicks again to unselect
         // we need to delete that date from the record
-        const idxToDelete = habitRecords.findIndex(record => {
-            // console.log('dayjs(record.date_completed).isSame(dateSelected, \'day\')', dayjs(record.date_completed).isSame(dateSelected, 'day'))
-            return record.habit_id === props.id &&
+         
+        let idxToDelete = -100
+        if (habitRecords) {
+            idxToDelete = habitRecords.findIndex(record => {
+                // console.log('dayjs(record.date_completed).isSame(dateSelected, \'day\')', dayjs(record.date_completed).isSame(dateSelected, 'day'))
+                return record.habit_id === props.id &&
                 dayjs(record.date_completed).isSame(dateSelected, 'day')
-        })
+            })
+        }
+ 
+        
+        console.log('idxToDelete', idxToDelete)
+
         // if there is an index to be deleted, delete it
+        
         if (idxToDelete > -1) {
+            
+            console.log('habitRecords[idxToDelete].id', habitRecords[idxToDelete].id)
             // console.log('deletion happened')
             await HabitRecordsService
                 .deleteHabitRecord(habitRecords[idxToDelete].id)
@@ -56,10 +67,7 @@ const HabitCard = props => {
             getRecords();
 
         } else {
-            // todo: lets do POST fetch here then set records and see
-            // where things are at
             const newHabitRecord = {
-                // id: **postgres will decide id
                 habit_id: props.id,
                 date_completed: dateSelected
             }
@@ -67,7 +75,7 @@ const HabitCard = props => {
             const postRecord = async () => {
                 const resHabitRecords = await HabitRecordsService
                     .postHabitRecord(newHabitRecord)
-                // console.log('resHabitRecords', resHabitRecords)
+                console.log('resHabitRecords', resHabitRecords)
                 // setHabitRecords([resHabitRecords]);
             }
 
@@ -102,6 +110,9 @@ const HabitCard = props => {
 
         const recordExists = (props_id) => {
             // console.log('recordExists ran')
+            if (!habitRecords) {
+                return false
+            }
             // search thru habitRecords to see if the record exists
             for (let j = 0; j < habitRecords.length; j++) {
 

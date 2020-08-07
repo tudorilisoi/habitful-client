@@ -15,9 +15,16 @@ const HabitCardList = (props) => {
     useEffect(() => {
         console.log('useEffect ran')
         const getHabits = async () => {
+            const authToken = localStorage.getItem('authToken');
             try {
                 const url = `${config.API_ENDPOINT}/habits`
-                const res = await axios.get(url)
+                const res = await axios.get(url, {
+                    method: "GET",
+                    headers: {
+                        "content-type": "application/json",
+                        "authorization": `bearer ${authToken}`
+                    },
+                })
                 const resHabits = res.data;
                 // console.log('resHabits', resHabits)
                 setHabits(resHabits);

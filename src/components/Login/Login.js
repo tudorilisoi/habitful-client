@@ -8,7 +8,6 @@ export default function Login(props) {
     const [error, setError] = useState(null);
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
-    // const context = useContext(RecipesContext);
 
     function handleCancel() {
         props.history.push(`/`);
