@@ -5,7 +5,7 @@ export const HabitContext = createContext();
 export const HabitContextProvider = props => {
 
     const [habits, setHabits] = useState();
-    const [habitRecords, setHabitRecords] = useState([]);
+    const [habitRecords, setHabitRecords] = useState(null);
     const [habitId, setHabitId] = useState(0);
     const [test,setTest] = useState([]);
     const [gapArray,setGapArray] = useState([]);

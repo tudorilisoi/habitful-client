@@ -7,7 +7,7 @@ import HabitRecordsService from '../../service/habit-record-service';
 import './HabitProgressPage.css';
 
 const HabitProgressPage = (props) => {
-    console.log('HabitProgressPage rendered')
+    // console.log('HabitProgressPage rendered')
 
     const [chartData, setChartData] = useState({});
     const [graphInterval, setGraphInterval] = useState(200);
@@ -35,6 +35,7 @@ const HabitProgressPage = (props) => {
     const context = useContext(HabitContext);
     const { habitId, setHabitId,
         habitRecords, setHabitRecords } = context;
+    console.log('habitRecords', habitRecords)
 
     const habit_id = +props.match.params.habit_id;
 
@@ -52,20 +53,23 @@ const HabitProgressPage = (props) => {
 
         getHabit()
 
-        // // split into get and set functions
-        // const getRecords = async () => {
-        //     const resHabitRecords = await HabitRecordsService
-        //         .getHabitRecords();
-        //     setHabitRecords(resHabitRecords)
-        // }
+        // split into get and set functions
+        const getRecords = async () => {
+            const resHabitRecords = await HabitRecordsService
+                .getHabitRecords();
+            return resHabitRecords;
+        }
 
-        // // if habit records empty, fetch them
-        // if (habitRecords.length === 0) {
-        //     // getRecords()
-        // }
+        const setHabitRecordsToContext = async () => {
+            setHabitRecords(await getRecords())
+        }
 
-        chart()
-        doughnutChart()
+        if (habitRecords) {
+            chart();
+            doughnutChart();
+        } else {
+            setHabitRecordsToContext();
+        }
 
     },
         [
@@ -102,8 +106,8 @@ const HabitProgressPage = (props) => {
                 const domElement = graphContainerRef.current;
                 const domElementGraphWrap = graphWrapperRef.current;
                 const domElementCanvas = canvasRefMaybe.current;
-                console.log('domElementCanvas', domElementCanvas)
-                console.log('domElementGraphWrap', domElementGraphWrap)
+                // console.log('domElementCanvas', domElementCanvas)
+                // console.log('domElementGraphWrap', domElementGraphWrap)
 
 
                 // may need to track resize event
@@ -113,18 +117,18 @@ const HabitProgressPage = (props) => {
                 const graphWrapperWidth = domElementGraphWrap.clientWidth;
                 // const graphCanvasWidth = domElementCanvas.clientWidth;
                 const graphCanvasWidth = domElementCanvas.chartInstance.width;
-                console.log('graphCanvasWidth', graphCanvasWidth)
+                // console.log('graphCanvasWidth', graphCanvasWidth)
 
 
                 const graphLen = Math.max(graphLength, graphContainerWidth);
-                console.log('graphWrapperWidth', graphWrapperWidth)
-                console.log('graphContainerWidth', graphContainerWidth)
+                // console.log('graphWrapperWidth', graphWrapperWidth)
+                // console.log('graphContainerWidth', graphContainerWidth)
 
                 // domElement.scrollLeft = domElement.scrollWidth;
                 domElement.scrollLeft = 100000;
                 // console.log('domElement.scrollLeft', domElement.scrollLeft)
                 // console.log('domElement.scrollWidth', domElement.scrollWidth)
-                console.log('domElement', domElement)
+                // console.log('domElement', domElement)
                 // console.log('domElement.clientWidth', domElement.clientWidth)
 
 
@@ -133,7 +137,7 @@ const HabitProgressPage = (props) => {
             }
 
             const graphLen = getGraphLength()
-            console.log('graphLen', graphLen)
+            // console.log('graphLen', graphLen)
 
             setGraphWrapperStyle({
                 // - 10 prevents unnecessary scroll bar space
@@ -148,9 +152,10 @@ const HabitProgressPage = (props) => {
 
 
     const dataForChart = () => {
-        console.log('dataForChart ran')
+        // console.log('dataForChart ran')
 
         // sorted array of correct habit records
+        console.log('habitRecords', habitRecords)
         let arr = habitRecords.filter(record =>
             record.habit_id === habit_id)
             .map(record => record.date_completed);
@@ -294,6 +299,7 @@ const HabitProgressPage = (props) => {
 
     const chart = () => {
         const { data, labels } = dataForChart();
+        console.log('data', data)
         setChartData({
             labels: labels,
             datasets: [
@@ -391,10 +397,10 @@ const HabitProgressPage = (props) => {
         <section className="habit-data-container">
             <div className="habit-name-description">
                 {/* <div className="habit-name-container"> */}
-                    <h3 className="habit-name">
-                        {/* {' '} */}
-                        {name}
-                    </h3>
+                <h3 className="habit-name">
+                    {/* {' '} */}
+                    {name}
+                </h3>
                 {/* </div> */}
                 <p className="habit-description">
                     {description}

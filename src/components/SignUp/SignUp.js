@@ -6,6 +6,7 @@ import ValidationError from '../ValidationError/ValidationError';
 import './SignUp.css';
 import dayjs from 'dayjs';
 import { HabitContext } from '../../context/HabitContext';
+import HabitsService from '../../service/habits-service';
 const utc = require('dayjs/plugin/utc')
 dayjs.extend(utc);
 
@@ -32,7 +33,7 @@ export default function SignUp(props) {
         });
     };
 
-    function postLoginUser(credentials) {
+    async function postLoginUser(credentials) {
 
         return fetch(`${config.API_ENDPOINT}/auth/login`, {
             method: "POST",
@@ -50,6 +51,10 @@ export default function SignUp(props) {
                 const { authToken } = res;
                 await storeToken(authToken);
                 setIsLoggedIn(true);
+
+                await HabitsService.postHabit(
+                    defaultNewUserHabit
+                );
                 props.history.push('/habits');
             })
             .catch(err => {
@@ -58,6 +63,14 @@ export default function SignUp(props) {
 
     async function storeToken(authToken) {
         localStorage.setItem('authToken', authToken);
+    };
+
+    const defaultNewUserHabit = {
+        name: 'Drink two liters of water',
+        description: '',
+        num_times: 7,
+        time_interval: 'week',
+        date_created: dayjs().utc().format()
     };
 
     const PASSWORD_REGEX = /(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!_@#$%^&])[\S]+/;
