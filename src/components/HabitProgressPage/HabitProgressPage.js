@@ -40,7 +40,6 @@ const HabitProgressPage = (props) => {
 
     useEffect(() => {
 
-
         const getHabit = async () => {
             const resHabit = await HabitsService
                 .getHabitById(habit_id)
@@ -51,20 +50,19 @@ const HabitProgressPage = (props) => {
             setHabitId(+props.match.params.habit_id)
         }
 
-
         getHabit()
 
-        // split into get and set functions
-        const getRecords = async () => {
-            const resHabitRecords = await HabitRecordsService
-                .getHabitRecords();
-            setHabitRecords(resHabitRecords)
-        }
+        // // split into get and set functions
+        // const getRecords = async () => {
+        //     const resHabitRecords = await HabitRecordsService
+        //         .getHabitRecords();
+        //     setHabitRecords(resHabitRecords)
+        // }
 
-        // if habit records empty, fetch them
-        if (habitRecords.length === 0) {
-            getRecords()
-        }
+        // // if habit records empty, fetch them
+        // if (habitRecords.length === 0) {
+        //     // getRecords()
+        // }
 
         chart()
         doughnutChart()
@@ -392,10 +390,12 @@ const HabitProgressPage = (props) => {
 
         <section className="habit-data-container">
             <div className="habit-name-description">
-                <h3 className="habit-name">
-                    {/* {' '} */}
-                    {name}
-                </h3>
+                {/* <div className="habit-name-container"> */}
+                    <h3 className="habit-name">
+                        {/* {' '} */}
+                        {name}
+                    </h3>
+                {/* </div> */}
                 <p className="habit-description">
                     {description}
                 </p>

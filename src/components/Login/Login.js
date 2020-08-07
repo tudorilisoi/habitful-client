@@ -3,17 +3,21 @@ import './Login.css';
 import config from '../../config';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faClipboardList } from "@fortawesome/free-solid-svg-icons";
+import { HabitContext } from '../../context/HabitContext';
 
 export default function Login(props) {
     const [error, setError] = useState(null);
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
 
+    const context = useContext(HabitContext);
+    const { isLoggedIn, setIsLoggedIn } = context;
+
     function handleCancel() {
         props.history.push(`/`);
     };
 
-    const handleSubmit = e => {
+    const handleSubmit = (e) => {
         e.preventDefault();
         postLoginUser({
             email: username,
@@ -21,7 +25,7 @@ export default function Login(props) {
         });
     };
 
-    function postLoginUser(credentials) {
+    async function postLoginUser(credentials) {
         return fetch(`${config.API_ENDPOINT}/auth/login`, {
             method: "POST",
             headers: {
@@ -35,12 +39,10 @@ export default function Login(props) {
                     : res.json();
             })
             .then(async (res) => {
-                const { authToken } = res
-                await storeToken(authToken)
-                // await context.handleGetCategories()
-                // await context.handleGetRecipes()
-                // sessionStorage.setItem('currentCategoryId', '0')
-                props.history.push('/habits')
+                const { authToken } = res;
+                await storeToken(authToken);
+                setIsLoggedIn(true);
+                props.history.push('/habits');
             })
             .catch(err => {
                 setError(
@@ -52,8 +54,7 @@ export default function Login(props) {
     };
 
     async function storeToken(authToken) {
-        await localStorage.setItem('authToken', authToken);
-        // context.handleChangeIsLoggedIn(true);
+        localStorage.setItem('authToken', authToken);
     };
 
     return (

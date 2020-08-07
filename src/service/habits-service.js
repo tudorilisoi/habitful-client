@@ -2,19 +2,21 @@ import axios from 'axios';
 import config from '../config';
 
 const HabitsService = {
-    authToken: localStorage.getItem('authToken'),
-    reqHeaders() {
+    async reqHeaders() {
+        const authToken = localStorage.getItem('authToken')
+        console.log('authToken', authToken)
         return {
             headers: {
-                "authorization": `bearer ${this.authToken}`
+                "authorization": `bearer ${authToken}`
             }
         }
     },
     async getHabits() {
         try {
+            console.log('this.reqHeaders()', this.reqHeaders())
             const url = `${config.API_ENDPOINT}/habits`;
             const res = await axios
-                .get(url, this.reqHeaders())
+                .get(url, await this.reqHeaders())
             const resHabits = res.data;
             return resHabits;
         } catch (err) {
@@ -25,7 +27,7 @@ const HabitsService = {
         try {
             const url = `${config.API_ENDPOINT}/habits`
             const res = await axios
-                .post(url, newHabit, this.reqHeaders())
+                .post(url, newHabit, await this.reqHeaders())
             const resHabits = res.data;
             return resHabits;
         } catch (err) {
@@ -36,7 +38,7 @@ const HabitsService = {
         try {
             const url = `${config.API_ENDPOINT}/habits/${id}`
             const res = await axios
-                .get(url, this.reqHeaders())
+                .get(url, await this.reqHeaders())
             const resHabit = res.data;
             return resHabit;
         } catch (err) {
@@ -47,7 +49,7 @@ const HabitsService = {
         try {
             const url = `${config.API_ENDPOINT}/habits/${id}`
             const res = await axios
-                .patch(url, newHabitFields, this.reqHeaders())
+                .patch(url, newHabitFields, await this.reqHeaders())
             const updatedHabit = res.data;
             return updatedHabit;
         } catch (err) {
@@ -58,7 +60,7 @@ const HabitsService = {
         try {
             const url = `${config.API_ENDPOINT}/habits/${id}`
             await axios
-                .delete(url, this.reqHeaders())
+                .delete(url, await this.reqHeaders())
         } catch (err) {
             console.log('err', err)
         }

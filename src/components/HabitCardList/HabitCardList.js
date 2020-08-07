@@ -5,6 +5,7 @@ import config from '../../config';
 import HabitCard from '../HabitCard/HabitCard';
 import { HabitContext } from '../../context/HabitContext';
 import HabitRecordsService from '../../service/habit-record-service';
+import HabitsService from '../../service/habits-service';
 // import { getNodeText } from '@testing-library/react';
 
 const HabitCardList = (props) => {
@@ -14,44 +15,32 @@ const HabitCardList = (props) => {
 
     useEffect(() => {
         console.log('useEffect ran')
-        const getHabits = async () => {
-            const authToken = localStorage.getItem('authToken');
-            try {
-                const url = `${config.API_ENDPOINT}/habits`
-                const res = await axios.get(url, {
-                    method: "GET",
-                    headers: {
-                        "content-type": "application/json",
-                        "authorization": `bearer ${authToken}`
-                    },
-                })
-                const resHabits = res.data;
-                // console.log('resHabits', resHabits)
-                setHabits(resHabits);
-            } catch (err) {
-                console.log('err', err)
-            }
+        updateHabitsInContext();
+        updateHabitRecordsInContext();
+    }, [])
+
+    // do i need to do try catch? 
+    const getHabits = async () => {
+        try {
+            const resHabits = await HabitsService.getHabits();
+            return resHabits;
+        } catch (err) {
+            console.log('err', err)
         }
-        getHabits();
-
-        const getRecords = async () => {
-            const resHabitRecords = await HabitRecordsService
-                .getHabitRecords()
-            setHabitRecords(resHabitRecords);
-        }
-
-        getRecords()
-
-
     }
-        , [
-            // habits, setHabits
-            // , habitRecords , setHabitRecords
-        ]
-    )
-    console.log('habits', habits)
-
-
+    const updateHabitsInContext = async () => {
+        const resHabits = await getHabits();
+        setHabits(resHabits);
+    }
+    const getHabitRecords = async () => {
+        const resHabitRecords = await HabitRecordsService
+            .getHabitRecords();
+        return resHabitRecords;
+    }
+    const updateHabitRecordsInContext = async () => {
+        const resHabitRecords = await getHabitRecords();
+        setHabitRecords(resHabitRecords);
+    }
 
     const habitCards = habits && habits.map(habit => {
         return (

@@ -5,23 +5,25 @@ import ValidationError from '../ValidationError/ValidationError';
 // import BackButton from '../BackButton/BackButton';
 import './SignUp.css';
 import dayjs from 'dayjs';
+import { HabitContext } from '../../context/HabitContext';
 const utc = require('dayjs/plugin/utc')
 dayjs.extend(utc);
 
 export default function SignUp(props) {
-    console.log('SignUp rendered')
-    // const context = useContext(RecipesContext);
     const [name, setName] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const [touched, setTouched] = useState(false);
     const [nameTaken, setNameTaken] = useState(false);
-    // let nameTaken = false;
+
+    const context = useContext(HabitContext);
+    const { isLoggedIn, setIsLoggedIn } = context;
+
     function handleCancel() {
         props.history.push(`/`);
     };
 
-    const handleSubmit = e => {
+    const handleSubmit = (e) => {
         e.preventDefault();
         postSignUpUser({
             email: name,
@@ -30,37 +32,33 @@ export default function SignUp(props) {
         });
     };
 
+    function postLoginUser(credentials) {
 
+        return fetch(`${config.API_ENDPOINT}/auth/login`, {
+            method: "POST",
+            headers: {
+                "content-type": "application/json",
+            },
+            body: JSON.stringify(credentials),
+        })
+            .then((res) => {
+                return !res.ok
+                    ? res.json().then((e) => Promise.reject(e))
+                    : res.json();
+            })
+            .then(async (res) => {
+                const { authToken } = res;
+                await storeToken(authToken);
+                setIsLoggedIn(true);
+                props.history.push('/habits');
+            })
+            .catch(err => {
+            });
+    };
 
-    // function postLoginUser(credentials) {
-    //     return fetch(`${config.API_ENDPOINT}/auth/login`, {
-    //         method: "POST",
-    //         headers: {
-    //             "content-type": "application/json",
-    //         },
-    //         body: JSON.stringify(credentials),
-    //     })
-    //         .then((res) => {
-    //             return !res.ok
-    //                 ? res.json().then((e) => Promise.reject(e))
-    //                 : res.json();
-    //         })
-    //         .then(async (res) => {
-    //             // const { authToken } = res
-    //             // await storeToken(authToken)
-    //             // await context.handleGetCategories()
-    //             // await context.handleGetRecipes()
-    //             // sessionStorage.setItem('currentCategoryId', '0')
-    //             // props.history.push('/categories')
-    //         })
-    //         .catch(err => {
-    //         });
-    // };
-
-    // async function storeToken(authToken) {
-    //     // await localStorage.setItem('authToken', authToken);
-    //     // context.handleChangeIsLoggedIn(true);
-    // };
+    async function storeToken(authToken) {
+        localStorage.setItem('authToken', authToken);
+    };
 
     const PASSWORD_REGEX = /(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!_@#$%^&])[\S]+/;
     const EMAIL_REGEX = /^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$/;
@@ -155,10 +153,10 @@ export default function SignUp(props) {
                     : res.json();
             })
             .then((res) => {
-                // postLoginUser({
-                //     email: name,
-                //     password,
-                // });
+                postLoginUser({
+                    email: name,
+                    password,
+                });
             })
             .catch(async (err) => {
                 if (err.error.message === '*Email already in use') {

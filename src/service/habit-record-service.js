@@ -2,19 +2,18 @@ import axios from 'axios';
 import config from '../config';
 
 const HabitRecordsService = {
-    authToken: localStorage.getItem('authToken'),
-    reqHeaders() {
+    async reqHeaders() {
+        const authToken = localStorage.getItem('authToken')
         return {
             headers: {
-                "authorization": `bearer ${this.authToken}`
+                "authorization": `bearer ${authToken}`
             }
         }
     },
     async getHabitRecords() {
         try {
             const url = `${config.API_ENDPOINT}/habit-records`
-            const res = await axios.get(url, this.reqHeaders())
-            console.log('res', res)
+            const res = await axios.get(url, await this.reqHeaders())
             const resHabitRecords = res.data;
             return resHabitRecords;
         } catch (err) {
@@ -25,7 +24,7 @@ const HabitRecordsService = {
         try {
             const url = `${config.API_ENDPOINT}/habit-records`
             const res = await axios
-                .post(url, newHabitRecord, this.reqHeaders())
+                .post(url, newHabitRecord, await this.reqHeaders())
             const resHabitRecords = res.data;
             return resHabitRecords;
         } catch (err) {
@@ -35,7 +34,7 @@ const HabitRecordsService = {
     async getHabitRecordsById(id) {
         try {
             const url = `${config.API_ENDPOINT}/habit-records/record/${id}`
-            const res = await axios.get(url, this.reqHeaders())
+            const res = await axios.get(url, await this.reqHeaders())
             const resHabitRecords = res.data;
             return resHabitRecords;
         } catch (err) {
@@ -45,7 +44,7 @@ const HabitRecordsService = {
     async deleteHabitRecord(id) {
         try {
             const url = `${config.API_ENDPOINT}/habit-records/record/${id}`
-            const res = await axios.delete(url, this.reqHeaders())
+            const res = await axios.delete(url, await this.reqHeaders())
             const deletedRecord = res.data;
             return deletedRecord;
         } catch (err) {

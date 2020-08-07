@@ -9,13 +9,21 @@
 } */
 
 .habit-name-description {
-  /* height:30px; */
+  margin-top:4vh;
+  min-height:60px;
+  text-align: center;
+
   /* margin-bottom: 5vh; */
+}
+
+.habit-name-container {
+  height:20px;
 }
 
 .habit-name {
   text-align: center;
   font-size: 1.3rem;
+  margin:0;
 }
 
 .card {
@@ -56,7 +64,7 @@
 .habit-strength-wrapper {
   display: flex;
   justify-content: space-between;
-  margin-top: 5vh;
+  /* margin-top: 5vh; */
   /* height:20%; */
 }
 

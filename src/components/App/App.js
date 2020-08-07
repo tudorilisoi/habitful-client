@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { Route } from 'react-router-dom'
 import dayjs from 'dayjs';
-// import { HabitContextProvider, HabitContext } from '../context/HabitContext';
 import HabitCardList from '../HabitCardList/HabitCardList'
 import LandingPage from '../LandingPage/LandingPage';
 // import HabitCard from '../HabitCard/HabitCard';
@@ -11,6 +10,7 @@ import AddHabit from '../AddHabit/AddHabit';
 import EditHabit from '../EditHabit/EditHabit';
 import Login from '../Login/Login';
 import SignUp from '../SignUp/SignUp';
+import { HabitContext } from '../../context/HabitContext';
 
 const isBetween = require('dayjs/plugin/isBetween')
 dayjs.extend(isBetween)
@@ -19,13 +19,18 @@ dayjs.extend(utc);
 
 const App = () => {
 
-  // const dayjsUTC = dayjs().utc().format()
+  const context = useContext(HabitContext);
+  const { isLoggedIn, setIsLoggedIn } = context;
 
   useEffect(() => {
-    // console.log('useEffect ran')
+
+    const authToken = localStorage.getItem('authToken');
+    const loggedInStatus = authToken ? true : false;
+    console.log('loggedInStatus', loggedInStatus)
+    setIsLoggedIn(loggedInStatus);
 
 
-  }, [])
+  }, [isLoggedIn])
 
 
   return (
