@@ -30,10 +30,10 @@ const HabitCard = props => {
     const handleSelectDay = async (day) => {
         const dateSelected = dayjs()
             .subtract(numDaystoDisplay - 1 - day, 'days')
-            .format()
+            .format();
+
         // if a user selects a date, then clicks again to unselect
         // we need to delete that date from the record
-
         let idxToDelete = -100;
         if (habitRecords) {
             idxToDelete = habitRecords.findIndex(record => {
@@ -57,6 +57,7 @@ const HabitCard = props => {
             getRecords();
 
         } else {
+            console.log('props.id', props.id)
             const newHabitRecord = {
                 habit_id: props.id,
                 date_completed: dateSelected
@@ -65,6 +66,7 @@ const HabitCard = props => {
             const postRecord = async () => {
                 const resHabitRecords = await HabitRecordsService
                     .postHabitRecord(newHabitRecord)
+                console.log('resHabitRecords', resHabitRecords)
             }
 
             await postRecord();
@@ -105,6 +107,29 @@ const HabitCard = props => {
         }
     }
 
+    function renderCheckMarkOptions() {
+        console.log('props.id', props.id)
+        return daysNames.map((day, i) =>
+
+            (
+                <div key={day}>
+                    <label
+                        htmlFor={'' + props.id + '' + i}
+                        className="day-labels"
+                    >
+                        <p>{day}</p>
+                        <p>{daysNums[i]}</p> </label>
+                    <input onClick={() => handleSelectDay(i)} type={"checkbox"}
+                        id={'' + props.id + '' + i} value={day}
+                        defaultChecked={isChecked(props.id, i)}
+                    />
+                </div>
+            )
+
+        )
+
+    }
+
 
     return (
 
@@ -114,15 +139,7 @@ const HabitCard = props => {
                 <p className="habit-name">{props.name}</p>
             </Link>
             <div className="checkmarks-container">
-                {daysNames.map((day, i) => <div key={day}>
-                    <label htmlFor={i} className="day-labels">
-                        <p>{day}</p>
-                        <p>{daysNums[i]}</p> </label>
-                    <input onClick={() => handleSelectDay(i)} type={"checkbox"}
-                        id={i} value={day}
-                        defaultChecked={isChecked(props.id, i)}
-                    />
-                </div>)}
+                {renderCheckMarkOptions()}
             </div>
         </div >
     )

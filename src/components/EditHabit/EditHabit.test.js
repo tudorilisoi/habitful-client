@@ -1,15 +1,15 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import { BrowserRouter } from "react-router-dom";
-import EditHabit from "./EditHabit";
+import AddHabit from "../AddHabit/AddHabit";
 import { HabitContextProvider } from "../../context/HabitContext";
 
-it(`EditHabit renders without crashing`, () => {
+it(`AddHabit renders without crashing`, () => {
   const div = document.createElement("div");
   ReactDOM.render(
     <HabitContextProvider>
       <BrowserRouter>
-        <EditHabit />
+        <AddHabit />
       </BrowserRouter>
     </HabitContextProvider>
     ,
