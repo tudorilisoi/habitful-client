@@ -35,7 +35,8 @@ function LandingPage(props) {
                 </p>
                 <h2>Get Started</h2>
                 <p>
-                    Try it out by going to 'My Habits' and select whether you completed a given habit.
+                    Try it out by signing up or logging in with the demo credentials
+                    select whether you've completed a given habit.
                     If you forget to use the app for a few days, that's totally fine!
                     You can retroactively check off the habits you completed during the last week.
                     The more consistently you complete your habits, the higher your habit strength score gets! 
