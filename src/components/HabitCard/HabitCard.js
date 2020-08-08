@@ -57,7 +57,7 @@ const HabitCard = props => {
             getRecords();
 
         } else {
-            console.log('props.id', props.id)
+            // console.log('props.id', props.id)
             const newHabitRecord = {
                 habit_id: props.id,
                 date_completed: dateSelected
@@ -66,7 +66,7 @@ const HabitCard = props => {
             const postRecord = async () => {
                 const resHabitRecords = await HabitRecordsService
                     .postHabitRecord(newHabitRecord)
-                console.log('resHabitRecords', resHabitRecords)
+                // console.log('resHabitRecords', resHabitRecords)
             }
 
             await postRecord();
@@ -108,7 +108,7 @@ const HabitCard = props => {
     }
 
     function renderCheckMarkOptions() {
-        console.log('props.id', props.id)
+        // console.log('props.id', props.id)
         return daysNames.map((day, i) =>
 
             (
