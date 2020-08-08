@@ -4,7 +4,6 @@ import config from '../config';
 const HabitsService = {
     async reqHeaders() {
         const authToken = localStorage.getItem('authToken')
-        // console.log('authToken', authToken)
         return {
             headers: {
                 "authorization": `bearer ${authToken}`
@@ -13,7 +12,6 @@ const HabitsService = {
     },
     async getHabits() {
         try {
-            // console.log('this.reqHeaders()', this.reqHeaders())
             const url = `${config.API_ENDPOINT}/habits`;
             const res = await axios
                 .get(url, await this.reqHeaders())

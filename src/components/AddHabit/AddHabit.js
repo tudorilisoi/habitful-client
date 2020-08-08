@@ -14,7 +14,7 @@ function AddHabit(props) {
     const [timeInterval, setTimeInterval] = useState('week');
 
     function handleCancel() {
-        console.log('handleCancel ran')
+        // console.log('handleCancel ran')
         props.history.goBack();
     }
 
@@ -58,7 +58,6 @@ function AddHabit(props) {
     async function handleSubmit(e) {
         e.preventDefault();
         const date_created = dayjs().format();
-        console.log('date_created', date_created)
         const newHabit = {
             name: name,
             description: description,

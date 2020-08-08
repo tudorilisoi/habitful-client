@@ -19,7 +19,6 @@ const HabitCardList = (props) => {
         updateHabitRecordsInContext();
     }, [])
 
-    // do i need to do try catch? 
     const getHabits = async () => {
         try {
             const resHabits = await HabitsService.getHabits();

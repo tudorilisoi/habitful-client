@@ -13,11 +13,8 @@ function EditHabit(props) {
     const context = useContext(HabitContext);
     const { habits } = context;
     const habitId = +props.match && +props.match.params.habit_id;
-    console.log('habitId', habitId)
 
     const nameInitValue = habits && habits.name;
-    console.log('habits', habits)
-    console.log('nameInitValue', nameInitValue)
 
     const [name, setName] = useState('');
     const [description, setDescription] = useState('');
@@ -29,12 +26,10 @@ function EditHabit(props) {
         const getHabit = async () => {
             const resHabit = await HabitsService
                 .getHabitById(habitId)
-            console.log('resHabit', resHabit)
             setName(resHabit && resHabit.name);
             setDescription(resHabit && resHabit.description);
             setNumTimes(resHabit && resHabit.num_times);
             setTimeInterval(resHabit && resHabit.time_interval);
-            console.log('name', name)
         }
 
         getHabit()
@@ -47,7 +42,6 @@ function EditHabit(props) {
     }
 
     async function handleDelete() {
-        console.log('handleDelete ran')
         await HabitsService.deleteHabit(habitId);
         props.history.push(`/habits`);
     }
@@ -90,11 +84,9 @@ function EditHabit(props) {
     };
 
     async function handleSubmit(e) {
-        console.log('handleSubmit ran')
         e.preventDefault();
 
         const date_created = dayjs().format();
-        console.log('date_created', date_created)
         const newHabit = {
             name: name,
             description: description,
@@ -208,10 +200,6 @@ function EditHabit(props) {
                     <br />
                 </form>
                 {/* will style this button as a red link  */}
-                {/* todo: if i put this button in form, it triggers 
-                    submit which screws things up. make sure it's okay
-                    to not put in form. should be since it's not part of 
-                    form */}
                 <button onClick={handleDelete}>Delete</button>
             </fieldset>
         </section>

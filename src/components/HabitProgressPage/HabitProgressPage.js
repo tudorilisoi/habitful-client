@@ -28,11 +28,9 @@ const HabitProgressPage = (props) => {
 
     const endDate = dayjs().format();
 
-
     const context = useContext(HabitContext);
     const { habitId, setHabitId,
         habitRecords, setHabitRecords } = context;
-    console.log('habitRecords', habitRecords)
 
     const habit_id = +props.match.params.habit_id;
 
@@ -148,7 +146,6 @@ const HabitProgressPage = (props) => {
         // console.log('dataForChart ran')
 
         // sorted array of correct habit records
-        console.log('habitRecords', habitRecords)
         let arr = habitRecords.filter(record =>
             record.habit_id === habit_id)
             .map(record => record.date_completed);
@@ -268,7 +265,6 @@ const HabitProgressPage = (props) => {
 
     const chart = () => {
         const { data, labels } = dataForChart();
-        console.log('data', data)
         setChartData({
             labels: labels,
             datasets: [

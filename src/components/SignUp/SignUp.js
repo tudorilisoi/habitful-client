@@ -151,7 +151,6 @@ export default function SignUp(props) {
 
 
     function postSignUpUser(signUpFields) {
-        console.log('postSignUpUser ran')
         return fetch(`${config.API_ENDPOINT}/users`, {
             method: "POST",
             headers: {
@@ -160,13 +159,11 @@ export default function SignUp(props) {
             body: JSON.stringify(signUpFields),
         })
             .then((res) => {
-                console.log('res', res)
                 return !res.ok
                     ? res.json().then((e) => Promise.reject(e))
                     : res.json();
             })
             .then((res) => {
-                console.log('res', res)
                 postLoginUser({
                     email: name,
                     password,

@@ -20,22 +20,6 @@ export const HabitContextProvider = props => {
     //     };
     //   };
     
-    //   checkLoggedInStatus = () => {
-    //     const authToken = localStorage.getItem('authToken');
-    //     const loggedInStatus = authToken ? true : false;
-    //     this.setState({
-    //       isLoggedIn: loggedInStatus
-    //     });
-    //   };
-    
-    //   handleCurrentCategoryId = (currentCategoryId) => {
-    //     sessionStorage.setItem('currentCategoryId', `${currentCategoryId}`);
-    //     this.setState({
-    //       currentCategoryId
-    //     });
-    //   };
-
-
 
     return (
         <HabitContext.Provider value={{

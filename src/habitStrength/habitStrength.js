@@ -35,10 +35,6 @@ const habitStrength = () => {
 
     const countOccurrences = (arr) => arr.reduce((a, v) => (v > 0 ? a + 1 : a), 0);
     const numCompletions = countOccurrences(dummyCheckMarkArr);
-    console.log('dummyCheckMarkArr', dummyCheckMarkArr)
-    console.log('checkMarkWeight', checkMarkWeight)
-    console.log('multiplier', multiplier)
-    console.log('numCompletions', numCompletions, '/', numDays)
 }
 
 module.exports = habitStrength;

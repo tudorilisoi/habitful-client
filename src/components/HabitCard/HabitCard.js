@@ -13,7 +13,6 @@ const HabitCard = props => {
 
     const numDaystoDisplay = 7;
     const todayDayOfWeek = dayjs();
-    console.log('todayDayOfWeek', todayDayOfWeek)
     const daysNames = [];
     const daysNums = [];
     const actualDays = [];
@@ -42,9 +41,6 @@ const HabitCard = props => {
                     dayjs(record.date_completed).isSame(dateSelected, 'day')
             })
         }
-
-
-        console.log('idxToDelete', idxToDelete)
 
         // if there is an index to be deleted, delete it
         if (idxToDelete > -1) {
@@ -100,7 +96,6 @@ const HabitCard = props => {
                     && dayjs(actualDays[i])
                         .isSame(dayjs(habitRecords[j].date_completed), 'day')
                 ) {
-                    // console.log(`found ${dayjs(habitRecords[j].date_completed).format()}`)
                     return true
                 }
             }
