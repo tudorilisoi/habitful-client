@@ -1,15 +1,15 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import { BrowserRouter } from "react-router-dom";
-import App from "./App";
+import SignUp from "./SignUp";
 import { HabitContextProvider } from "../../context/HabitContext";
 
-it(`renders without crashing`, () => {
+it(`SignUp renders without crashing`, () => {
   const div = document.createElement("div");
   ReactDOM.render(
     <HabitContextProvider>
       <BrowserRouter>
-        <App />
+        <SignUp />
       </BrowserRouter>
     </HabitContextProvider>
     ,

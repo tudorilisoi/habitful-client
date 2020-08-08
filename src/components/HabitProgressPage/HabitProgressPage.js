@@ -7,7 +7,6 @@ import HabitRecordsService from '../../service/habit-record-service';
 import './HabitProgressPage.css';
 
 const HabitProgressPage = (props) => {
-    // console.log('HabitProgressPage rendered')
 
     const [chartData, setChartData] = useState({});
     const [graphInterval, setGraphInterval] = useState(200);
@@ -26,8 +25,6 @@ const HabitProgressPage = (props) => {
     const graphContainerRef = useRef(null);
     const graphWrapperRef = useRef(null);
     const canvasRefMaybe = useRef(null);
-
-
 
     const endDate = dayjs().format();
 
@@ -48,12 +45,11 @@ const HabitProgressPage = (props) => {
             setDescription(resHabit.description);
             setNumTimes(resHabit.num_times);
             setTimeInterval(resHabit.time_interval);
-            setHabitId(+props.match.params.habit_id)
+            setHabitId(habit_id)
         }
 
         getHabit()
 
-        // split into get and set functions
         const getRecords = async () => {
             const resHabitRecords = await HabitRecordsService
                 .getHabitRecords();
@@ -77,7 +73,6 @@ const HabitProgressPage = (props) => {
             graphResolution,
             numTimes,
             timeInterval,
-
         ]
     );
 
@@ -91,8 +86,6 @@ const HabitProgressPage = (props) => {
                 // console.log('getGraphLength ran')
                 // todo: get this function to fill width of parent div
                 // if user only has little data ( ie when they first start out)
-
-
                 // console.log('graphInterval', graphInterval)
                 const graphLength =
                     graphInterval * 10 / graphResolutionIncrement();
@@ -114,9 +107,9 @@ const HabitProgressPage = (props) => {
                 // const graphContainerWidth = domElement.scrollWidth;
                 // const graphWrapperWidth = domElementGraphWrap.scrollWidth;
                 const graphContainerWidth = domElement.clientWidth;
-                const graphWrapperWidth = domElementGraphWrap.clientWidth;
+                // const graphWrapperWidth = domElementGraphWrap.clientWidth;
                 // const graphCanvasWidth = domElementCanvas.clientWidth;
-                const graphCanvasWidth = domElementCanvas.chartInstance.width;
+                // const graphCanvasWidth = domElementCanvas.chartInstance.width;
                 // console.log('graphCanvasWidth', graphCanvasWidth)
 
 
@@ -207,22 +200,14 @@ const HabitProgressPage = (props) => {
         let data = [];
 
         // creates labels array
-        // console.log('interval', interval)
         for (let i = interval; i >= 0; i -= graphResInc) {
-            // for (let i = 0; i < interval + 1; i += graphResInc) {
-            // console.log('i', i)
             labels.push(dayjs().subtract(interval - i, 'days')
                 .format('MMM DD'));
-            // console.log('dailyData[i]', dailyData[i])
             data.push(+dailyData[i].toFixed(2))
         }
         labels.reverse();
         data = data.reverse();
-        // console.log('dailyData', dailyData)
-        // console.log('labels', labels)
-        // console.log('data', data)
 
-        // console.log('currDataPoint', currDataPoint)
         return {
             labels,
             data,
@@ -233,17 +218,11 @@ const HabitProgressPage = (props) => {
 
     const graphResolutionIncrement = () => {
 
-        // console.log('graphResolution', graphResolution)
         if (graphResolution === 'day') {
             return 1;
         } else if (graphResolution === 'week') {
             return 7;
         }
-        // else if (graphResolution === 'month') {
-        //     // todo: we'll treat month differently than week.
-        //     // maybe do averaging or something else
-        //     return 30;
-        // }
     }
 
 
@@ -261,11 +240,7 @@ const HabitProgressPage = (props) => {
         // creates dailyData array
 
         const freq = numTimes / timeIntervalNum;
-        // console.log('timeInterval', timeInterval)
-        // const freq = 1;
-        // console.log('timeIntervalNum', timeIntervalNum)
-        // console.log('numTimes', numTimes)
-        // console.log('freq', freq)
+
         const checkMarkWeight = 1 / freq;
         let prevDataPoint = 0;
         let currDataPoint = prevDataPoint;
@@ -273,19 +248,13 @@ const HabitProgressPage = (props) => {
 
         let didCompleteHabit;
 
-        // console.log('checkMarkWeight', checkMarkWeight)
-        // console.log('filledRecords', filledRecords)
         for (let i = 0; i < interval + 1; i++) {
 
             didCompleteHabit = filledRecords[0].datesWithGaps[i] !== 0
                 ? checkMarkWeight
                 : 0;
 
-            // console.log('didCompleteHabit', didCompleteHabit)
-            // console.log('filledRecords[0].datesWithGaps[i]', filledRecords[0].datesWithGaps[i])
             currDataPoint = currDataPoint * multiplier + didCompleteHabit * (1 - multiplier);
-            // console.log('currDataPoint', currDataPoint)
-
 
             if (currDataPoint < 0) currDataPoint = 0;
             if (currDataPoint > 1) currDataPoint = 1;
@@ -364,33 +333,6 @@ const HabitProgressPage = (props) => {
         ))
     }
 
-
-    // const graphLength = () => {
-    //     const { interval } = dataForChart();
-    //     // todo: get this function to fill width of parent div
-    //     // if user only has little data ( ie when they first start out)
-
-
-    //     let graphLen =
-    //         interval * 1 / graphResolutionIncrement();
-
-    //     // let graphLen = "100vw"
-
-    //     // if graphLen is small, 
-    //     // set canvas width to window width 
-    //     // so, Math.max(graphLen, window width)
-    //     let graphWrapperWidth = 900;
-    //     graphLen = Math.max(graphLen, graphWrapperWidth)
-
-    //     console.log('graphLen', graphLen)
-    //     return graphLen;
-    // }
-
-    // const graphWrapperStyle = {
-    //     width: graphLength(),
-    //     height: "35vh",
-    //     position: "relative",
-    // };
 
     return (
 

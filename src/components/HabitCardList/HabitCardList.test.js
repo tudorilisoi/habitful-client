@@ -1,15 +1,15 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import { BrowserRouter } from "react-router-dom";
-import App from "./App";
+import HabitCardList from "./HabitCardList";
 import { HabitContextProvider } from "../../context/HabitContext";
 
-it(`renders without crashing`, () => {
+it(`HabitCardList renders without crashing`, () => {
   const div = document.createElement("div");
   ReactDOM.render(
     <HabitContextProvider>
       <BrowserRouter>
-        <App />
+        <HabitCardList />
       </BrowserRouter>
     </HabitContextProvider>
     ,

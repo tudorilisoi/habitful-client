@@ -12,7 +12,7 @@ function EditHabit(props) {
     // todo: make sure validation error if no name
     const context = useContext(HabitContext);
     const { habits } = context;
-    const habitId = +props.match.params.habit_id;
+    const habitId = +props.match && +props.match.params.habit_id;
     console.log('habitId', habitId)
 
     const nameInitValue = habits && habits.name;

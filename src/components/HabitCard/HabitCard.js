@@ -13,6 +13,7 @@ const HabitCard = props => {
 
     const numDaystoDisplay = 7;
     const todayDayOfWeek = dayjs();
+    console.log('todayDayOfWeek', todayDayOfWeek)
     const daysNames = [];
     const daysNums = [];
     const actualDays = [];
@@ -26,7 +27,6 @@ const HabitCard = props => {
     daysNames.push('Today')
     daysNums.push(todayDayOfWeek.format('D'))
     actualDays.push(todayDayOfWeek)
-    // console.log('actualDays', actualDays)
 
     const handleSelectDay = async (day) => {
         const dateSelected = dayjs()
@@ -34,33 +34,27 @@ const HabitCard = props => {
             .format()
         // if a user selects a date, then clicks again to unselect
         // we need to delete that date from the record
-         
-        let idxToDelete = -100
+
+        let idxToDelete = -100;
         if (habitRecords) {
             idxToDelete = habitRecords.findIndex(record => {
-                // console.log('dayjs(record.date_completed).isSame(dateSelected, \'day\')', dayjs(record.date_completed).isSame(dateSelected, 'day'))
                 return record.habit_id === props.id &&
-                dayjs(record.date_completed).isSame(dateSelected, 'day')
+                    dayjs(record.date_completed).isSame(dateSelected, 'day')
             })
         }
- 
-        
+
+
         console.log('idxToDelete', idxToDelete)
 
         // if there is an index to be deleted, delete it
-        
         if (idxToDelete > -1) {
-            
-            console.log('habitRecords[idxToDelete].id', habitRecords[idxToDelete].id)
-            // console.log('deletion happened')
+
             await HabitRecordsService
                 .deleteHabitRecord(habitRecords[idxToDelete].id)
-
 
             const getRecords = async () => {
                 const resHabitRecords = await HabitRecordsService
                     .getHabitRecords()
-                // console.log('resHabitRecords', resHabitRecords)
                 setHabitRecords(resHabitRecords);
             }
 
@@ -75,8 +69,6 @@ const HabitCard = props => {
             const postRecord = async () => {
                 const resHabitRecords = await HabitRecordsService
                     .postHabitRecord(newHabitRecord)
-                console.log('resHabitRecords', resHabitRecords)
-                // setHabitRecords([resHabitRecords]);
             }
 
             await postRecord();
@@ -84,13 +76,10 @@ const HabitCard = props => {
             const getRecords = async () => {
                 const resHabitRecords = await HabitRecordsService
                     .getHabitRecords()
-                // console.log('resHabitRecords', resHabitRecords)
                 setHabitRecords(resHabitRecords);
             }
 
             getRecords();
-
-
         }
     }
 
@@ -100,18 +89,9 @@ const HabitCard = props => {
 
     const isChecked = (props_id, i) => {
 
-
-        // const gapArr = gapArray.filter(a => a.id === props.id)[0] &&
-        //     gapArray.filter(a => a.id === props.id)[0]
-        //         .datesWithGaps[i + 1]
-        // if (gapArr && props.id === 1) {
-        //     return true
-        // }
-
         const recordExists = (props_id) => {
-            // console.log('recordExists ran')
             if (!habitRecords) {
-                return false
+                return false;
             }
             // search thru habitRecords to see if the record exists
             for (let j = 0; j < habitRecords.length; j++) {
@@ -131,8 +111,6 @@ const HabitCard = props => {
     }
 
 
-
-    // console.log('habitRecords', habitRecords)
     return (
 
         < div className="habit-card-wrapper" >

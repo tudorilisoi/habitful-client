@@ -14,7 +14,7 @@ function MainNav(props) {
 
     const renderAddOrEdit = () => {
 
-        if (props.location.pathname === '/habits') {
+        if (props.location && props.location.pathname === '/habits') {
             return (
                 <Link to={'/add-habit'}>
                     <p>Add |</p>
@@ -22,7 +22,7 @@ function MainNav(props) {
             )
         }
 
-        if (props.location.pathname.endsWith('habit-data')) {
+        if (props.location && props.location.pathname.endsWith('habit-data')) {
             return (
                 <Link to={`/${habitId}/edit-habit`}>
                     <p>Edit |</p>
