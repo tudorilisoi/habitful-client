@@ -17,7 +17,7 @@ const HabitRecordsService = {
             const resHabitRecords = res.data;
             return resHabitRecords;
         } catch (err) {
-            console.log('err', err)
+            // console.log('err', err)
         }
     },
     async postHabitRecord(newHabitRecord) {
@@ -28,7 +28,7 @@ const HabitRecordsService = {
             const resHabitRecords = res.data;
             return resHabitRecords;
         } catch (err) {
-            console.log('err', err)
+            // console.log('err', err)
         }
     },
     async getHabitRecordsById(id) {
@@ -38,7 +38,7 @@ const HabitRecordsService = {
             const resHabitRecords = res.data;
             return resHabitRecords;
         } catch (err) {
-            console.log('err', err)
+            // console.log('err', err)
         }
     },
     async deleteHabitRecord(id) {
@@ -48,7 +48,7 @@ const HabitRecordsService = {
             const deletedRecord = res.data;
             return deletedRecord;
         } catch (err) {
-            console.log('err', err)
+            // console.log('err', err)
         }
     }
 }

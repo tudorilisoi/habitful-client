@@ -18,7 +18,7 @@ const HabitsService = {
             const resHabits = res.data;
             return resHabits;
         } catch (err) {
-            console.log('err', err)
+            // console.log('err', err)
         }
     },
     async postHabit(newHabit) {
@@ -29,7 +29,7 @@ const HabitsService = {
             const resHabits = res.data;
             return resHabits;
         } catch (err) {
-            console.log('err', err)
+            // console.log('err', err)
         }
     },
     async getHabitById(id) {
@@ -40,7 +40,7 @@ const HabitsService = {
             const resHabit = res.data;
             return resHabit;
         } catch (err) {
-            console.log('err', err)
+            // console.log('err', err)
         }
     },
     async updateHabit(newHabitFields, id) {
@@ -51,7 +51,7 @@ const HabitsService = {
             const updatedHabit = res.data;
             return updatedHabit;
         } catch (err) {
-            console.log('err', err)
+            // console.log('err', err)
         }
     },
     async deleteHabit(id) {
@@ -60,7 +60,7 @@ const HabitsService = {
             await axios
                 .delete(url, await this.reqHeaders())
         } catch (err) {
-            console.log('err', err)
+            // console.log('err', err)
         }
     }
 }
