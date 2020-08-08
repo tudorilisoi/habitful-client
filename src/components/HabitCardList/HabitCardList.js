@@ -14,7 +14,6 @@ const HabitCardList = (props) => {
     const { habits, setHabits, habitRecords, setHabitRecords } = context;
 
     useEffect(() => {
-        console.log('useEffect ran')
         updateHabitsInContext();
         updateHabitRecordsInContext();
     }, [])
