@@ -197,7 +197,9 @@ function EditHabit(props) {
                     >
                         {renderIntervalOptions()}
                     </select>
-                    <button onClick={handleCancel}>Cancel</button>
+                    <button 
+                    type="button"
+                    onClick={handleCancel}>Cancel</button>
                     <button
                         // className={toggleHoverClass()}
                         type="submit"

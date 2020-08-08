@@ -166,12 +166,14 @@ export default function SignUp(props) {
                     : res.json();
             })
             .then((res) => {
+                console.log('res', res)
                 postLoginUser({
                     email: name,
                     password,
                 });
             })
             .catch(async (err) => {
+                console.log('err', err)
                 if (err.error.message === '*Email already in use') {
                     setNameTaken(true);
                 };

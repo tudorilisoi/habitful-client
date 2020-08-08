@@ -161,12 +161,14 @@ function AddHabit(props) {
                     >
                         {renderIntervalOptions()}
                     </select>
-                    <button onClick={handleCancel}>Cancel</button>
+                    <button
+                        type="button"
+                        onClick={handleCancel}>Cancel</button>
                     <button
                         // className={toggleHoverClass()}
                         type="submit"
                         disabled={name.length === 0}
-                        >Add</button>
+                    >Add</button>
                 </form>
             </fieldset>
         </section>
