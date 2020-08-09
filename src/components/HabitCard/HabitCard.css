@@ -1,12 +1,19 @@
+.habit-card-container {
+  /* display:block; */
+}
+
 .habit-card-wrapper {
+  /* display: inline-block; */
+  text-align: center;
   border: 1px solid lightgray;
   border-radius: 0.5rem;
-  padding: 10px;
-  margin: 10px;
+  padding: 7px 4px;
+  margin: 10px 5px;
 }
 
 .habit-card-name {
-  margin: 0 0 20px 0;
+  display: inline-block;
+  margin: 10px 0 30px 0;
   text-align: center;
   /* font-family: "Questrial", sans-serif; */
   /* font-family: "HKGrotesk-Light", sans-serif; */
@@ -17,13 +24,22 @@
 }
 
 .habit-card-name:hover {
-    color: rgb(51, 51, 194);
-
+  color: rgb(51, 51, 194);
 }
 
 .day-option {
   width: 80px;
   /* border: 1px solid black; */
+}
+
+.day-option:last-child label .day-label-info-container {
+    border-top-right-radius: 0.5rem;
+    border-bottom-right-radius: 0.5rem;
+}
+
+.day-option:first-child label .day-label-info-container {
+    border-top-left-radius: 0.5rem;
+    border-bottom-left-radius: 0.5rem;
 }
 
 .day-label {
@@ -34,31 +50,32 @@
 }
 
 .day-label-info-container {
-    /* height:100px; */
-    /* width:100px; */
-    /* border:4px solid rgba(255, 255, 255, 0); */
-    transition: all 0.25s;
-    background-color: rgb(247, 247, 247);
-    padding:10px 0 10px 0;
-    margin:0 2px 0 2px;
+  transition: all 0.25s;
+  background-color: rgb(247, 247, 247);
+  padding: 5px 0;
+  margin: 0 2px 0 2px;
 }
 
 .day-label-info-container:hover {
-    /* position: absolute; */
-    /* border: 4px solid lightgray; */
-    /* color:red; */
-    background-color: rgba(39, 184, 99, 0.171);
-    cursor: pointer;
+  /* position: absolute; */
+  /* border: 4px solid lightgray; */
+  /* color:red; */
+  background-color: rgba(39, 184, 99, 0.171);
+  cursor: pointer;
 }
 
-input[type=checkbox] {
-    position: absolute;
-    left:-9999px;
+.day-label-info-container p {
+  margin: 4px 3px;
 }
 
-label input[type=checkbox]:checked + .day-label-info-container {
-    background-color: rgba(39, 184, 99, 0.267);
-    /* font-weight: bold; */
+input[type="checkbox"] {
+  position: absolute;
+  left: -9999px;
+}
+
+label input[type="checkbox"]:checked + .day-label-info-container {
+  background-color: rgba(39, 184, 99, 0.267);
+  /* font-weight: bold; */
 }
 
 .day-name {

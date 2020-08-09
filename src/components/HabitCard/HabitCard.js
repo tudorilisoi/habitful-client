@@ -117,10 +117,10 @@ const HabitCard = props => {
                         htmlFor={'' + props.id + '' + i}
                         className="day-label"
                     >
-                    <input onClick={() => handleSelectDay(i)} type={"checkbox"}
-                        id={'' + props.id + '' + i} value={day}
-                        defaultChecked={isChecked(props.id, i)}
-                    />
+                        <input onClick={() => handleSelectDay(i)} type={"checkbox"}
+                            id={'' + props.id + '' + i} value={day}
+                            defaultChecked={isChecked(props.id, i)}
+                        />
                         <div className="day-label-info-container">
                             <p className="day-name">{day}</p>
                             <p className="day-number">{daysNums[i]}</p>
@@ -135,16 +135,17 @@ const HabitCard = props => {
 
 
     return (
-
-        < div className="habit-card-wrapper" >
-            <Link to={`/habits/${props.id}/habit-data`}
-                onClick={handleClickName}>
-                <p className="habit-card-name">{props.name}</p>
-            </Link>
-            <div className="checkmarks-container">
-                {renderCheckMarkOptions()}
-            </div>
-        </div >
+        <div className="habit-card-container">
+            <div className="habit-card-wrapper" >
+                <Link to={`/habits/${props.id}/habit-data`}
+                    onClick={handleClickName}>
+                    <p className="habit-card-name">{props.name}</p>
+                </Link>
+                <div className="checkmarks-container">
+                    {renderCheckMarkOptions()}
+                </div>
+            </div >
+        </div>
     )
 }
 
