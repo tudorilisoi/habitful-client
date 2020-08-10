@@ -11,6 +11,8 @@
   padding: 7px 4px;
   margin: 10px 5px;
   background-color: white;
+  box-shadow: 0px 1px 5px 0px rgba(0,0,0,0.6);
+
 
 }
 
@@ -23,11 +25,20 @@
   /* font-family: "HKGrotesk-Bold", sans-serif; */
   font-family: "HKGrotesk-Medium", sans-serif;
   font-size: 22px;
-  color: rgb(139, 139, 214);
+  /* color: rgb(139, 139, 214); */
+  /* color: rgba(106 172 198); */
+  color: #416788;
+  transition: all 0.4s;
+  transition-timing-function: ease;
 }
 
 .habit-card-name:hover {
-  color: rgb(51, 51, 194);
+  /* color: rgb(51, 51, 194); */
+  /* color: rgb(179 205 215); */
+  color:#b5bad0;
+  /* color:#7389ae; */
+
+
 }
 
 .day-option {
@@ -57,18 +68,36 @@
   background-color: rgb(247, 247, 247);
   padding: 5px 0;
   margin: 0 2px 0 2px;
+  /* box-shadow: 0px 0px 1px 0px rgba(0,0,0,0.3); */
+  box-shadow: 0px 0px 3px 0px rgba(0,0,0,0.15);
+
 }
 
 .day-label-info-container:hover {
   /* position: absolute; */
   /* border: 4px solid lightgray; */
   /* color:red; */
-  background-color: rgba(39, 184, 99, 0.171);
+  background-color: rgba(39, 184, 99, 0.13);
   cursor: pointer;
 }
 
+.day-option {
+    border: 2px solid rgba(0, 0, 0, 0);
+
+}
+
+.day-option:focus-within {
+    border: 2px solid black;
+}
+
+
+
+
+
+
 .day-label-info-container p {
   margin: 4px 3px;
+
 }
 
 input[type="checkbox"] {
@@ -77,15 +106,20 @@ input[type="checkbox"] {
 }
 
 label input[type="checkbox"]:checked + .day-label-info-container {
-  background-color: rgba(39, 184, 99, 0.267);
-  /* font-weight: bold; */
-}
+    background-color: rgba(39, 184, 99, 0.301);
+    /* font-weight: bold; */
+  }
+
+  label input[type="checkbox"]:checked + .day-label-info-container:hover {
+    background-color: rgba(39, 184, 99, 0.349);
+    /* font-weight: bold; */
+  }
 
 .day-name {
   font-family: "HKGrotesk-Light", sans-serif;
   /* font-family: "HKGrotesk-Bold", sans-serif; */
   /* font-family: "Questrial", sans-serif; */
-  font-size: 11px;
+  font-size: 12px;
 }
 
 .day-number {
