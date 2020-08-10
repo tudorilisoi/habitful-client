@@ -1,14 +1,17 @@
 .habit-card-container {
   /* display:block; */
+
 }
 
 .habit-card-wrapper {
   /* display: inline-block; */
   text-align: center;
-  border: 1px solid lightgray;
+  /* border: 1px solid lightgray; */
   border-radius: 0.5rem;
   padding: 7px 4px;
   margin: 10px 5px;
+  background-color: white;
+
 }
 
 .habit-card-name {
@@ -86,7 +89,9 @@ label input[type="checkbox"]:checked + .day-label-info-container {
 }
 
 .day-number {
-  font-family: "HKGrotesk-Bold", sans-serif;
+  /* font-family: "HKGrotesk-Bold", sans-serif; */
+  font-family: "HKGrotesk-Light", sans-serif;
+
   /* font-weight: bold; */
   font-size: 10px;
 }

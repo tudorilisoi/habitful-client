@@ -1,11 +1,12 @@
 import React, { useState, useEffect, useContext } from 'react';
-import axios from 'axios';
-import dayjs from 'dayjs';
-import config from '../../config';
+// import axios from 'axios';
+// import dayjs from 'dayjs';
+// import config from '../../config';
 import HabitCard from '../HabitCard/HabitCard';
 import { HabitContext } from '../../context/HabitContext';
 import HabitRecordsService from '../../service/habit-record-service';
 import HabitsService from '../../service/habits-service';
+import './HabitCardList.css';
 // import { getNodeText } from '@testing-library/react';
 
 const HabitCardList = (props) => {
