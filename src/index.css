@@ -29,6 +29,23 @@ body,
 .App,
 main {
   height: 100%;
+  background-color: var(--main-bg-color);
+}
+
+:root {
+  --main-bg-color: #fff;
+  /* --date-unchecked: rgb(247, 247, 247);
+  --date-unchecked-hover: rgba(39, 184, 99, 0.13);
+  --date-checked: rgba(39, 184, 99, 0.301);
+  --date-checked-hover: rgba(39, 184, 99, 0.349); */
+  --date-unchecked: rgb(247, 247, 247);
+  --date-unchecked-hover: #ffceb8;
+  --date-checked: #fda57d;
+  --date-checked-hover: #ff9464;
+  --habit-name: #416788;
+  --habit-name-hover: #96a5bf;
+  --link: #416788;
+  --link-hover: #96a5bf;
 }
 
 a {
@@ -42,7 +59,7 @@ ul {
 body {
   margin: 0;
   /* background-color: #f1f7f3; */
-  
+
   /* background: rgb(2, 0, 36); */
   /* background: linear-gradient(
     180deg,

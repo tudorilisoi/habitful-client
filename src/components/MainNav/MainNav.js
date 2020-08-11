@@ -16,17 +16,25 @@ function MainNav(props) {
 
         if (props.location && props.location.pathname === '/habits') {
             return (
-                <Link to={'/add-habit'}>
-                    <p>Add |</p>
-                </Link>
+                <>
+                    <Link classname="add-habit" to={'/add-habit'}>
+                        <p>Add</p>
+                    </Link>
+                    <div className="pipe">
+                    </div>
+                </>
             )
         }
 
         if (props.location && props.location.pathname.endsWith('habit-data')) {
             return (
-                <Link to={`/${habitId}/edit-habit`}>
-                    <p>Edit |</p>
-                </Link>
+                <>
+                    <Link classname="edit-habit" to={`/${habitId}/edit-habit`}>
+                        <p>Edit</p>
+                    </Link>
+                    <div className="pipe">
+                    </div>
+                </>
             )
         }
     }
@@ -36,13 +44,14 @@ function MainNav(props) {
         if (isLoggedIn) {
             return (
                 <>
-                    <Link className="last-nav-item" to={'/habits'}>
+                    <Link className="my-habits" to={'/habits'}>
                         <p>My Habits</p>
                     </Link>
+                    <div className="pipe"></div>
                     <Link className="last-nav-item"
                         onClick={handleLogout}
                         to={'/'}>
-                        <p>| Logout</p>
+                        <p>Logout</p>
                     </Link>
                 </>
             )
@@ -53,7 +62,7 @@ function MainNav(props) {
                         <p> Signup</p>
                     </Link>
                     <Link className="last-nav-item" to={'/login'}>
-                        <p>| Login</p>
+                        <p>Login</p>
                     </Link>
                 </>
             )
@@ -61,12 +70,14 @@ function MainNav(props) {
     }
 
     return (
+
         <nav className="MainNav__nav ">
-            <Link to={'/'}>
+            <Link className="nav-home" to={'/'}>
                 <p>Home</p>
             </Link>
-            <div className="end-elements">
+            <div className="middle-links">
                 {renderAddOrEdit()}
+
                 {renderLogInOrOut()}
             </div>
         </nav>

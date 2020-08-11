@@ -276,7 +276,9 @@ const HabitProgressPage = (props) => {
                         maintainAspectRatio: false,
                     },
                     backgroundColor: [
-                        '#FF863188'
+                        '#037dff55'
+                        // '#ff9d71aa'
+                        // '#FF863188'
                     ],
                     borderWidth: 1,
                     pointRadius: 2,
@@ -293,7 +295,7 @@ const HabitProgressPage = (props) => {
 
         setCurrHabitStrength(currDataPoint);
         setChartDoughnutData({
-            labels: ['Habit Strength',''],
+            labels: ['Habit Strength', ''],
             datasets: [
                 {
                     // label: ['habit strength'],
@@ -303,7 +305,7 @@ const HabitProgressPage = (props) => {
                         maintainAspectRatio: false,
                     },
                     backgroundColor: [
-                        '#FF863188',
+                        '#037dff55',
                         'rgba(221,221,221,0.3)'
                     ],
                     borderWidth: 1,
