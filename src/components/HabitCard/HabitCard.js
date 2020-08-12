@@ -77,6 +77,7 @@ const HabitCard = props => {
         toast.dismiss();
         if (habitName) {
             toast.success(`did not complete '${habitName}' on ${dateFormatted}`, {
+                className: "success-toast-delete",
                 position: toast.POSITION.BOTTOM_CENTER,
                 autoClose: 3000
             })
@@ -85,6 +86,7 @@ const HabitCard = props => {
 
     const errorToast = async () => {
         toast.error(`something went wrong, please try again`, {
+            className: 'error-toast',
             position: toast.POSITION.BOTTOM_CENTER,
             autoClose: 2000
         })
