@@ -60,7 +60,7 @@ const HabitCard = props => {
         toast.clearWaitingQueue();
         toast.dismiss();
         if (habitName) {
-            toast.success(`completed ${habitName} on ${dateFormatted}`, {
+            toast.success(`completed '${habitName}' on ${dateFormatted}`, {
                 position: toast.POSITION.BOTTOM_CENTER,
                 autoClose: 3000,
                 // delay:1000
@@ -76,7 +76,7 @@ const HabitCard = props => {
         toast.clearWaitingQueue();
         toast.dismiss();
         if (habitName) {
-            toast.success(`did not complete ${habitName} on ${dateFormatted}`, {
+            toast.success(`did not complete '${habitName}' on ${dateFormatted}`, {
                 position: toast.POSITION.BOTTOM_CENTER,
                 autoClose: 3000
             })
@@ -195,12 +195,15 @@ const HabitCard = props => {
 
         if (isAlreadyChecked) {
             await deleteRecord(await findIdxToDelete(props.id, dateSelected));
+            setHabitRecordsToContext();
+            setSelectedId(props.id);
+            successToastDelete(props.id, dateSelected);
         } else {
             await postRecord(dateSelected);
+            setHabitRecordsToContext();
+            setSelectedId(props.id);
+            successToastPost(props.id, dateSelected);
         }
-        setHabitRecordsToContext();
-        setSelectedId(props.id);
-        successToastDelete(props.id, dateSelected);
     }
 
     // ensures that no duplicate toasts
