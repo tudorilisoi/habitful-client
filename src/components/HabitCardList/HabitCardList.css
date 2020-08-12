@@ -2,3 +2,7 @@
   margin: 0 auto;
   max-width: 1200px;
 }
+
+.habit-card-list-bottom-space {
+  height: 100px;
+}

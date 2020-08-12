@@ -17,7 +17,7 @@ function MainNav(props) {
         if (props.location && props.location.pathname === '/habits') {
             return (
                 <>
-                    <Link classname="add-habit" to={'/add-habit'}>
+                    <Link className="add-habit" to={'/add-habit'}>
                         <p>Add</p>
                     </Link>
                     <div className="pipe">
@@ -29,7 +29,7 @@ function MainNav(props) {
         if (props.location && props.location.pathname.endsWith('habit-data')) {
             return (
                 <>
-                    <Link classname="edit-habit" to={`/${habitId}/edit-habit`}>
+                    <Link className="edit-habit" to={`/${habitId}/edit-habit`}>
                         <p>Edit</p>
                     </Link>
                     <div className="pipe">

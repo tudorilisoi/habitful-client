@@ -1,16 +1,21 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { Link } from 'react-router-dom';
 import dayjs, { isDayjs } from 'dayjs';
-import './HabitCard.css';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { HabitContext } from '../../context/HabitContext';
 import HabitRecordsService from '../../service/habit-record-service';
+import './HabitCard.css';
+import HabitsService from '../../service/habits-service';
 
 const HabitCard = props => {
 
     const context = useContext(HabitContext)
     const { habitRecords, setHabitRecords, habitId,
         setHabitId, test, setTest, gapArray } = context;
-
+        
+        const [selectedId, setSelectedId] = useState('')
+        
     const numDaystoDisplay = 7;
     const todayDayOfWeek = dayjs();
     const daysNames = [];
@@ -19,98 +24,146 @@ const HabitCard = props => {
     for (let i = numDaystoDisplay - 1; i > 0; i--) {
         daysNames.push(todayDayOfWeek.subtract(i, 'days')
             .format('ddd').toUpperCase())
-        daysNums.push(todayDayOfWeek.subtract(i, 'days')
+            daysNums.push(todayDayOfWeek.subtract(i, 'days')
             .format('D'))
-        actualDays.push(todayDayOfWeek.subtract(i, 'days'))
+            actualDays.push(todayDayOfWeek.subtract(i, 'days'))
     }
     daysNames.push('Today'.toUpperCase())
     daysNums.push(todayDayOfWeek.format('D'))
     actualDays.push(todayDayOfWeek)
+    
+    
+    // console.log('habitRecords', habitRecords)
 
-    const handleSelectDay = async (day) => {
+
+
+    const successToast = async (habit_id, dateSelected) => {
+        const dateFormatted = dayjs(dateSelected).format('MMM DD');
+        const resHabit = await HabitsService.getHabitById(habit_id);
+        const habitName = resHabit.name;
+
+        toast.success(`completed ${habitName} on ${dateFormatted}`, {
+            position: toast.POSITION.BOTTOM_CENTER,
+            autoClose: 2000
+        })
+    }
+
+    const deleteRecord = async (idx) => {
+        await HabitRecordsService
+            .deleteHabitRecord(habitRecords[idx].id)
+    }
+
+    const getRecords = async () => {
+        const resHabitRecords = await HabitRecordsService
+            .getHabitRecords();
+        return resHabitRecords;
+    }
+
+    const getDateSelected = (day) => {
         const dateSelected = dayjs()
             .subtract(numDaystoDisplay - 1 - day, 'days')
             .format();
+        return dateSelected
+    }
 
-        // if a user selects a date, then clicks again to unselect
-        // we need to delete that date from the record
-        let idxToDelete = -100;
+    const findIdxToDelete = async (habit_id, dateSelected) => {
         if (habitRecords) {
-            idxToDelete = habitRecords.findIndex(record => {
-                return record.habit_id === props.id &&
-                    dayjs(record.date_completed).isSame(dateSelected, 'day')
+            const idxToDelete = habitRecords.findIndex(record => {
+                return record.habit_id === habit_id &&
+                    dayjs(record.date_completed).isSame(dateSelected, 'day');
             })
-        }
-
-        // if there is an index to be deleted, delete it
-        if (idxToDelete > -1) {
-
-            await HabitRecordsService
-                .deleteHabitRecord(habitRecords[idxToDelete].id)
-
-            const getRecords = async () => {
-                const resHabitRecords = await HabitRecordsService
-                    .getHabitRecords()
-                setHabitRecords(resHabitRecords);
-            }
-
-            getRecords();
-
-        } else {
-            // console.log('props.id', props.id)
-            const newHabitRecord = {
-                habit_id: props.id,
-                date_completed: dateSelected
-            }
-
-            const postRecord = async () => {
-                const resHabitRecords = await HabitRecordsService
-                    .postHabitRecord(newHabitRecord)
-                // console.log('resHabitRecords', resHabitRecords)
-            }
-
-            await postRecord();
-
-            const getRecords = async () => {
-                const resHabitRecords = await HabitRecordsService
-                    .getHabitRecords()
-                setHabitRecords(resHabitRecords);
-            }
-
-            getRecords();
+            return idxToDelete;
         }
     }
+
+    const setHabitRecordsToContext = async () => {
+        setHabitRecords(await getRecords());
+    }
+
+    const postRecord = async (dateSelected) => {
+        const newHabitRecord = {
+            habit_id: props.id,
+            date_completed: dateSelected
+        }
+        const resHabitRecords = await HabitRecordsService
+            .postHabitRecord(newHabitRecord);
+        return resHabitRecords;
+    }
+
+
 
     const handleClickName = (name) => {
         context.setHabitId(props.id)
     }
 
     const isChecked = (props_id, i) => {
-
+        
         const recordExists = (props_id) => {
             if (!habitRecords) {
                 return false;
             }
             // search thru habitRecords to see if the record exists
             for (let j = 0; j < habitRecords.length; j++) {
-
                 if (habitRecords[j].habit_id === props_id
                     && dayjs(actualDays[i])
-                        .isSame(dayjs(habitRecords[j].date_completed), 'day')
-                ) {
-                    return true
+                    .isSame(dayjs(habitRecords[j].date_completed), 'day')
+                    ) {
+                        
+                        console.log('isChecked is true')
+                    return true;
                 }
             }
+            return false;
         }
+
         if (recordExists(props_id)) {
-            return true
+            return true;
+        } else {
+            return false;
         }
     }
 
-    function renderCheckMarkOptions() {
-        // console.log('props.id', props.id)
-        return daysNames.map((day, i) =>
 
+
+
+    const handleSelectDay = async (day) => {
+
+        const dateSelected = getDateSelected(day);
+        // if a user selects a date, then clicks again to unselect
+        // we need to delete that date from the record
+
+        // find out if date selected is checked
+        const isAlreadyChecked = isChecked(props.id, day);
+
+        if (isAlreadyChecked) {
+            await deleteRecord(await findIdxToDelete(props.id, dateSelected));
+            setHabitRecordsToContext();
+        } else {
+            await postRecord(dateSelected)
+            setHabitRecordsToContext();
+            // console.log('props.id', props.id)
+            setSelectedId(props.id);
+            successToast(props.id, dateSelected);
+        }
+    }
+
+ 
+
+    const renderToastContainer = () => {
+       
+        // console.log('selectedId', selectedId)
+        const toastToDisplay = props.id === selectedId
+            ? <ToastContainer />
+            : null;
+
+        return toastToDisplay
+    }
+
+
+
+    function renderCheckMarkOptions() {
+        console.log('props.id', props.id)
+        return daysNames.map((day, i) =>
             (
                 <div className="day-option" key={day}>
                     <label
@@ -121,6 +174,7 @@ const HabitCard = props => {
                             id={'' + props.id + '' + i} value={day}
                             defaultChecked={isChecked(props.id, i)}
                         />
+
                         <div className="day-label-info-container">
                             <p className="day-name">{day}</p>
                             <p className="day-number">{daysNums[i]}</p>
@@ -128,14 +182,12 @@ const HabitCard = props => {
                     </label>
                 </div>
             )
-
         )
-
     }
-
 
     return (
         <div className="habit-card-container">
+            {renderToastContainer(props.id)}
             <div className="habit-card-wrapper" >
                 <Link to={`/habits/${props.id}/habit-data`}
                     onClick={handleClickName}>

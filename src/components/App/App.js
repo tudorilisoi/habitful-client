@@ -11,6 +11,7 @@ import EditHabit from '../EditHabit/EditHabit';
 import Login from '../Login/Login';
 import SignUp from '../SignUp/SignUp';
 import { HabitContext } from '../../context/HabitContext';
+import './App.css'
 
 const isBetween = require('dayjs/plugin/isBetween')
 dayjs.extend(isBetween)
@@ -18,6 +19,7 @@ const utc = require('dayjs/plugin/utc')
 dayjs.extend(utc);
 
 const App = () => {
+  // console.log('App ran')
 
   const context = useContext(HabitContext);
   const { isLoggedIn, setIsLoggedIn } = context;
@@ -38,42 +40,43 @@ const App = () => {
         path={'/'}
         component={MainNav}
       />
-      <Route
-        exact
-        path={'/'}
-        component={LandingPage}
-      />
-      <Route
-        exact
-        path={'/habits'}
-        component={HabitCardList}
-      />
-      <Route
-        exact
-        path={'/habits/:habit_id/habit-data'}
-        component={HabitProgressPage}
-      />
-      <Route
-        exact
-        path={'/add-habit'}
-        component={AddHabit}
-      />
-      <Route
-        exact
-        // path={'/edit-habit'}
-        path={'/:habit_id/edit-habit'}
-        component={EditHabit}
-      />
-      <Route
-        exact
-        path={'/login'}
-        component={Login}
-      />
-      <Route
-        exact
-        path={'/signup'}
-        component={SignUp}
-      />
+      <section className="main-content">
+        <Route
+          exact
+          path={'/'}
+          component={LandingPage}
+        />
+        <Route
+          exact
+          path={'/habits'}
+          component={HabitCardList}
+        />
+        <Route
+          exact
+          path={'/habits/:habit_id/habit-data'}
+          component={HabitProgressPage}
+        />
+        <Route
+          exact
+          path={'/add-habit'}
+          component={AddHabit}
+        />
+        <Route
+          exact
+          path={'/:habit_id/edit-habit'}
+          component={EditHabit}
+        />
+        <Route
+          exact
+          path={'/login'}
+          component={Login}
+        />
+        <Route
+          exact
+          path={'/signup'}
+          component={SignUp}
+        />
+      </section>
 
     </main>
 

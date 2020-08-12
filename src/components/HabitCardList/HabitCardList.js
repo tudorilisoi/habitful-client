@@ -3,6 +3,8 @@ import React, { useState, useEffect, useContext } from 'react';
 // import dayjs from 'dayjs';
 // import config from '../../config';
 import HabitCard from '../HabitCard/HabitCard';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { HabitContext } from '../../context/HabitContext';
 import HabitRecordsService from '../../service/habit-record-service';
 import HabitsService from '../../service/habits-service';
@@ -10,11 +12,14 @@ import './HabitCardList.css';
 // import { getNodeText } from '@testing-library/react';
 
 const HabitCardList = (props) => {
+    // console.log('HabitCardList ran')
     const context = useContext(HabitContext)
 
     const { habits, setHabits, habitRecords, setHabitRecords } = context;
 
     useEffect(() => {
+        console.log('useEffect in HabitCardList ran')
+
         updateHabitsInContext();
         updateHabitRecordsInContext();
     }, [])
@@ -32,8 +37,11 @@ const HabitCardList = (props) => {
         setHabits(resHabits);
     }
     const getHabitRecords = async () => {
+        console.log('getHabitRecords ran')
+
         const resHabitRecords = await HabitRecordsService
-            .getHabitRecords();
+        .getHabitRecords();
+        console.log('resHabitRecords', resHabitRecords)
         return resHabitRecords;
     }
     const updateHabitRecordsInContext = async () => {
@@ -56,6 +64,9 @@ const HabitCardList = (props) => {
     return (
         <section className="habit-card-list-container">
             {habitCards}
+            <div className="habit-card-list-bottom-space">
+
+            </div>
         </section>
     )
 }

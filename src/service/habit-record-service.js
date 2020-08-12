@@ -17,9 +17,19 @@ const HabitRecordsService = {
             const resHabitRecords = res.data;
             return resHabitRecords;
         } catch (err) {
-            // console.log('err', err)
+            console.log('err', err)
         }
     },
+    // async getHabitRecordsByHabitId() {
+    //     try {
+    //         const url = `${config.API_ENDPOINT}/habit-records`
+    //         const res = await axios.get(url, await this.reqHeaders())
+    //         const resHabitRecords = res.data;
+    //         return resHabitRecords;
+    //     } catch (err) {
+    //         console.log('err', err)
+    //     }
+    // },
     async postHabitRecord(newHabitRecord) {
         try {
             const url = `${config.API_ENDPOINT}/habit-records`
