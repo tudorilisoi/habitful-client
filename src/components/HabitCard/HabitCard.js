@@ -113,14 +113,12 @@ const HabitCard = props => {
                     return true;
                 }
             }
-            return false;
+            // return false;
         }
 
         if (recordExists(props_id)) {
             return true;
-        } else {
-            return false;
-        }
+        } 
     }
 
 
