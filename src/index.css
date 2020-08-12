@@ -44,7 +44,8 @@ main {
   --date-checked-hover: #ff9464;
   --habit-name: #416788;
   --habit-name-hover: #96a5bf;
-  --link: #416788;
+  /* --link: #416788; */
+  --link: #ddd;
   --link-hover: #96a5bf;
 }
 

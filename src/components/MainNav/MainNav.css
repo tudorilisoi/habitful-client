@@ -9,7 +9,11 @@
   box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.4);
   position: relative;
   z-index: 2;
-  background-color: white;
+  /* background-color: rgb(247, 170, 28); */
+  background-color: #0d3b66;
+  /* background-color: rgb(181 215 255); */
+  /* background-color: rgb(4 24 48); */
+
 }
 
 .MainNav__nav a:hover {
@@ -38,7 +42,8 @@
 .pipe {
     /* height:20px; */
     /* width:1px; */
-    border-right:1px solid #bbb;
+    /* border-right:1px solid #bbb; */
+    border-right:1px solid rgb(131, 131, 131);
 }
 
 .MainNav__nav .nav-home {
