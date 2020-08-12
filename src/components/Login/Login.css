@@ -113,6 +113,10 @@
   font-size: 13px;
 }
 
+.login-error {
+  color:rgb(202, 1, 1)
+}
+
 @media only screen and (min-width: 640px) {
     .Login__login-title {
         font-size: 3rem;

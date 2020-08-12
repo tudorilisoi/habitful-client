@@ -50,6 +50,18 @@
 .day-option {
   width: 80px;
   /* border: 1px solid black; */
+  animation: fadeIn 1s;
+
+}
+
+@keyframes fadeIn {
+  from {
+      opacity: 0;
+  }
+
+  to {
+      opacity: 1;
+  }
 }
 
 .day-option:last-child label .day-label-info-container {

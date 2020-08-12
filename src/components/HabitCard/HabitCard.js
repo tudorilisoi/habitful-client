@@ -217,10 +217,20 @@ const HabitCard = props => {
         return toastToDisplay;
     }
 
+    const randomFadeTime = (max,i) => {
+        console.log('i', i)
+        const num = Math.random() * max;
+        
+        console.log('num', num)
+        return num.toString();
+    }
+
     function renderCheckMarkOptions() {
         return daysNames.map((day, i) =>
             (
-                <div className="day-option" key={day}>
+                <div className="day-option" key={day}
+                    style={{ animation: `fadeIn ${i/4}s` }}
+                >
                     <label
                         htmlFor={'' + props.id + '' + i}
                         className="day-label"
