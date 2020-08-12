@@ -44,7 +44,7 @@
 
 
 .graph-container {
-  /* scroll-behavior: auto; */
+  scroll-behavior: smooth;
 }
 
 .graph-wrapper {
