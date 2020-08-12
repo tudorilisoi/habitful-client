@@ -7,12 +7,13 @@
 
 .Login__login-form-container {
   margin: 0 auto;
-  width: 90%;
+  width: 97%;
   max-width: 400px;
   border: 1px solid #b6b6b6;
   border-radius: 1.5rem;
-  padding: 30px;
+  padding: 30px 20px;
   box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.4);
+  background-color: white;
 }
 
 .Login__login-form-container label,
@@ -44,35 +45,38 @@
 }
 
 .login-form-buttons-wrapper button {
-    background: #CFD8DC;
+    background: var(--login-buttons);
     padding: 0.4375em 1.5em 0.5em;
     border: 1px solid gray;
     border: 0;
     border-radius: 1.5rem;
     font-size: 18px;
-    transition-duration: 0.2s;
+    transition-duration: 0.3s;
 }
 
 .login-form-buttons-wrapper button:hover {
     cursor: pointer;
-    background: #455a64;
+    background: var(--login-buttons-hover);
     color: #ffffff;
 }
 
 .demo-credentials {
-  margin-top: 10px;
+  margin-top: 20px;
+}
+.credential-wrapper-wrapper {
+  margin-top: 30px;
 }
 
 .credential-wrapper {
   display: flex;
   justify-content: space-between;
-  margin-bottom: 4px;
+  margin:4px 0 4px 0;
   align-items: center;
 
 }
 
 .credential-wrapper p {
-  margin: 0;
+  margin-top:0 ;
 
 }
 
@@ -81,11 +85,21 @@
     white-space: pre-wrap;
 }
 
+.copy-button-wrapper {
+
+}
+
+.copy-to-clipboard::before {
+  /* content: 'copy '; */
+  /* vertical-align: middle; */
+
+}
+
 .copy-to-clipboard {
     background: white;
-    border:1px solid rgb(218, 218, 218);
+    border:1px solid rgb(255, 255, 255);
     border-radius: 0.2rem;
-    transition-duration: 0.2s;
+    transition-duration: 0.5s;
 }
 
 .copy-to-clipboard:hover {
@@ -93,6 +107,10 @@
     color: white;
     border:1px solid rgb(218, 218, 218);
     cursor: pointer;
+}
+
+.copy-to-clipboard p {
+  font-size: 13px;
 }
 
 @media only screen and (min-width: 640px) {

@@ -3,6 +3,10 @@
   max-width: 1200px;
 }
 
+/* extra space at the bottom to prevent 
+toast notifications from blocking
+view of bottom most habit card */
 .habit-card-list-bottom-space {
-  height: 100px;
+  height: 130px;
+  opacity: 0;
 }

@@ -33,7 +33,7 @@ main {
 }
 
 :root {
-  --main-bg-color: #fff;
+  --main-bg-color: #f5f8ff;
   /* --date-unchecked: rgb(247, 247, 247);
   --date-unchecked-hover: rgba(39, 184, 99, 0.13);
   --date-checked: rgba(39, 184, 99, 0.301);
@@ -47,6 +47,8 @@ main {
   /* --link: #416788; */
   --link: #ddd;
   --link-hover: #96a5bf;
+  --login-buttons: #bac9e2;
+  --login-buttons-hover: #0D3B66;
 }
 
 a {

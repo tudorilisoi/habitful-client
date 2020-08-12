@@ -21,13 +21,19 @@
   margin: 10px 0 30px 0;
   text-align: center;
   /* font-family: "Questrial", sans-serif; */
-  /* font-family: "HKGrotesk-Light", sans-serif; */
+  font-family: "HKGrotesk-Light", sans-serif;
   /* font-family: "HKGrotesk-Bold", sans-serif; */
-  font-family: "HKGrotesk-Medium", sans-serif;
+  /* font-family: "HKGrotesk-Medium", sans-serif; */
   font-size: 22px;
   /* color: rgb(139, 139, 214); */
   /* color: rgba(106 172 198); */
   color: var(--habit-name);
+  overflow: hidden;
+  max-width: 280px;
+  text-overflow: ellipsis;
+  /* display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical; */
   transition: all 0.4s;
   transition-timing-function: ease;
 }

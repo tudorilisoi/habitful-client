@@ -86,7 +86,7 @@
   margin-top: 8px;
 }
 
-.copy-to-clipboard {
+/* .copy-to-clipboard {
   background: white;
   border: 1px solid rgb(218, 218, 218);
   border-radius: 0.2rem;
@@ -98,7 +98,7 @@
   color: white;
   border: 1px solid rgb(218, 218, 218);
   cursor: pointer;
-}
+} */
 
 @media only screen and (min-width: 640px) {
   .SignUp__signup-title {

@@ -62,8 +62,8 @@ export default function Login(props) {
             {/* <BackButton handleClickBack={handleClickBack} /> */}
             <h1 className='Login__login-title'>Login</h1>
             <div className='Login__login-form-container'>
-                <form id='login-form' 
-                onSubmit={handleSubmit}
+                <form id='login-form'
+                    onSubmit={handleSubmit}
                 >
                     <div className='Login__label-input-wrapper'>
                         <label htmlFor="email">Email </label>
@@ -90,29 +90,36 @@ export default function Login(props) {
                 </form>
                 <div className='demo-credentials'>
                     Demo user credentials:
-                <div className='credential-wrapper'>
-                        <p className='credential'>
-                            Email:
+                    <div className="credential-wrapper-wrapper">
+
+                        <div className='credential-wrapper'>
+                            <p className='credential'>
+                                Email:
                             <span className='credential-bold'>  user1@gmail.com</span>
-                        </p>
-                        <button className="copy-to-clipboard"
-                            aria-label='copy-to-clipboard'
-                            onClick={() => navigator.clipboard.writeText(`user1@gmail.com`)}
-                        >
-                            <FontAwesomeIcon icon={faClipboardList} size="2x" />
-                        </button>
-                    </div>
-                    <div className='credential-wrapper'>
-                        <p className='credential'>
-                            Password:
+                            </p>
+                            <button className="copy-to-clipboard"
+                                aria-label='copy-to-clipboard'
+                                onClick={() => navigator.clipboard.writeText(`user1@gmail.com`)}
+                            >
+                                <p>copy</p>
+                                <FontAwesomeIcon icon={faClipboardList} size="2x" />
+                            </button>
+                        </div>
+                        <div className='credential-wrapper'>
+                            <p className='credential'>
+                                Password:
                             <span className='credential-bold'>  Password1!</span>
-                        </p>
-                        <button className="copy-to-clipboard"
-                            aria-label='copy-to-clipboard'
-                            onClick={() => navigator.clipboard.writeText(`Password1!`)}
-                        >
-                            <FontAwesomeIcon icon={faClipboardList} size="2x" />
-                        </button>
+                            </p>
+                            <div className="copy-button-wrapper">
+                                <button className="copy-to-clipboard"
+                                    aria-label='copy-to-clipboard'
+                                    onClick={() => navigator.clipboard.writeText(`Password1!`)}
+                                >
+                                    <p>copy</p>
+                                    <FontAwesomeIcon icon={faClipboardList} size="2x" />
+                                </button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
