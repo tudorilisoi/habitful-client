@@ -1,26 +1,28 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect, useContext, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import dayjs, { isDayjs } from 'dayjs';
-import { ToastContainer, toast } from 'react-toastify';
+import { ToastContainer, toast, cssTransition, Zoom } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { HabitContext } from '../../context/HabitContext';
 import HabitRecordsService from '../../service/habit-record-service';
-import './HabitCard.css';
 import HabitsService from '../../service/habits-service';
+import './HabitCard.css';
 
 const HabitCard = props => {
 
     const context = useContext(HabitContext)
-    const { habitRecords, setHabitRecords, habitId,
-        setHabitId, test, setTest, gapArray } = context;
+    const { habitRecords, setHabitRecords } = context;
 
-    const [selectedId, setSelectedId] = useState('')
+    const [selectedId, setSelectedId] = useState('');
+
+    // const toastId = useRef(null);
 
     const numDaystoDisplay = 7;
     const todayDayOfWeek = dayjs();
     const daysNames = [];
     const daysNums = [];
     const actualDays = [];
+
     for (let i = numDaystoDisplay - 1; i > 0; i--) {
         daysNames.push(todayDayOfWeek.subtract(i, 'days')
             .format('ddd').toUpperCase())
@@ -34,20 +36,49 @@ const HabitCard = props => {
 
 
     const handleError = () => {
-        console.log('handleError ran')
-
+        // console.log('handleError ran')
         errorToast();
     }
 
-    const successToast = async (habit_id, dateSelected) => {
+    // const handleSuccess = async (dateSelected, habit_id) => {
+
+    //         const dateFormatted = dayjs(dateSelected).format('MMM DD');
+    //         const resHabit = await HabitsService.getHabitById(habit_id);
+    //         const habitName = resHabit && resHabit.name;
+
+    //         toast.clearWaitingQueue();
+    //         toast.dismiss();
+
+    // }
+
+    const successToastPost = async (habit_id, dateSelected) => {
+
         const dateFormatted = dayjs(dateSelected).format('MMM DD');
         const resHabit = await HabitsService.getHabitById(habit_id);
         const habitName = resHabit && resHabit.name;
 
+        toast.clearWaitingQueue();
+        toast.dismiss();
         if (habitName) {
             toast.success(`completed ${habitName} on ${dateFormatted}`, {
                 position: toast.POSITION.BOTTOM_CENTER,
-                autoClose: 2000
+                autoClose: 3000,
+                // delay:1000
+            })
+        }
+    }
+
+    const successToastDelete = async (habit_id, dateSelected) => {
+
+        const dateFormatted = dayjs(dateSelected).format('MMM DD');
+        const resHabit = await HabitsService.getHabitById(habit_id);
+        const habitName = resHabit && resHabit.name;
+        toast.clearWaitingQueue();
+        toast.dismiss();
+        if (habitName) {
+            toast.success(`did not complete ${habitName} on ${dateFormatted}`, {
+                position: toast.POSITION.BOTTOM_CENTER,
+                autoClose: 3000
             })
         }
     }
@@ -59,18 +90,30 @@ const HabitCard = props => {
         })
     }
 
+    const loadingToastAnimation = cssTransition({
+        enter: 'zoomIn',
+        exit: 'zoomOut'
+    })
+
+    const loadingToast = async () => {
+        console.log('loadingToast ran')
+        toast.info(`loading...`, {
+            position: toast.POSITION.BOTTOM_CENTER,
+            autoClose: 5000,
+            transition: loadingToastAnimation
+        })
+    }
+
     const deleteRecord = async (idx) => {
         await HabitRecordsService
             .deleteHabitRecord(habitRecords[idx].id)
     }
 
     const getRecords = async () => {
-        console.log('getRecords ran')
         try {
             const resHabitRecords = await HabitRecordsService
                 .getHabitRecords();
-                if (!resHabitRecords) handleError()
-            console.log('resHabitRecords', resHabitRecords)
+            if (!resHabitRecords) handleError()
             return resHabitRecords;
         } catch (err) {
             // handleError();
@@ -140,29 +183,30 @@ const HabitCard = props => {
     }
 
     const handleSelectDay = async (day) => {
+        console.log('handleSelectDay ran')
+
+        loadingToast();
 
         const dateSelected = getDateSelected(day);
-        // if a user selects a date, then clicks again to unselect
-        // we need to delete that date from the record
 
-        // find out if date selected is checked
+        // if a user selects a date, then clicks again to unselect,
+        // need to delete that date from the record
         const isAlreadyChecked = isChecked(props.id, day);
 
         if (isAlreadyChecked) {
             await deleteRecord(await findIdxToDelete(props.id, dateSelected));
-            setHabitRecordsToContext();
         } else {
             await postRecord(dateSelected);
-            setHabitRecordsToContext();
-            setSelectedId(props.id);
-            successToast(props.id, dateSelected);
         }
+        setHabitRecordsToContext();
+        setSelectedId(props.id);
+        successToastDelete(props.id, dateSelected);
     }
 
     // ensures that no duplicate toasts
     const renderToastContainer = () => {
         const toastToDisplay = props.id === selectedId
-            ? <ToastContainer />
+            ? <ToastContainer limit={1} />
             : null;
 
         return toastToDisplay;
@@ -202,7 +246,7 @@ const HabitCard = props => {
                 <div className="checkmarks-container">
                     {renderCheckMarkOptions()}
                 </div>
-            </div >
+            </div>
         </div>
     )
 }
