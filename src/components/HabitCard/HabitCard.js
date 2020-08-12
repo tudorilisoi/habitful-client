@@ -13,9 +13,9 @@ const HabitCard = props => {
     const context = useContext(HabitContext)
     const { habitRecords, setHabitRecords, habitId,
         setHabitId, test, setTest, gapArray } = context;
-        
-        const [selectedId, setSelectedId] = useState('')
-        
+
+    const [selectedId, setSelectedId] = useState('')
+
     const numDaystoDisplay = 7;
     const todayDayOfWeek = dayjs();
     const daysNames = [];
@@ -24,25 +24,36 @@ const HabitCard = props => {
     for (let i = numDaystoDisplay - 1; i > 0; i--) {
         daysNames.push(todayDayOfWeek.subtract(i, 'days')
             .format('ddd').toUpperCase())
-            daysNums.push(todayDayOfWeek.subtract(i, 'days')
+        daysNums.push(todayDayOfWeek.subtract(i, 'days')
             .format('D'))
-            actualDays.push(todayDayOfWeek.subtract(i, 'days'))
+        actualDays.push(todayDayOfWeek.subtract(i, 'days'))
     }
     daysNames.push('Today'.toUpperCase())
     daysNums.push(todayDayOfWeek.format('D'))
     actualDays.push(todayDayOfWeek)
-    
-    
-    // console.log('habitRecords', habitRecords)
 
 
+    const handleError = () => {
+        console.log('handleError ran')
+
+        errorToast();
+    }
 
     const successToast = async (habit_id, dateSelected) => {
         const dateFormatted = dayjs(dateSelected).format('MMM DD');
         const resHabit = await HabitsService.getHabitById(habit_id);
-        const habitName = resHabit.name;
+        const habitName = resHabit && resHabit.name;
 
-        toast.success(`completed ${habitName} on ${dateFormatted}`, {
+        if (habitName) {
+            toast.success(`completed ${habitName} on ${dateFormatted}`, {
+                position: toast.POSITION.BOTTOM_CENTER,
+                autoClose: 2000
+            })
+        }
+    }
+
+    const errorToast = async () => {
+        toast.error(`something went wrong, please try again`, {
             position: toast.POSITION.BOTTOM_CENTER,
             autoClose: 2000
         })
@@ -54,9 +65,16 @@ const HabitCard = props => {
     }
 
     const getRecords = async () => {
-        const resHabitRecords = await HabitRecordsService
-            .getHabitRecords();
-        return resHabitRecords;
+        console.log('getRecords ran')
+        try {
+            const resHabitRecords = await HabitRecordsService
+                .getHabitRecords();
+                if (!resHabitRecords) handleError()
+            console.log('resHabitRecords', resHabitRecords)
+            return resHabitRecords;
+        } catch (err) {
+            // handleError();
+        }
     }
 
     const getDateSelected = (day) => {
@@ -85,19 +103,22 @@ const HabitCard = props => {
             habit_id: props.id,
             date_completed: dateSelected
         }
-        const resHabitRecords = await HabitRecordsService
-            .postHabitRecord(newHabitRecord);
-        return resHabitRecords;
+        try {
+            const resHabitRecords = await HabitRecordsService
+                .postHabitRecord(newHabitRecord);
+            return resHabitRecords;
+        } catch (err) {
+            console.log('err', err)
+            handleError();
+        }
     }
-
-
 
     const handleClickName = (name) => {
         context.setHabitId(props.id)
     }
 
     const isChecked = (props_id, i) => {
-        
+
         const recordExists = (props_id) => {
             if (!habitRecords) {
                 return false;
@@ -106,23 +127,17 @@ const HabitCard = props => {
             for (let j = 0; j < habitRecords.length; j++) {
                 if (habitRecords[j].habit_id === props_id
                     && dayjs(actualDays[i])
-                    .isSame(dayjs(habitRecords[j].date_completed), 'day')
-                    ) {
-                        
-                        console.log('isChecked is true')
+                        .isSame(dayjs(habitRecords[j].date_completed), 'day')
+                ) {
                     return true;
                 }
             }
-            // return false;
         }
 
         if (recordExists(props_id)) {
             return true;
-        } 
+        }
     }
-
-
-
 
     const handleSelectDay = async (day) => {
 
@@ -137,30 +152,23 @@ const HabitCard = props => {
             await deleteRecord(await findIdxToDelete(props.id, dateSelected));
             setHabitRecordsToContext();
         } else {
-            await postRecord(dateSelected)
+            await postRecord(dateSelected);
             setHabitRecordsToContext();
-            // console.log('props.id', props.id)
             setSelectedId(props.id);
             successToast(props.id, dateSelected);
         }
     }
 
- 
-
+    // ensures that no duplicate toasts
     const renderToastContainer = () => {
-       
-        // console.log('selectedId', selectedId)
         const toastToDisplay = props.id === selectedId
             ? <ToastContainer />
             : null;
 
-        return toastToDisplay
+        return toastToDisplay;
     }
 
-
-
     function renderCheckMarkOptions() {
-        console.log('props.id', props.id)
         return daysNames.map((day, i) =>
             (
                 <div className="day-option" key={day}>
@@ -199,5 +207,5 @@ const HabitCard = props => {
     )
 }
 
-export default HabitCard
+export default HabitCard;
 

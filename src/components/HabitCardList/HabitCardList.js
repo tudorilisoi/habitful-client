@@ -40,8 +40,7 @@ const HabitCardList = (props) => {
         console.log('getHabitRecords ran')
 
         const resHabitRecords = await HabitRecordsService
-        .getHabitRecords();
-        console.log('resHabitRecords', resHabitRecords)
+            .getHabitRecords();
         return resHabitRecords;
     }
     const updateHabitRecordsInContext = async () => {
