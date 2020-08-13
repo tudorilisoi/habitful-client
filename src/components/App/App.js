@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { Route } from 'react-router-dom'
+import { Route, Redirect } from 'react-router-dom'
 import dayjs from 'dayjs';
 import HabitCardList from '../HabitCardList/HabitCardList'
 import LandingPage from '../LandingPage/LandingPage';
@@ -32,6 +32,40 @@ const App = () => {
 
 
   }, [isLoggedIn])
+
+  // function loginRoute() {
+  //   console.log('isLoggedIn', isLoggedIn)
+  //   if (!isLoggedIn) {
+  //     return (
+  //       <Redirect to={'/'} />
+  //     )
+  //   } else {
+  //     return (
+  //       <Route
+  //         exact
+  //         path={'/login'}
+  //         component={Login}
+  //       />
+  //     )
+  //   }
+  // }
+
+  // function loginPath() {
+  //   if (!isLoggedIn) {
+  //     return '/'
+  //   } else {
+  //     return '/login'
+  //   }
+  // }
+
+  function loginComponent() {
+    if (isLoggedIn) {
+      return LandingPage
+    } else {
+      return Login
+    }
+  }
+
 
 
   return (
@@ -69,7 +103,7 @@ const App = () => {
         <Route
           exact
           path={'/login'}
-          component={Login}
+          component={loginComponent()}
         />
         <Route
           exact

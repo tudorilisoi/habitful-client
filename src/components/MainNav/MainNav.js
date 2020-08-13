@@ -61,6 +61,7 @@ function MainNav(props) {
                     <Link className="last-nav-item" to={'/signup'}>
                         <p> Signup</p>
                     </Link>
+                    <div className="pipe"></div>
                     <Link className="last-nav-item" to={'/login'}>
                         <p>Login</p>
                     </Link>
