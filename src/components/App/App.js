@@ -1,9 +1,8 @@
-import React, { useState, useEffect, useContext } from 'react';
-import { Route, Redirect } from 'react-router-dom'
+import React, { useEffect, useContext } from 'react';
+import { Route } from 'react-router-dom'
 import dayjs from 'dayjs';
 import HabitCardList from '../HabitCardList/HabitCardList'
 import LandingPage from '../LandingPage/LandingPage';
-// import HabitCard from '../HabitCard/HabitCard';
 import HabitProgressPage from '../HabitProgressPage/HabitProgressPage';
 import MainNav from '../MainNav/MainNav';
 import AddHabit from '../AddHabit/AddHabit';
@@ -12,6 +11,7 @@ import Login from '../Login/Login';
 import SignUp from '../SignUp/SignUp';
 import { HabitContext } from '../../context/HabitContext';
 import './App.css'
+import PrivateRoute from '../PrivateRoute/PrivateRoute';
 
 const isBetween = require('dayjs/plugin/isBetween')
 dayjs.extend(isBetween)
@@ -19,8 +19,6 @@ const utc = require('dayjs/plugin/utc')
 dayjs.extend(utc);
 
 const App = () => {
-  // console.log('App ran')
-
   const context = useContext(HabitContext);
   const { isLoggedIn, setIsLoggedIn } = context;
 
@@ -70,6 +68,7 @@ const App = () => {
 
   return (
     <main className='App'>
+
       <Route
         path={'/'}
         component={MainNav}
@@ -80,26 +79,32 @@ const App = () => {
           path={'/'}
           component={LandingPage}
         />
-        <Route
-          exact
-          path={'/habits'}
-          component={HabitCardList}
-        />
+        <PrivateRoute>
+          <Route
+            exact
+            path={'/habits'}
+            component={HabitCardList}
+          />
+        </PrivateRoute>
         <Route
           exact
           path={'/habits/:habit_id/habit-data'}
           component={HabitProgressPage}
         />
-        <Route
-          exact
-          path={'/add-habit'}
-          component={AddHabit}
-        />
-        <Route
-          exact
-          path={'/:habit_id/edit-habit'}
-          component={EditHabit}
-        />
+        <PrivateRoute>
+          <Route
+            exact
+            path={'/add-habit'}
+            component={AddHabit}
+          />
+        </PrivateRoute>
+        <PrivateRoute>
+          <Route
+            exact
+            path={'/:habit_id/edit-habit'}
+            component={EditHabit}
+          />
+        </PrivateRoute>
         <Route
           exact
           path={'/login'}
@@ -113,9 +118,7 @@ const App = () => {
       </section>
 
     </main>
-
   )
-
 }
 
 export default App;
