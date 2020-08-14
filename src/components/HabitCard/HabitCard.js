@@ -57,14 +57,30 @@ const HabitCard = props => {
         const resHabit = await HabitsService.getHabitById(habit_id);
         const habitName = resHabit && resHabit.name;
 
-        toast.clearWaitingQueue();
-        toast.dismiss();
+        // how to wait for loading to disappear from screen
+        // before displaying successToast ?
+
+        const dismissPromise = () => {
+            // return new Promise((resolve, reject) => {
+            removeToasts()
+            // })
+        }
+
+        const removeToasts = () => {
+            toast.clearWaitingQueue();
+            toast.dismiss();
+        }
+
+        dismissPromise()
+
         if (habitName) {
+            // const timer = window.setTimeout(() => {
             toast.success(`completed '${habitName}' on ${dateFormatted}`, {
                 position: toast.POSITION.BOTTOM_CENTER,
                 autoClose: 3000,
                 // delay:1000
             })
+            // }, 1500)
         }
     }
 
@@ -79,7 +95,9 @@ const HabitCard = props => {
             toast.success(`did not complete '${habitName}' on ${dateFormatted}`, {
                 className: "success-toast-delete",
                 position: toast.POSITION.BOTTOM_CENTER,
-                autoClose: 3000
+                autoClose: 3000,
+                // delay:1000
+
             })
         }
     }
@@ -217,10 +235,10 @@ const HabitCard = props => {
         return toastToDisplay;
     }
 
-    const randomFadeTime = (max,i) => {
+    const randomFadeTime = (max, i) => {
         console.log('i', i)
         const num = Math.random() * max;
-        
+
         console.log('num', num)
         return num.toString();
     }
@@ -229,7 +247,7 @@ const HabitCard = props => {
         return daysNames.map((day, i) =>
             (
                 <div className="day-option" key={day}
-                    style={{ animation: `fadeIn ${i/4}s` }}
+                    style={{ animation: `fadeIn ${i / 4}s` }}
                 >
                     <label
                         htmlFor={'' + props.id + '' + i}

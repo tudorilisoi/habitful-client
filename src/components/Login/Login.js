@@ -4,6 +4,8 @@ import config from '../../config';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faClipboardList } from "@fortawesome/free-solid-svg-icons";
 import { HabitContext } from '../../context/HabitContext';
+import { ToastContainer, toast, cssTransition, Zoom } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export default function Login(props) {
     const [error, setError] = useState(null);
@@ -13,16 +15,30 @@ export default function Login(props) {
     const context = useContext(HabitContext);
     const { isLoggedIn, setIsLoggedIn } = context;
 
+    const loadingToast = async () => {
+        console.log('loadingToast ran')
+        toast.info(`loading...`, {
+            position: toast.POSITION.BOTTOM_CENTER,
+            autoClose: 9000,
+        })
+    }
+
+
+
+
     function handleCancel() {
         props.history.push(`/`);
     };
 
     const handleSubmit = (e) => {
         e.preventDefault();
+        loadingToast();
+        const timer = window.setTimeout(() => {
         postLoginUser({
             email: username,
             password,
         });
+        }, 6000)
     };
 
     async function postLoginUser(credentials) {
@@ -59,6 +75,7 @@ export default function Login(props) {
 
     return (
         <div className='Login__login-form-container-wrapper'>
+            <ToastContainer />
             {/* <BackButton handleClickBack={handleClickBack} /> */}
             <div className='Login__login-form-container'>
                 <h1 className='Login__login-title'>Login</h1>

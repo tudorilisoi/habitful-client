@@ -7,6 +7,9 @@ import './SignUp.css';
 import dayjs from 'dayjs';
 import { HabitContext } from '../../context/HabitContext';
 import HabitsService from '../../service/habits-service';
+import { ToastContainer, toast, cssTransition, Zoom } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 const utc = require('dayjs/plugin/utc')
 dayjs.extend(utc);
 
@@ -20,17 +23,29 @@ export default function SignUp(props) {
     const context = useContext(HabitContext);
     const { isLoggedIn, setIsLoggedIn } = context;
 
+    const loadingToast = async () => {
+        toast.info(`loading...`, {
+            position: toast.POSITION.BOTTOM_CENTER,
+            autoClose: 9000,
+        })
+    }
+
     function handleCancel() {
         props.history.push(`/`);
     };
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        postSignUpUser({
-            email: name,
-            password,
-            date_created: dayjs().utc().format()
-        });
+        loadingToast();
+        // const timer = window.setTimeout(() => {
+
+            postSignUpUser({
+                email: name,
+                password,
+                date_created: dayjs().utc().format()
+            });
+        // }, 1000)
+
     };
 
     async function postLoginUser(credentials) {
@@ -185,7 +200,7 @@ export default function SignUp(props) {
 
     return (
         <div className='SignUp__signup-form-container-wrapper'>
-            {/* <BackButton handleClickBack={handleClickBack} /> */}
+            <ToastContainer />
             <div className='SignUp__signup-form-container'>
                 <h1 className='SignUp__signup-title'>Sign up</h1>
                 <form

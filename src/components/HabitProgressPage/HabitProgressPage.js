@@ -86,7 +86,6 @@ const HabitProgressPage = (props) => {
         if (graphContainerRef && graphContainerRef.current) {
 
             const timer = window.setTimeout(() => {
-                console.log('SCROLL')
                 if (graphContainerRef && graphContainerRef.current) {
                     const domElement = graphContainerRef.current;
                     domElement.scrollLeft = domElement.scrollWidth;
