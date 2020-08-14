@@ -9,25 +9,23 @@
 } */
 
 .habit-name-description {
-  margin-top:4vh;
-  min-height:60px;
+  /* margin-top:4vh; */
+  min-height: 60px;
   text-align: center;
   animation: fadeIn 1s;
-
 
   /* margin-bottom: 5vh; */
 }
 
 .habit-name-container {
-  height:20px;
+  height: 20px;
   animation: fadeIn 1s;
-
 }
 
 .habit-name {
   text-align: center;
-  font-size: 1.3rem;
-  margin:0;
+  font-size: 1.8rem;
+  margin-top: 5vh;
 }
 
 .card {
@@ -35,8 +33,8 @@
   margin: 3px;
   padding: 10px;
   width: 50%;
-  /* height:20% */
 
+  /* height:20% */
 }
 
 .bottom-card {
@@ -47,26 +45,53 @@
   /* width:100vw; */
 
   animation: fadeIn 1s;
+}
 
+.card,
+.bottom-card {
+  border: 1px solid #dddddd;
+  border-radius: 0.3rem;
+  box-shadow: 0px 2px 3px rgba(0, 0, 0, 0.4);
+  background-color: white;
+  /* display:flex; */
+}
+
+.graph-container-wrapper {
+  position: relative;
+}
+
+.time-interval-selector {
+  position: absolute;
+  /* float:right; */
+  /* margin: 20px; */
+  top: 15px;
+  right: 50px;
+  display: flex;
+  justify-content: flex-end;
+  align-items: baseline;
+  white-space: pre;
 }
 
 @keyframes fadeIn {
   from {
-      opacity: 0;
+    opacity: 0;
   }
 
   to {
-      opacity: 1;
+    opacity: 1;
   }
 }
-
-
 
 .graph-container {
   scroll-behavior: smooth;
 }
 
+.line-chart {
+  margin-top: 400px;
+}
+
 .graph-wrapper {
+  margin: 25px auto 0 auto;
   /* overflow-x: scroll; */
   /* width: 200%; */
   /* width: 2000px; */
@@ -76,6 +101,7 @@
 }
 
 .habit-data-container {
+  margin: 0 auto;
   position: relative;
   max-width: 1200px;
 }
@@ -85,30 +111,36 @@
   justify-content: space-between;
   /* margin-top: 5vh; */
   /* height:20%; */
-
 }
 
-
 .habit-strength-score {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
   animation: fadeIn 1s;
+}
 
+.habit-indicator {
+  /* flex-basis: 1; */
+  flex-grow: 1;
+  font-size: 1.3rem;
+  text-align: center;
+  margin: 0;
+}
+
+.habit-percentage {
+  /* flex-basis: 2; */
+  flex-grow: 3;
+  flex: auto;
+  align-self: center;
+  font-size: 3rem;
+  text-align: center;
+  margin: 0;
+  font-size: min(10vw, 100px);  
 }
 
 .habit-strength {
   animation: fadeIn 1.2s;
-
-}
-
-.habit-indicator {
-  font-size: 1.3rem;
-  text-align: center;
-  margin-bottom: 2vw;
-}
-
-.habit-percentage {
-  font-size: 3rem;
-  text-align: center;
-  margin: 0;
 }
 
 /* .line-chart {
@@ -122,14 +154,19 @@
     /* height:20%; */
   }
   .card {
-    border: 1px solid black;
-    margin: 3px;
-    padding: 10px;
+    /* border: 1px solid black; */
+    /* margin: 3px; */
+    /* padding: 10px; */
+    /* todo:make sure this is flush with bottom card */
     width: 100%;
     /* height:20% */
   }
 
   .habit-strength {
     /* height: 20vh; */
+  }
+
+  .habit-percentage {
+    font-size: 3rem;
   }
 }
