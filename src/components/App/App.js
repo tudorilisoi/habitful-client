@@ -12,6 +12,8 @@ import SignUp from '../SignUp/SignUp';
 import { HabitContext } from '../../context/HabitContext';
 import './App.css'
 import PrivateRoute from '../PrivateRoute/PrivateRoute';
+import axios from 'axios';
+import config from '../../config';
 
 const isBetween = require('dayjs/plugin/isBetween')
 dayjs.extend(isBetween)
@@ -19,14 +21,30 @@ const utc = require('dayjs/plugin/utc')
 dayjs.extend(utc);
 
 const App = () => {
+
+
   const context = useContext(HabitContext);
   const { isLoggedIn, setIsLoggedIn } = context;
 
   useEffect(() => {
 
+    // do warm up ping to wake up heroku 
+    // upon first arriving to page
+    const warmUpPing = async () => {
+      console.log('warmUpPing ran')
+      const url = `${config.API_ENDPOINT}/habits`
+      await axios.get(url)
+    }
+
+    warmUpPing();
+
+
+
     const authToken = localStorage.getItem('authToken');
     const loggedInStatus = authToken ? true : false;
     setIsLoggedIn(loggedInStatus);
+
+
 
 
   }, [isLoggedIn])
