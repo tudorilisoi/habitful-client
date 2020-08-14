@@ -1,18 +1,20 @@
-.SignUp__signup-title {
-  text-align: center;
-  font-weight: 300;
-  padding: 20px;
-  margin: 0;
-}
-
 .SignUp__signup-form-container {
-  margin: 0 auto;
-  width: 90%;
+  margin: 20px auto;
+  width: 97%;
   max-width: 400px;
   border: 1px solid #b6b6b6;
   border-radius: 1.5rem;
-  padding: 30px;
+  padding: 30px 20px;
   box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.4);
+  background-color: white;
+}
+
+.SignUp__signup-title {
+  text-align: center;
+  font-weight: 300;
+  padding: 0 0 20px 0;
+  margin: 0;
+  color: #222;
 }
 
 .SignUp__signup-form-container label,
@@ -36,24 +38,37 @@
   border-radius: 0.3rem;
 }
 
+
+.validation-container {
+  height:100px;
+  /* position: absolute; */
+  font-size: 1rem;
+}
+
 .signup-form-buttons-wrapper {
-  margin-top: 10px;
+  margin-top: 20px;
   display: flex;
   justify-content: space-between;
 }
 
 .signup-form-buttons-wrapper button {
-  background: rgb(238, 238, 238);
+  background: var(--login-buttons);
   padding: 0.4375em 1.5em 0.5em;
   border: 1px solid rgb(107, 107, 107);
   border: 0;
   border-radius: 1.5rem;
   font-size: 18px;
-  transition-duration: 0.2s;
+  box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.5);
+  transition-duration: 0.3s;
+}
+
+.signup-form-buttons-wrapper button:disabled {
+  background: #cfd1d4;
+  color: #858585;
 }
 
 .signup-form-buttons-wrapper .allowHover {
-  background: #cfd8dc;
+  background: var(--login-buttons);
   padding: 0.4375em 1.5em 0.5em;
   border: 1px solid gray;
   border: 0;
@@ -65,8 +80,8 @@
 
 .signup-form-buttons-wrapper .allowHover:hover {
   cursor: pointer;
-  background: #455a64;
-  -top: 10px;
+  background: var(--login-buttons-hover);
+  color: #ffffff;
 }
 
 .credential-wrapper {

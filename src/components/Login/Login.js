@@ -60,8 +60,8 @@ export default function Login(props) {
     return (
         <div className='Login__login-form-container-wrapper'>
             {/* <BackButton handleClickBack={handleClickBack} /> */}
-            <h1 className='Login__login-title'>Login</h1>
             <div className='Login__login-form-container'>
+                <h1 className='Login__login-title'>Login</h1>
                 <form id='login-form'
                     onSubmit={handleSubmit}
                 >

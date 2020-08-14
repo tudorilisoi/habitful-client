@@ -1,74 +1,96 @@
-/* .EditHabit__outermost-wrapper {
-  height: 100%;
+.edit-habit-form-container {
+  margin: 20px auto;
+  width: 97%;
+  max-width: 700px;
+  border: 1px solid #b6b6b6;
+  border-radius: 1.5rem;
+  padding: 30px 20px;
+  box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.4);
+  background-color: white;
+  animation: fadeIn 1s;
 }
 
-.EditHabit__edit-habit-container {
-  padding: 0 10px;
-  margin: 0 auto;
-  font-size: 18px;
-  max-width: 640px;
-}
-
-.EditHabit__heading {
-  margin: 0;
-  padding: 1rem 0;
+.edit-habit-form-title {
+  text-align: center;
   font-weight: 300;
+  padding: 0 0 20px 0;
+  margin: 0;
+  color:#222;
 }
 
-.EditHabit__edit-habit-container label {
+.edit-habit-form-container label,
+.edit-habit-form-container input {
+  /* display: block; */
+}
+
+.edit-habit-form-container input {
+  width: 100%;
+}
+
+.edit-habit-label-input-wrapper {
+  margin-top: 15px;
   font-size: 1.2rem;
-  margin: 1rem 0 0.3rem 0;
 }
 
-.EditHabit__edit-habit-container input,
-.EditHabit__edit-habit-container textarea {
-  border: 1px solid #fff;
-  border-radius: 0.15rem;
+.edit-habit-label-input-wrapper input {
+  border: 1px solid rgb(209, 209, 209);
+  height: 30px;
+  padding-left: 5px;
+  border-radius: 0.3rem;
+}
+.edit-habit-name-wrapper {
+  margin-bottom: 5px;
 }
 
-#EditHabit__edit-habit label,
-#EditHabit__edit-habit input,
-#EditHabit__edit-habit textarea {
-  display: block;
-  width: 100%;
+.frequency-goal-statement {
+  /* display: inline; */
+  font-size: 1.2rem;
 }
 
-#EditHabit__edit-habit textarea {
-  height: 3rem;
-}
-
-.EditHabit__buttons-wrapper {
-  margin-top: 1rem;
-  width: 100%;
+.edit-habit-buttons-wrapper {
+  margin-top: 40px;
   display: flex;
   justify-content: space-between;
-  padding-bottom: 4rem;
 }
 
-.EditHabit__edit-habit {
-  color: rgba(16, 16, 16, 0.3);
-  background: #8b9fa9;
+.edit-habit-buttons-wrapper button {
+  background: var(--login-buttons);
+  /* font-family: "HKGrotesk-Medium", sans-serif; */
   padding: 0.4375em 1.5em 0.5em;
   border: 1px solid gray;
   border: 0;
   border-radius: 1.5rem;
   font-size: 18px;
-  transition-duration: 0.2s;
+  box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.5);
+  transition-duration: 0.3s;
 }
 
-.EditHabit__buttons-wrapper .allowHover {
-  background: #cfd8dc;
-  padding: 0.4375em 1.5em 0.5em;
-  border: 1px solid gray;
-  border: 0;
-  border-radius: 1.5rem;
-  font-size: 18px;
-  transition-duration: 0.2s;
-  color: black;
-}
-
-.EditHabit__buttons-wrapper .allowHover:hover {
+.edit-habit-buttons-wrapper button:hover {
   cursor: pointer;
-  background: #455a64;
-  color: #ffffff;
-} */
+  background: var(--login-buttons-hover);
+  color: #e0e0e0;
+}
+
+.edit-habit-buttons-wrapper button:disabled {
+  background: #cfd1d4;
+  color: #858585;
+}
+
+.edit-habit-buttons-wrapper button:disabled:hover {
+  cursor: default;
+  background: #cfd1d4;
+  color: #858585;
+}
+
+.delete-button {
+  margin-top: 10px;
+  background: rgba(0, 0, 0, 0);
+  border: 0;
+  font-size: 16px;
+  color: #cb2431;
+
+}
+
+.delete-button:hover {
+  cursor: pointer;
+}

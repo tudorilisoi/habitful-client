@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
 import dayjs from 'dayjs';
-import './AddHabit.css';
 // import TextareaAutosize from 'react-textarea-autosize';
-// import ValidationError from '../ValidationError/ValidationError';
 import HabitsService from '../../service/habits-service';
 import ValidationError from '../ValidationError/ValidationError';
+import './AddHabit.css';
 
 function AddHabit(props) {
     // todo: make sure validation error if no name
@@ -101,75 +100,87 @@ function AddHabit(props) {
 
     return (
         <section className="add-habit-outer-wrapper">
-            <h2>Add Habit</h2>
-            <fieldset>
-                <form
-                    onSubmit={handleSubmit}
-                >
-                    <label
-                        htmlFor='habit_name'>
-                        Habit Name</label>
-                    <input type='text'
-                        name='habit_name'
-                        id='habit_name'
-                        aria-label='habit_name'
-                        value={name}
-                        onChange={handleChangeName}
-                        autoFocus
-                    />
-                    <ValidationError
-                        // className='accent-color'
-                        message={validateName()}
-                        errorPosition={'relative'}
-                    />
-                    <br />
-                    <label
-                        htmlFor='habit_description'>
-                        Description</label>
-                    <input type='text'
-                        name='habit_description'
-                        id='habit_description'
-                        aria-label='habit_description'
-                        value={description}
-                        onChange={handleChangeDescription}
-                    />
-                    <br />
-                    <label
-                        htmlFor='habit-num-times'>
-                        I plan to repeat this habit </label>
-                    <select
-                        name='habit-num-times'
-                        id='habit-num-times'
-                        aria-label='habit-num-times'
-                        value={numTimes}
-                        onChange={handleChangeNumTimes}
+            <div className='add-habit-form-container'>
+                <h1 className='add-habit-form-title'>Add Habit</h1>
+
+                <fieldset>
+                    <form id='add-habit-form'
+                        onSubmit={handleSubmit}
                     >
-                        {renderNumTimesOptions()}
-                    </select>
-                     times
-                     <br />
-                    <label
-                        htmlFor='habit-time-interval'>
-                        per </label>
-                    <select
-                        name='habit-time-interval'
-                        id='habit-time-interval'
-                        aria-label='habit-time-interval'
-                        value={timeInterval}
-                        onChange={handleChangeTimeInterval}
-                    >
-                        {renderIntervalOptions()}
-                    </select>
-                    <button
-                        type="button"
-                        onClick={handleCancel}>Cancel</button>
-                    <button
-                        // className={toggleHoverClass()}
-                        type="submit"
-                        disabled={name.length === 0}
-                    >Add</button>
-                </form>
-            </fieldset>
+                        <div className='add-habit-label-input-wrapper 
+                        add-habit-name-wrapper'>
+                            <label
+                                htmlFor='add-habit-name'>
+                                Habit Name </label>
+                            <input type='text'
+                                name='add-habit-name'
+                                id='add-habit-name'
+                                aria-label='habit-name'
+                                value={name}
+                                onChange={handleChangeName}
+                                autoFocus
+                            />
+                        </div>
+                        <ValidationError
+                            message={validateName()}
+                            errorPosition={'absolute'}
+                        />
+                        <br />
+                        <div className='add-habit-label-input-wrapper'>
+                            <label
+                                className="add-habit-description-label"
+                                htmlFor='add-habit-description'>
+                                Description </label>
+                            <input type='text'
+                                name='add-habit-description'
+                                id='add-habit-description'
+                                aria-label='habit-description'
+                                value={description}
+                                onChange={handleChangeDescription}
+                            />
+                        </div>
+                        <br />
+                        <div className='add-habit-label-input-wrapper 
+                        frequency-goal-statement'>
+                            <label
+                                htmlFor='add-habit-num-times'>
+                                I plan to repeat this habit </label>
+                            <select
+                                name='add-habit-num-times'
+                                id='add-habit-num-times'
+                                aria-label='habit-number-of-times'
+                                value={numTimes}
+                                onChange={handleChangeNumTimes}
+                            >
+                                {renderNumTimesOptions()}
+                            </select>
+                            <span> times </span>
+                            <label
+                                htmlFor='add-habit-time-interval'>
+                                per </label>
+                            <select
+                                name='add-habit-time-interval'
+                                id='add-habit-time-interval'
+                                aria-label='habit-time-interval'
+                                value={timeInterval}
+                                onChange={handleChangeTimeInterval}
+                            >
+                                {renderIntervalOptions()}
+                            </select>
+                        </div>
+                        <div className="add-habit-buttons-wrapper">
+                            <button
+                                type="button"
+                                onClick={handleCancel}>Cancel</button>
+                            <button
+                                // className={toggleHoverClass()}
+                                type="submit"
+                                disabled={name.length === 0}
+                            >Add</button>
+                        </div>
+                    </form>
+                </fieldset>
+            </div>
         </section>
     )
 };

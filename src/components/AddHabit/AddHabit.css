@@ -1,84 +1,83 @@
-/* .AddHabit__outermost-wrapper {
-  height: 100%;
+.add-habit-form-container {
+  margin: 20px auto;
+  width: 97%;
+  max-width: 700px;
+  border: 1px solid #b6b6b6;
+  border-radius: 1.5rem;
+  padding: 30px 20px;
+  box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.4);
+  background-color: white;
+  animation: fadeIn 1s;
 }
 
-.AddHabit__add-habit-container {
-  padding:0 10px;
-  margin:0 auto;
-  font-size: 18px;
-  max-width: 640px;
-  color:black;
-}
-
-.AddHabit__heading {
-  margin:0;
-  padding: 1rem 0;
+.add-habit-form-title {
+  text-align: center;
   font-weight: 300;
+  padding: 0 0 20px 0;
+  margin: 0;
+  color:#222;
 }
 
-.AddHabit__add-habit-container label {
+.add-habit-form-container label,
+.add-habit-form-container input {
+  /* display: block; */
+}
+
+.add-habit-form-container input {
+  width: 100%;
+}
+
+.add-habit-label-input-wrapper {
+  margin-top: 15px;
   font-size: 1.2rem;
-  margin: 1rem 0 0.3rem 0;
 }
 
-.AddHabit__add-habit-container input,
-.AddHabit__add-habit-container textarea {
-    border:1px solid #fff;
-    border-radius: 0.15rem;
+.add-habit-label-input-wrapper input {
+  border: 1px solid rgb(209, 209, 209);
+  height: 30px;
+  padding-left: 5px;
+  border-radius: 0.3rem;
+}
+.add-habit-name-wrapper {
+  margin-bottom: 5px;
 }
 
-.AddHabit__add-habit label,
-.AddHabit__add-habit input,
-.AddHabit__add-habit textarea {
-  display: block;
-  width: 100%;
+.frequency-goal-statement {
+  /* display: inline; */
+  font-size: 1.2rem;
 }
 
-.AddHabit__add-habit textarea {
-  height: 3rem;
-}
-
-.AddHabit__buttons-wrapper {
-  margin-top:1rem;
-  width: 100%;
+.add-habit-buttons-wrapper {
+  margin-top: 40px;
   display: flex;
   justify-content: space-between;
-  padding-bottom: 4rem;
 }
 
-.AddHabit__buttons-wrapper button {
+.add-habit-buttons-wrapper button {
+  background: var(--login-buttons);
+  /* font-family: "HKGrotesk-Medium", sans-serif; */
   padding: 0.4375em 1.5em 0.5em;
   border: 1px solid gray;
   border: 0;
   border-radius: 1.5rem;
   font-size: 18px;
-  transition-duration: 0.2s;
+  box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.5);
+  transition-duration: 0.3s;
 }
 
-.AddHabit__buttons-wrapper  .allowHover {
-  background: #CFD8DC;
-  padding: 0.4375em 1.5em 0.5em;
-  border: 1px solid gray;
-  border: 0;
-  border-radius: 1.5rem;
-  font-size: 18px;
-  transition-duration: 0.2s;
-}
-
-.AddHabit__buttons-wrapper .allowHover:hover {
+.add-habit-buttons-wrapper button:hover {
   cursor: pointer;
-  background: #455a64;
-  color: #ffffff;
+  background: var(--login-buttons-hover);
+  color: #e0e0e0;
 }
 
-.select-category {
-  max-width:240px;
-} */
-
-.add-habit-submit {
-
+.add-habit-buttons-wrapper button:disabled {
+  background: #cfd1d4;
+  color: #858585;
 }
 
-.add-habit-submit:hover {
-
+.add-habit-buttons-wrapper button:disabled:hover {
+  cursor: default;
+  background: #cfd1d4;
+  color: #858585;
 }

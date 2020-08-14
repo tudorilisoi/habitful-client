@@ -8,11 +8,11 @@
 
 .error-absolute,
 .error-relative {
-    background: rgb(252, 252, 252);
-    color: #cb2431;
-    white-space: pre-wrap;
-    border-radius: 0.2rem;
-    padding:0 3px;
+  background: rgba(252, 252, 252, 0);
+  color: #cb2431;
+  white-space: pre-wrap;
+  border-radius: 0.2rem;
+  padding: 0 3px;
 }
 
 .ValidationError-wrapper {

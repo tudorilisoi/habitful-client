@@ -131,78 +131,101 @@ function EditHabit(props) {
 
     return (
         <section className="edit-habit-outer-wrapper">
-            <h2>Edit Habit</h2>
-            <fieldset>
-                <form
-                    onSubmit={handleSubmit}
-                >
-                    <label
-                        htmlFor='habit_name'>
-                        Habit Name</label>
-                    <input type='text'
-                        name='habit_name'
-                        id='habit_name'
-                        aria-label='habit_name'
-                        value={name}
-                        onChange={handleChangeName}
-                        autoFocus
-                    />
-                    <ValidationError
-                        // className='accent-color'
-                        message={validateName()}
-                        errorPosition={'relative'}
-                    />
-                    <br />
-                    <label
-                        htmlFor='habit_description'>
-                        Description</label>
-                    <input type='text'
-                        name='habit_description'
-                        id='habit_description'
-                        aria-label='habit_description'
-                        value={description}
-                        onChange={handleChangeDescription}
-                    />
-                    <br />
-                    <label
-                        htmlFor='habit-num-times'>
-                        I plan to repeat this habit </label>
-                    <select
-                        name='habit-num-times'
-                        id='habit-num-times'
-                        aria-label='habit-num-times'
-                        value={numTimes}
-                        onChange={handleChangeNumTimes}
+            <div className='edit-habit-form-container'>
+                <fieldset>
+                    <h1 className='edit-habit-form-title'>Edit Habit</h1>
+                    <form
+                        onSubmit={handleSubmit}
                     >
-                        {renderNumTimesOptions()}
-                    </select>
-                     times
-                     <br />
-                    <label
-                        htmlFor='habit-time-interval'>
-                        per </label>
-                    <select
-                        name='habit-time-interval'
-                        id='habit-time-interval'
-                        aria-label='habit-time-interval'
-                        value={timeInterval}
-                        onChange={handleChangeTimeInterval}
-                    >
-                        {renderIntervalOptions()}
-                    </select>
-                    <button 
-                    type="button"
-                    onClick={handleCancel}>Cancel</button>
+                        <div className='edit-habit-label-input-wrapper 
+                        edit-habit-name-wrapper'>
+
+                            <label
+                                htmlFor='edit-habit-name'>
+                                Habit Name</label>
+                            <input type='text'
+                                name='edit-habit-name'
+                                id='edit-habit-name'
+                                aria-label='edit-habit-name'
+                                value={name}
+                                onChange={handleChangeName}
+                                autoFocus
+                            />
+                        </div>
+                        <ValidationError
+                            // className='accent-color'
+                            message={validateName()}
+                            errorPosition={'relative'}
+                        />
+                        <br />
+                        <div className='edit-habit-label-input-wrapper'>
+                            <label
+                                htmlFor='edit-habit-description'>
+                                Description</label>
+                            <input type='text'
+                                name='edit-habit-description'
+                                id='edit-habit-description'
+                                aria-label='edit-habit-description'
+                                value={description}
+                                onChange={handleChangeDescription}
+                            />
+                        </div>
+                        <br />
+                        <div className='edit-habit-label-input-wrapper 
+                            frequency-goal-statement'>
+                            <label
+                                htmlFor='edit-habit-num-times'>
+                                I plan to repeat this habit </label>
+                            <select
+                                name='edit-habit-num-times'
+                                id='edit-habit-num-times'
+                                aria-label='edit-habit-num-times'
+                                value={numTimes}
+                                onChange={handleChangeNumTimes}
+                            >
+                                {renderNumTimesOptions()}
+                            </select>
+                            <span> times </span>
+                            <label
+                                htmlFor='edit-habit-time-interval'>
+                                per </label>
+                            <select
+                                name='edit-habit-time-interval'
+                                id='edit-habit-time-interval'
+                                aria-label='edit-habit-time-interval'
+                                value={timeInterval}
+                                onChange={handleChangeTimeInterval}
+                            >
+                                {renderIntervalOptions()}
+                            </select>
+                        </div>
+                        <div className="edit-habit-buttons-wrapper">
+                            <button
+                                type="button"
+                                onClick={handleCancel}>Cancel</button>
+                            <button
+                                // className={toggleHoverClass()}
+                                type="submit"
+                                disabled={name.length === 0}
+                            >Save</button>
+                        </div>
+                        <br />
+                    </form>
+                    {/* will style this button as a red link  */}
+                    {/* <button onClick={handleDelete}>Delete</button> */}
                     <button
-                        // className={toggleHoverClass()}
-                        type="submit"
-                        disabled={name.length === 0}
-                    >Save</button>
-                    <br />
-                </form>
-                {/* will style this button as a red link  */}
-                <button onClick={handleDelete}>Delete</button>
-            </fieldset>
+                                    className='btn delete-button'
+                                    aria-label='delete-button'
+                                    onClick={() => {
+                                        if (window.confirm('Are you sure you wish to delete this habit?')) {
+                                            handleDelete()
+                                        }
+                                    }}
+                                >
+                                    Delete Habit
+                        </button>
+                </fieldset>
+            </div>
         </section>
     )
 };

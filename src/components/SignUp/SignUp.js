@@ -186,8 +186,8 @@ export default function SignUp(props) {
     return (
         <div className='SignUp__signup-form-container-wrapper'>
             {/* <BackButton handleClickBack={handleClickBack} /> */}
-            <h1 className='SignUp__signup-title'>Sign up</h1>
             <div className='SignUp__signup-form-container'>
+                <h1 className='SignUp__signup-title'>Sign up</h1>
                 <form
                     onSubmit={handleSubmit}
                     className='SignUp__signup-form'>
@@ -216,18 +216,20 @@ export default function SignUp(props) {
                                 onChange={e => setConfirmPassword(e.target.value)}
                                 required />
                         </div>
-                        <ValidationError
-                            message={validateUsername()}
-                            errorPosition={'relative'} />
-                        <ValidationError
-                            message={validatePassword()}
-                            errorPosition={'relative'} />
-                        <ValidationError
-                            message={validateConfirmPassword()}
-                            errorPosition={'relative'} />
-                        <ValidationError
-                            message={errorMessage()}
-                            errorPosition={'relative'} />
+                        <div className="validation-container">
+                            <ValidationError
+                                message={validateUsername()}
+                                errorPosition={'relative'} />
+                            <ValidationError
+                                message={validatePassword()}
+                                errorPosition={'relative'} />
+                            <ValidationError
+                                message={validateConfirmPassword()}
+                                errorPosition={'relative'} />
+                            <ValidationError
+                                message={errorMessage()}
+                                errorPosition={'relative'} />
+                        </div>
                     </div>
                     <div className='signup-form-buttons-wrapper'>
                         <button
