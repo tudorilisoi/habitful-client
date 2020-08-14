@@ -1,6 +1,37 @@
 import axios from 'axios';
 import config from '../config';
 
+export const normalizeAxiosError = (error) => {
+    const status = error.response && error.response.status
+    let msg = 'There was an error'
+    let HTTPStatusCode = 'UNKNOWN'
+   
+    if (status) {
+        HTTPStatusCode = status
+        switch (status) {
+            case 400:
+                msg = 'Invalid credentials' //i18n
+                break;
+            case 401:
+                msg = 'You need to login'
+                break;
+            case 403:
+                msg = 'Forbidden'
+                break;
+            default:
+                break;
+        }
+        HTTPStatusCode = HTTPStatusCode
+    } else {
+        msg = 'No connection'
+        let HTTPStatusCode = 'NO_CONNECTION'
+    }
+    const ret = new Error(msg)
+    ret.HTTPStatusCode = HTTPStatusCode
+    return ret
+}
+
+
 const HabitRecordsService = {
     async reqHeaders() {
         const authToken = localStorage.getItem('authToken')
@@ -17,7 +48,12 @@ const HabitRecordsService = {
             const resHabitRecords = res.data;
             return resHabitRecords;
         } catch (err) {
-            console.log('err', err)
+            const normalizedError = normalizeAxiosError(err)
+
+            console.error('err', normalizedError.message)
+            if (normalizedError.HTTPStatusCode === 401) {
+                console.warn('should clear the token and redirect to login')
+            }
             // return err;
         }
     },
